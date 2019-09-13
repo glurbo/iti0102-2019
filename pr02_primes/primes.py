@@ -8,7 +8,10 @@ def is_prime_number(number: int) -> bool:
                 return False
             else:
                 return True
-        return None
+    return None
+
+
+if __name__ == '__is_prime_number__':
     print(is_prime_number(2))
     print(is_prime_number(89))
     print(is_prime_number(23))
