@@ -8,9 +8,9 @@ def dec_to_binary(decimal: int) -> str:
     :param decimal: decimal number to convert
     :return: number in binary
     """
-    if decimal == 0 or decimal == 1:
+    if decimal == 0:
         return str(decimal)
-    else:
+    elif decimal > 0:
         dec_to_binary(decimal // 2)
         binary = decimal % 2
         print(binary, end='')
