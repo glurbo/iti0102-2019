@@ -5,10 +5,12 @@ def dec_to_binary(decimal: int) -> str:
     """
     Convert decimal number into binary.
 
-    :param dec: decimal number to convert
+    :param decimal: decimal number to convert
     :return: number in binary
     """
-    if decimal > 0:
+    if decimal <= 1:
+        return str(decimal)
+    else:
         dec_to_binary(decimal // 2)
         print(decimal % 2, end='')
     return ''
