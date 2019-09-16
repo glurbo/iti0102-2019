@@ -1,18 +1,16 @@
 """Converter."""
 
 
-def dec_to_binary(decimal: int) -> str:
+def dec_to_binary(dec: int) -> str:
     """
     Convert decimal number into binary.
 
-    :param decimal: decimal number to convert
+    :param dec: decimal number to convert
     :return: number in binary
     """
-    if decimal == 0:
-        return str(decimal)
-    elif decimal >= 1:
-        binary = decimal // 2
-        print(binary % 2, end='')
+    while dec != 0:
+        return dec_to_binary(dec // 2) + str(dec % 2)
+    else:
         return ''
 
 
