@@ -8,10 +8,13 @@ def dec_to_binary(dec: int) -> str:
     :param dec: decimal number to convert
     :return: number in binary
     """
-    while dec != 0:
-        return dec_to_binary(dec // 2) + str(dec % 2)
-    else:
-        return ''
+    if dec == 0 or dec == 1:
+        return str(dec)
+    binary = ""
+    while dec > 1:
+        dec = dec // 2
+        binary = str(dec % 2) + binary
+    return str(binary)
 
 
 def binary_to_dec(binary: str) -> int:
