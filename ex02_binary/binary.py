@@ -32,7 +32,7 @@ def binary_to_dec(binary: str) -> int:
         example:    1111 % 10 = 1
                     1 * 2^0
                     1111 // 10 = 111 etc
-                    1*2^0 + 1*2^1 + 1*2^2 + 1*2^3
+                    1*2^0 + 1*2^1 + 1*2^2 +  1*2^3
         """
         dec = int(binary) % 10
         decimal = decimal + dec * pow(2, exponent)
