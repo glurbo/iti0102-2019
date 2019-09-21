@@ -38,6 +38,13 @@ def check_user_choice(user_choice: str) -> str:
         return "Sorry, you entered unknown command."
 
 
+def check_computer_choice(computer_choice: str) -> str:
+    if computer_choice.casefold() in ["rock", "paper", "scissors"]:
+        return computer_choice.lower()
+    else:
+        return "Sorry, you entered unknown command."
+
+
 def determine_winner(user_name: str, user_choice: str, computer_choice: str, reverse_name: bool = False) -> str:
     """
     Determine the winner returns a string that has information about who won.
@@ -56,6 +63,7 @@ def determine_winner(user_name: str, user_choice: str, computer_choice: str, rev
     if reverse_name:
         user_name = reverse_user_name(user_name)
     check_user_choice(user_choice)
+    check_computer_choice(computer_choice)
     if user_choice == computer_choice:
         return f"{normalize_user_name(user_name)} had {user_choice} " \
                f"and computer had {computer_choice.casefold()}, hence it is a draw."
@@ -87,10 +95,15 @@ def play_game() -> None:
     """
     user_name = input("What is your name? ")
     play_more = True
+    reverse_condition = 0
     while play_more:
         computer_choice = choice(['rock', 'paper', 'scissors'])
         user_choice = check_user_choice(input("What is your choice? "))
-        print(determine_winner(user_name, user_choice, computer_choice))
+        if reverse_condition == 0:
+            print(determine_winner(user_name, user_choice, computer_choice))
+        else:
+            print(determine_winner(user_name, user_choice, computer_choice, True))
+        reverse_condition += 1
         play_more = True if input("Do you want to play more ? [Y/N] ").lower() == 'y' else False
 
 
