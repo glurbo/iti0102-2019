@@ -55,6 +55,7 @@ def determine_winner(user_name: str, user_choice: str, computer_choice: str, rev
     """
     if reverse_name:
         user_name = reverse_user_name(user_name)
+    check_user_choice(user_choice)
     if user_choice == computer_choice:
         return "It's a tie!"
     elif user_choice == "rock":
@@ -90,6 +91,7 @@ def play_game() -> None:
         user_choice = check_user_choice(input("What is your choice? "))
         print(determine_winner(user_name, user_choice, computer_choice))
         play_more = True if input("Do you want to play more ? [Y/N] ").lower() == 'y' else False
+        user_name = reverse_user_name(user_name)
 
 
 if __name__ == "__main__":
