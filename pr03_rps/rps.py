@@ -22,18 +22,18 @@ def reverse_user_name(user_name: str) -> str:
     return str(user_name[::-1].capitalize())
 
 
-def check_user_choice(choice: str) -> str:
+def check_user_choice(user_choice: str) -> str:
     """
     Function that checks user's choice.
 
     The choice can be uppercase or lowercase string, but the choice must be
     either rock, paper or scissors. If it is, then return a choice that is lowercase.
     Otherwise return 'Sorry, you entered unknown command.'
-    :param choice: user choice
+    :param user_choice: user choice
     :return: choice or an error message
     """
-    if choice.casefold() in ["rock", "paper", "scissors"]:
-        return choice.lower()
+    if user_choice.casefold() in ["rock", "paper", "scissors"]:
+        return user_choice.lower()
     else:
         return "Sorry, you entered unknown command."
 
@@ -57,26 +57,27 @@ def determine_winner(user_name: str, user_choice: str, computer_choice: str, rev
         user_name = reverse_user_name(user_name)
     check_user_choice(user_choice)
     if user_choice == computer_choice:
-        return "It's a tie!"
+        return f"{normalize_user_name(user_name)} had {user_choice} " \
+               f"and computer had {computer_choice.casefold()}, hence it is a draw."
     elif user_choice == "rock":
         if computer_choice == "paper":
             winner = "computer"
         else:
-            winner = f"{user_name}"
+            winner = f"{normalize_user_name(user_name)}"
     elif user_choice == "paper":
         if computer_choice == "scissors":
             winner = "computer"
         else:
-            winner = f"{user_name}"
+            winner = f"{normalize_user_name(user_name)}"
     elif user_choice == "scissors":
         if computer_choice == "rock":
             winner = "computer"
         else:
-            winner = f"{user_name}"
+            winner = f"{normalize_user_name(user_name)}"
     else:
         return "There is a problem determining the winner."
     return f"{normalize_user_name(user_name)} had {user_choice}" \
-           f" and computer had {computer_choice}, hence {winner} wins."
+           f" and computer had {computer_choice.casefold()}, hence {winner} wins."
 
 
 def play_game() -> None:
@@ -91,7 +92,6 @@ def play_game() -> None:
         user_choice = check_user_choice(input("What is your choice? "))
         print(determine_winner(user_name, user_choice, computer_choice))
         play_more = True if input("Do you want to play more ? [Y/N] ").lower() == 'y' else False
-        user_name = reverse_user_name(user_name)
 
 
 if __name__ == "__main__":
@@ -108,7 +108,8 @@ if __name__ == "__main__":
 
     print(determine_winner('ago', 'rock', 'paper'))  # Ago had rock and computer had paper, hence computer wins.
     print(determine_winner('ago', 'rock', 'paper', True))  # Oga had rock and computer had paper, hence computer wins.
-    print(determine_winner('loORa', 'SCISSORS', 'paper'))  # Loora had scissors and computer had paper, hence Loora wins
+    print(determine_winner('loORa', 'scissors',
+                           'paper'))  # Loora had scissors and computer had paper, hence Loora wins.
     print(determine_winner('Shakira', 'waka waka', 'fire'))  # There is a problem determining the winner.
     print(determine_winner('Shakira', 'rock',
                            'sciSSOrs'))  # Shakira had rock and computer had scissors, hence Shakira wins.
