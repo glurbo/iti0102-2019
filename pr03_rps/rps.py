@@ -82,7 +82,8 @@ def determine_winner(user_name: str, user_choice: str, computer_choice: str, rev
 
 def play_game() -> None:
     """
-    Enables you to play the game you just created.
+    Enable you to play the game you just created.
+
     :return:
     """
     user_name = input("What is your name? ")
