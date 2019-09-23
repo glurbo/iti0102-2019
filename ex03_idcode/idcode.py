@@ -2,6 +2,9 @@
 """Check if given ID code is valid."""
 
 
+from itertools import chain
+
+
 def is_valid_gender_number(gender_number: int) -> bool:
     """
     Check if given value is correct for gender number in ID code.
@@ -185,34 +188,35 @@ def get_birth_place(birth_number: int) -> str:
     :param birth_number: int
     :return: str
     """
-    if birth_number in range(1, 11):
+    birth_place = {'Kuressaare': range(1, 11), 'Tartu': chain(range(11, 21), range(271, 371)),
+                   'Tallinn': chain(range(21, 221), range(471, 491)), 'Kohtla-Järve': range(371, 421),
+                   'Narva': range(371, 421), 'Pärnu': range(421, 471), 'Paide': range(491, 521),
+                   'Rakvere': range(521, 571), 'Valga': range(571, 601), 'Viljandi': range(601, 651),
+                   'Võru': range(651, 711), 'unidentified': range(711, 1000)}
+    if birth_number in birth_place['Kuressaare']:
         return 'Kuressaare'
-    elif birth_number in range(11, 21):
+    elif birth_number in birth_place['Tartu']:
         return 'Tartu'
-    elif birth_number in range(271, 371):
-        return 'Tartu'
-    elif birth_number in range(21, 221):
+    elif birth_number in birth_place['Tallinn']:
         return 'Tallinn'
-    elif birth_number in range(471, 491):
-        return 'Tallinn'
-    elif birth_number in range(221, 271):
+    elif birth_number in birth_place['Kohtla-Järve']:
         return 'Kohtla-Järve'
-    elif birth_number in range(371, 421):
+    elif birth_number in birth_place['Narva']:
         return 'Narva'
-    elif birth_number in range(421, 471):
+    elif birth_number in birth_place['Pärnu']:
         return 'Pärnu'
-    elif birth_number in range(491, 521):
+    elif birth_number in birth_place['Paide']:
         return 'Paide'
-    elif birth_number in range(521, 571):
+    elif birth_number in birth_place['Rakvere']:
         return 'Rakvere'
-    elif birth_number in range(571, 601):
+    elif birth_number in birth_place['Valga']:
         return 'Valga'
-    elif birth_number in range(601, 651):
+    elif birth_number in birth_place['Viljandi']:
         return 'Viljandi'
-    elif birth_number in range(651, 711):
+    elif birth_number in birth_place['Võru']:
         return 'Võru'
-    elif birth_number in range(711, 1000):
-        return 'undefined'
+    elif birth_number in birth_place['unidentified']:
+        return 'unidentified'
     else:
         return 'Wrong input!'
 
@@ -321,4 +325,3 @@ if __name__ == '__main__':
     print("\nTest now your own ID code:")
     personal_id = input()  # type your own id in command prompt
     print(is_id_valid(personal_id))  # -> True
-
