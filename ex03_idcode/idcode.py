@@ -2,6 +2,52 @@
 """Check if given ID code is valid."""
 
 
+def is_valid_gender_number(gender_number: int) -> bool:
+    """
+    Check if given value is correct for gender number in ID code.
+
+    :param gender_number: int
+    :return: boolean
+    """
+    if gender_number in range(1, 7):
+        return True
+    else:
+        return False
+
+
+def is_leap_year(year_number: int) -> bool:
+    """
+    Check if given value is a leap year or not.
+
+    :param year_number: int
+    :return: boolean
+    """
+    if year_number % 4 == 0:
+        if year_number % 100 == 0:
+            if year_number % 400 == 0:
+                return True
+            else:
+                return False
+        return True
+    else:
+        return False
+
+
+def get_gender(gender_number: int) -> str:
+    """
+    Check if given value is male or female.
+
+    :param gender_number: int
+    :return: str
+    """
+    male = [1, 3, 5]
+    female = [2, 4, 6]
+    if gender_number in male:
+        return "male"
+    elif gender_number in female:
+        return "female"
+
+
 def is_valid_year_number(year_number: int) -> bool:
     """
     Check if given value is correct for year number in ID code.
@@ -9,7 +55,10 @@ def is_valid_year_number(year_number: int) -> bool:
     :param year_number: int
     :return: boolean
     """
-    pass
+    if year_number in range(100):
+        return True
+    else:
+        return False
 
 
 def is_valid_month_number(month_number: int) -> bool:
@@ -19,7 +68,10 @@ def is_valid_month_number(month_number: int) -> bool:
     :param month_number: int
     :return: boolean
     """
-    pass
+    if month_number in range(13):
+        return True
+    else:
+        return False
 
 
 def is_valid_day_number(gender_number: int, year_number: int, month_number: int, day_number: int) -> bool:
@@ -33,7 +85,30 @@ def is_valid_day_number(gender_number: int, year_number: int, month_number: int,
     :param day_number: int
     :return: boolean
     """
-    pass
+    monthlist1 = [1, 3, 5, 7, 8, 10, 12]
+    monthlist2 = [4, 6, 9, 11]
+    monthlist3 = [2]
+    if month_number in monthlist1:
+        if day_number in range(1, 32):
+            return True
+        else:
+            return False
+    elif month_number in monthlist2:
+        if day_number in range(1, 31):
+            return True
+        else:
+            return False
+    elif month_number in monthlist3:
+        if is_leap_year(get_full_year(gender_number, year_number)):
+            if day_number in range(1, 30):
+                return True
+            else:
+                return False
+        else:
+            if day_number in range(1, 28):
+                return True
+            else:
+                return False
 
 
 def is_valid_birth_number(birth_number: int):
@@ -43,7 +118,10 @@ def is_valid_birth_number(birth_number: int):
     :param birth_number: int
     :return: boolean
     """
-    pass
+    if birth_number in range(1, 1000):
+        return True
+    else:
+        return False
 
 
 def is_valid_control_number(id_code: str) -> bool:
@@ -54,7 +132,26 @@ def is_valid_control_number(id_code: str) -> bool:
     :param id_code: string
     :return: boolean
     """
-    pass
+    sum = 1 * int(id_code[:1]) + 2 * int(id_code[1:2]) + 3 * int(id_code[2:3]) + 4 * int(id_code[3:4]) + 5 * \
+        int(id_code[4:5]) + 6 * int(id_code[5:6]) + 7 * int(id_code[6:7]) + 8 * int(id_code[7:8]) + 9 *\
+        int(id_code[8:9]) + 1 * int(id_code[9:10])
+    control_number = sum % 11
+    if int(control_number) == int(id_code[10:11]):
+        return True
+    elif int(control_number) == 10:
+        sum = 3 * int(id_code[:1]) + 4 * int(id_code[1:2]) + 5 * int(id_code[2:3]) + 6 * int(id_code[3:4]) + 7 * \
+            int(id_code[4:5]) + 8 * int(id_code[5:6]) + 9 * int(id_code[6:7]) + 1 * int(id_code[7:8]) + 2 * \
+            int(id_code[8:9]) + 3 * int(id_code[9:10])
+        control_number = sum % 11
+        if control_number == int(id_code[10:11]):
+            return True
+        elif control_number == 10:
+            if int(id_code[10:11]) == 0:
+                return True
+            else:
+                return False
+    else:
+        return False
 
 
 def get_full_year(gender_number: int, year_number: int) -> int:
@@ -67,7 +164,15 @@ def get_full_year(gender_number: int, year_number: int) -> int:
     :param year_number: int
     :return: int
     """
-    pass
+    if gender_number in range(1, 3):
+        full_year = "18" + "{:02d}".format(year_number)
+        return int(full_year)
+    elif gender_number in range(3, 5):
+        full_year = "19" + "{:02d}".format(year_number)
+        return int(full_year)
+    elif gender_number in range(5, 7):
+        full_year = "20" + "{:02d}".format(year_number)
+        return int(full_year)
 
 
 def get_birth_place(birth_number: int) -> str:
@@ -80,7 +185,36 @@ def get_birth_place(birth_number: int) -> str:
     :param birth_number: int
     :return: str
     """
-    pass
+    if birth_number in range(1, 11):
+        return 'Kuressaare'
+    elif birth_number in range(11, 21):
+        return 'Tartu'
+    elif birth_number in range(271, 371):
+        return 'Tartu'
+    elif birth_number in range(21, 221):
+        return 'Tallinn'
+    elif birth_number in range(471, 491):
+        return 'Tallinn'
+    elif birth_number in range(221, 271):
+        return 'Kohtla-Järve'
+    elif birth_number in range(371, 421):
+        return 'Narva'
+    elif birth_number in range(421, 471):
+        return 'Pärnu'
+    elif birth_number in range(491, 521):
+        return 'Paide'
+    elif birth_number in range(521, 571):
+        return 'Rakvere'
+    elif birth_number in range(571, 601):
+        return 'Valga'
+    elif birth_number in range(601, 651):
+        return 'Viljandi'
+    elif birth_number in range(651, 711):
+        return 'Võru'
+    elif birth_number in range(711, 1000):
+        return 'undefined'
+    else:
+        return 'Wrong input!'
 
 
 def get_data_from_id(id_code: str) -> str:
@@ -92,7 +226,11 @@ def get_data_from_id(id_code: str) -> str:
     :param id_code: str
     :return: str
     """
-    pass
+    if is_valid_control_number(id_code):
+        return f"This is a {get_gender(int(id_code[0:1]))} born on {id_code[5:7]}.{id_code[3:5]}." \
+               f"{get_full_year(int(id_code[0:1]), int(id_code[1:3]))} in {get_birth_place(int(id_code[7:10]))}"
+    else:
+        return "Given invalid ID code!"
 
 
 def is_id_valid(id_code: str) -> bool:
@@ -104,7 +242,24 @@ def is_id_valid(id_code: str) -> bool:
     :param id_code: str
     :return: boolean
     """
-    pass
+    if is_valid_gender_number(int(id_code[0:1])):
+        if is_valid_year_number(int(id_code[1:3])):
+            if is_valid_month_number(int(id_code[3:5])):
+                if is_valid_day_number(int(id_code[0:1]), int(id_code[1:3]), int(id_code[3:5]), int(id_code[5:7])):
+                    if is_valid_birth_number(int(float(id_code[7:10]))):
+                        if is_valid_control_number(id_code):
+                            return True
+                    else:
+                        return False
+                else:
+                    return False
+
+            else:
+                return False
+        else:
+            return False
+    else:
+        return False
 
 
 if __name__ == '__main__':
@@ -148,6 +303,7 @@ if __name__ == '__main__':
     print(get_full_year(1, 28))  # -> 1828
     print(get_full_year(4, 85))  # -> 1985
     print(get_full_year(5, 1))  # -> 2001
+
     print(get_gender(2))  # -> "female"
     print(get_gender(5))  # -> "male"
 
