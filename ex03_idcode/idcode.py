@@ -188,37 +188,23 @@ def get_birth_place(birth_number: int) -> str:
     :param birth_number: int
     :return: str
     """
-    birth_place = {'Kuressaare': range(1, 11), 'Tartu': chain(range(11, 21), range(271, 371)),
-                   'Tallinn': chain(range(21, 221), range(471, 491)), 'Kohtla-Järve': range(371, 421),
-                   'Narva': range(371, 421), 'Pärnu': range(421, 471), 'Paide': range(491, 521),
-                   'Rakvere': range(521, 571), 'Valga': range(571, 601), 'Viljandi': range(601, 651),
-                   'Võru': range(651, 711), 'unidentified': range(711, 1000)}
-    if birth_number in birth_place['Kuressaare']:
-        return 'Kuressaare'
-    elif birth_number in birth_place['Tartu']:
-        return 'Tartu'
-    elif birth_number in birth_place['Tallinn']:
-        return 'Tallinn'
-    elif birth_number in birth_place['Kohtla-Järve']:
-        return 'Kohtla-Järve'
-    elif birth_number in birth_place['Narva']:
-        return 'Narva'
-    elif birth_number in birth_place['Pärnu']:
-        return 'Pärnu'
-    elif birth_number in birth_place['Paide']:
-        return 'Paide'
-    elif birth_number in birth_place['Rakvere']:
-        return 'Rakvere'
-    elif birth_number in birth_place['Valga']:
-        return 'Valga'
-    elif birth_number in birth_place['Viljandi']:
-        return 'Viljandi'
-    elif birth_number in birth_place['Võru']:
-        return 'Võru'
-    elif birth_number in birth_place['unidentified']:
-        return 'unidentified'
+    if is_valid_birth_number(birth_number):
+        d = {range(1, 11): 'Kuressaare',
+             (range(11, 21), range(271, 371)): 'Tartu',
+             (range(21, 221), range(471, 491)): 'Tallinn',
+             range(371, 421): 'Kohtla-Järve',
+             range(371, 421): 'Narva',
+             range(421, 471): 'Pärnu',
+             range(491, 521): 'Paide',
+             range(521, 571): 'Rakvere',
+             range(571, 601): 'Valga',
+             range(601, 651): 'Viljandi',
+             range(651, 711): 'Võru',
+             range(711, 1000): 'unidentified'}
+        for birth_number in d:
+            return d[birth_number]
     else:
-        return 'Wrong input!'
+        return "Wrong input!"
 
 
 def get_data_from_id(id_code: str) -> str:
