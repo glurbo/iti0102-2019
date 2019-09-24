@@ -77,6 +77,7 @@ def is_valid_month_number(month_number: int) -> bool:
 def is_valid_day_number(gender_number: int, year_number: int, month_number: int, day_number: int) -> bool:
     """
     Check if given value is correct for day number in ID code.
+
     Also, consider leap year and which month has 30 or 31 days.
 
     :param gender_number: int
@@ -127,6 +128,7 @@ def is_valid_birth_number(birth_number: int):
 def is_valid_control_number(id_code: str) -> bool:
     """
     Check if given value is correct for control number in ID code.
+
     Use algorithm made for creating this number.
 
     :param id_code: string
@@ -157,6 +159,7 @@ def is_valid_control_number(id_code: str) -> bool:
 def get_full_year(gender_number: int, year_number: int) -> int:
     """
     Define the 4-digit year when given person was born.
+
     Person gender and year numbers from ID code must help.
     Given year has only two last digits.
 
@@ -182,6 +185,7 @@ def get_birth_place(birth_number: int) -> str:
     Possible locations are following: Kuressaare, Tartu, Tallinn, Kohtla-Järve, Narva, Pärnu,
     Paide, Rakvere, Valga, Viljandi, Võru and undefined. Lastly if the number is incorrect the function must return
     the following 'Wrong input!'
+
     :param birth_number: int
     :return: str
     """
