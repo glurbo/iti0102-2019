@@ -2,9 +2,6 @@
 """Check if given ID code is valid."""
 
 
-from itertools import chain
-
-
 def is_valid_gender_number(gender_number: int) -> bool:
     """
     Check if given value is correct for gender number in ID code.
