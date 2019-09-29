@@ -8,11 +8,12 @@ def remove_vowels(string: str) -> str:
     :param string: Input string
     :return string without vowels.
     """
+    newstr = string
     vowels = ('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U')
     for x in string:
         if x in vowels:
-            string = string.replace(x, "")
-    return string
+            newstr = newstr.replace(x, "")
+    return newstr
 
 
 def longest_filtered_word(string_list: list) -> str:
@@ -22,11 +23,10 @@ def longest_filtered_word(string_list: list) -> str:
     :param string_list: List of strings.
     :return: Longest string without vowels.
     """
-    for x in string_list:
-        string_list = remove_vowels(x)
-    longest_string = max(len(i) for i in string_list)
-    [i for i in string_list if len(i) == longest_string]
-    return
+    for string in string_list:
+        string = remove_vowels(string)
+    longest_string = max(string_list, key=len)
+    return longest_string
 
 
 def sort_list(string_list: list) -> list:
@@ -38,7 +38,9 @@ def sort_list(string_list: list) -> list:
     :param string_list: List of strings that need to be sorted.
     :return: Filtered list of strings sorted by the number of symbols in descending order.
     """
-    pass
+    for x in string_list:
+        string_list = remove_vowels(x)
+        return string_list
 
 
 if __name__ == '__main__':
