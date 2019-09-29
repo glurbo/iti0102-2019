@@ -189,21 +189,22 @@ def get_birth_place(birth_number: int) -> str:
     :param birth_number: int
     :return: str
     """
+    d = {tuple(range(1, 11)): 'Kuressaare',
+         tuple((range(11, 21), range(271, 371))): 'Tartu',
+         tuple((range(21, 221), range(471, 491))): 'Tallinn',
+         tuple(range(371, 421)): 'Kohtla-Järve',
+         range(371, 421): 'Narva',
+         range(421, 471): 'Pärnu',
+         range(491, 521): 'Paide',
+         range(521, 571): 'Rakvere',
+         range(571, 601): 'Valga',
+         range(601, 651): 'Viljandi',
+         range(651, 711): 'Võru',
+         range(711, 1000): 'unidentified'}
     if is_valid_birth_number(birth_number):
-        d = {range(1, 11): 'Kuressaare',
-             (range(11, 21), range(271, 371)): 'Tartu',
-             (range(21, 221), range(471, 491)): 'Tallinn',
-             range(371, 421): 'Kohtla-Järve',
-             range(371, 421): 'Narva',
-             range(421, 471): 'Pärnu',
-             range(491, 521): 'Paide',
-             range(521, 571): 'Rakvere',
-             range(571, 601): 'Valga',
-             range(601, 651): 'Viljandi',
-             range(651, 711): 'Võru',
-             range(711, 1000): 'unidentified'}
-        for birth_number in d:
-            return d[birth_number]
+        for key, value in d.items():
+            if key == birth_number:
+                return d[value]
     else:
         return "Wrong input!"
 
