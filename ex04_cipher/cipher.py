@@ -64,7 +64,8 @@ def decode(message: str, key: int) -> str:
 
 def transpose(m):
     """
-
+    Transpose function.
+    
     :param m:
     :return:
     """
