@@ -63,7 +63,12 @@ def decode(message: str, key: int) -> str:
 
 
 def transpose(m):
-    result = [[0 for y in range(len(m))] for x in range(len(m[0]))]
+    """
+
+    :param m:
+    :return:
+    """
+    result = [[0 for _ in range(len(m))] for _ in range(len(m[0]))]
     for i in range(len(m)):
         for j in range(len(m[0])):
             result[j][i] = m[i][j]
