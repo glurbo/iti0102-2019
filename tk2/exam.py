@@ -58,6 +58,8 @@ def combo_string(s1: str, s2: str) -> str:
         return s2 + s1 + s2
     elif len(s2) > len(s1):
         return s1 + s2 + s1
+    else:
+        return ""
 
 
 def num_as_index(nums: list) -> int:
