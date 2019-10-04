@@ -31,11 +31,11 @@ def sorta_sum(a: int, b: int) -> int:
     :param b: Integer
     :return: Sum or 20
     """
-    sum = a + b
-    if sum in range(10, 19):
+    result = a + b
+    if result in range(10, 19):
         return 20
     else:
-        return sum
+        return result
 
 
 def combo_string(s1: str, s2: str) -> str:
