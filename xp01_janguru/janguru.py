@@ -1,13 +1,28 @@
-"""jänguru"""
 
+"""table = []
+message = message.replace(" ", "_")
+for _ in range(key):
+    row = []
+    for _ in range(len(message)):
+        row.append(".")
+    table.append(row)
+row = 0
+down_move = True
+for i in range(len(message)):
 
-def asi(value: int):
-    d = {range(0, 10): "Tallinn"}
-    for value in d:
-        return d[value]
-    else:
-        return False
-
-
-if __name__ == '__main__':
-    print(asi(5))
+    table[row][i] = message[i]
+    if row == 0:
+        row += 1
+        down_move = True
+    elif row == key - 1:
+        row -= 1
+        down_move = False
+    elif down_move:
+        row += 1
+    elif not down_move:
+        row -= 1
+result = ""
+for row in table:
+    print("".join(row))
+for i in range(1, len(message)):
+    result += """

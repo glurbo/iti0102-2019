@@ -78,7 +78,6 @@ def num_as_index(nums: list) -> int:
     last = nums[-1]
     if first < last:
         return first
-    +
 
 
 def count_clumps(nums: list) -> int:
