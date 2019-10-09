@@ -10,7 +10,7 @@ def get_competitors_list(filename: str) -> list:
     :return: a list containing the names of competitors.
     """
     competitors_list = []
-    with open(f"C:\\Users\\germo\\documents\\{filename}") as csv_file:
+    with open(f"{filename}") as csv_file:
         csv_reader = csv.reader(csv_file)
         for row in csv_reader:
             competitors_list.append(row)
@@ -29,7 +29,7 @@ def get_results_dict(filename: str) -> dict:
     :return: a dict containing names as keys and results as values.
     """
     results = {}
-    with open(f"C:\\Users\\germo\\documents\\{filename}") as csv_file:
+    with open(f"{filename}") as csv_file:
         csv_reader = csv.reader(csv_file, delimiter='-')
         for row in csv_reader:
             key, value = row
@@ -60,6 +60,12 @@ def filter_results(path_to_competitors: str, path_to_results: str) -> dict:
         if value in get_competitors_list(path_to_competitors):
             filtered_dict.update({key, value})
     return filtered_dict"""
+    results = get_results_dict(path_to_results)
+    competitors_list = get_competitors_list(path_to_competitors)
+    for value in results.copy():
+        if value not in competitors_list:
+            del results[value]
+    return results
 
 
 def sort_results(path_to_competitors: str, path_to_results: str) -> list:
@@ -135,18 +141,18 @@ if __name__ == '__main__':
     print(results_dict['So Koziel'])  # -> 5
     print(results_dict['Macy Tenenbaum'] == 22)  # -> True
     print(results_dict['Edwina Alaniz'] == 48)  # -> False
-    
+
     print('Check presence of the illegal competitors:')
     print('Tiffanie Mcdaniel' not in filtered_results)  # -> True
     print('Ela Gallow' not in filtered_results)  # -> True
     print('Sam Cheney' not in filtered_results)  # -> True
     print('Jayme Malachi' not in filtered_results)  # -> True
     print('Sabine Danos' not in filtered_results)  # -> True
-    
+
     print('Check the order of the sorted results (must be descending):')
     values = [result[1] for result in sorted_results]
     print(all(values[i] >= values[i + 1] for i in range(65)))  # -> True
-    
+
     print('Check places for certain competitors:')
     keys = [result[0] for result in sorted_results]
     print(keys.index('Ewa Grothe') + 1)  # -> 5
@@ -154,7 +160,7 @@ if __name__ == '__main__':
     print(keys.index('Morris Ragusa') + 1)  # -> 37
     print(keys.index('Jaak Aaviksoo') + 1)  # -> 23
     print(keys.index('Ago Luberg') + 1)  # -> 66
-    
+
     print('Check the average value:')
     print(find_average_score(results_dict))  # -> 19
     print(find_average_score(filtered_results))  # -> 19
