@@ -9,12 +9,10 @@ def get_competitors_list(filename: str) -> list:
     :param filename: is the path to the file with the names of competitors.
     :return: a list containing the names of competitors.
     """
-    competitors_list = []
     with open(f"{filename}") as csv_file:
         csv_reader = csv.reader(csv_file)
-        for row in csv_reader:
-            competitors_list.append(row)
-        return competitors_list
+        competitors_list = list(csv_reader)
+    return competitors_list
 
 
 def get_results_dict(filename: str) -> dict:
@@ -49,30 +47,13 @@ def filter_results(path_to_competitors: str, path_to_results: str) -> dict:
     :param path_to_results: is the path to the file with the results.
     :return: a dict with correct results.
     """
-    """m = []
-    m.extend(get_competitors_list(path_to_competitors))
-    n = {}
-    n.update(get_results_dict(path_to_results))
-    for key, value in n.items():
-        if key not in m:
-            del n[key]
-        else:
-            continue"""
-    m = get_competitors_list(path_to_competitors)
-    n = get_results_dict(path_to_results)
-    keys_list = []
-    values_list = {}
-    values_list.update(n)
-    keys_list.extend(n)
-    for i in keys_list:
-        if i not in m:
-            keys_list.remove(i)
-    for key, value in results_dict.items():
-        if key not in keys_list:
-            del values_list[key]
-    values_list = list(values_list.values())
-    filtered = dict(zip(keys_list, values_list))
-    return filtered
+    comp = get_competitors_list(path_to_competitors)
+    res = get_results_dict(path_to_results)
+    filtered_dict = {}
+    for k, v in res.items():
+        if k in comp:
+            filtered_dict[k] = v
+    return filtered_dict
 
 
 def sort_results(path_to_competitors: str, path_to_results: str) -> list:
@@ -98,7 +79,8 @@ def sort_results(path_to_competitors: str, path_to_results: str) -> list:
     :param path_to_results: is the path to the file with the results.
     :return: a sorted results list of tuples (name, number of cakes eaten).
     """
-    pass
+    sorted = []
+    return sorted
 
 
 def find_average_score(results: dict) -> int:
@@ -139,8 +121,8 @@ if __name__ == '__main__':
     print('Check the lengths:')
     print(len(competitors))  # -> 66
     print(len(results_dict))  # -> 93
-    #print(len(filtered_results))  # -> 66
-    #print(len(sorted_results))  # -> 66
+    print(len(filtered_results))  # -> 66
+    print(len(sorted_results))  # -> 66
 
     print('Check results for certain competitors:')
     print(results_dict['Marina Eley'])  # -> 35
