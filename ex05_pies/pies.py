@@ -49,11 +49,17 @@ def filter_results(path_to_competitors: str, path_to_results: str) -> dict:
     :param path_to_results: is the path to the file with the results.
     :return: a dict with correct results.
     """
-    new_dict = results_dict
+    """filtered_dict = get_results_dict(path_to_results)
     for key, value in get_results_dict(path_to_results).items():
         if value not in get_competitors_list(path_to_competitors):
-            del new_dict[value]
-    return new_dict
+            del filtered_dict[key]
+    return filtered_dict"""
+
+    """filtered_dict = {}
+    for key, value in get_results_dict(path_to_results).items():
+        if value in get_competitors_list(path_to_competitors):
+            filtered_dict.update({key, value})
+    return filtered_dict"""
 
 
 def sort_results(path_to_competitors: str, path_to_results: str) -> list:
@@ -123,35 +129,35 @@ if __name__ == '__main__':
     print(len(filtered_results))  # -> 66
     print(len(sorted_results))  # -> 66
 
-    """print('Check results for certain competitors:')
-        print(results_dict['Marina Eley'])  # -> 35
-        print(results_dict['Takako Vena'])  # -> 7
-        print(results_dict['So Koziel'])  # -> 5
-        print(results_dict['Macy Tenenbaum'] == 22)  # -> True
-        print(results_dict['Edwina Alaniz'] == 48)  # -> False
+    print('Check results for certain competitors:')
+    print(results_dict['Marina Eley'])  # -> 35
+    print(results_dict['Takako Vena'])  # -> 7
+    print(results_dict['So Koziel'])  # -> 5
+    print(results_dict['Macy Tenenbaum'] == 22)  # -> True
+    print(results_dict['Edwina Alaniz'] == 48)  # -> False
     
-        print('Check presence of the illegal competitors:')
-        print('Tiffanie Mcdaniel' not in filtered_results)  # -> True
-        print('Ela Gallow' not in filtered_results)  # -> True
-        print('Sam Cheney' not in filtered_results)  # -> True
-        print('Jayme Malachi' not in filtered_results)  # -> True
-        print('Sabine Danos' not in filtered_results)  # -> True
+    print('Check presence of the illegal competitors:')
+    print('Tiffanie Mcdaniel' not in filtered_results)  # -> True
+    print('Ela Gallow' not in filtered_results)  # -> True
+    print('Sam Cheney' not in filtered_results)  # -> True
+    print('Jayme Malachi' not in filtered_results)  # -> True
+    print('Sabine Danos' not in filtered_results)  # -> True
     
-        print('Check the order of the sorted results (must be descending):')
-        values = [result[1] for result in sorted_results]
-        print(all(values[i] >= values[i + 1] for i in range(65)))  # -> True
+    print('Check the order of the sorted results (must be descending):')
+    values = [result[1] for result in sorted_results]
+    print(all(values[i] >= values[i + 1] for i in range(65)))  # -> True
     
-        print('Check places for certain competitors:')
-        keys = [result[0] for result in sorted_results]
-        print(keys.index('Ewa Grothe') + 1)  # -> 5
-        print(keys.index('Cedrick Span') + 1)  # -> 20
-        print(keys.index('Morris Ragusa') + 1)  # -> 37
-        print(keys.index('Jaak Aaviksoo') + 1)  # -> 23
-        print(keys.index('Ago Luberg') + 1)  # -> 66
+    print('Check places for certain competitors:')
+    keys = [result[0] for result in sorted_results]
+    print(keys.index('Ewa Grothe') + 1)  # -> 5
+    print(keys.index('Cedrick Span') + 1)  # -> 20
+    print(keys.index('Morris Ragusa') + 1)  # -> 37
+    print(keys.index('Jaak Aaviksoo') + 1)  # -> 23
+    print(keys.index('Ago Luberg') + 1)  # -> 66
     
-        print('Check the average value:' )
-        print(find_average_score(results_dict))  # -> 19
-        print(find_average_score(filtered_results))  # -> 19
+    print('Check the average value:')
+    print(find_average_score(results_dict))  # -> 19
+    print(find_average_score(filtered_results))  # -> 19
     
-        print('Write the results to CSV file:')
-        write_results_csv('competitors_list.txt', 'results.txt', 'correct_results.csv')"""
+    print('Write the results to CSV file:')
+    write_results_csv('competitors_list.txt', 'results.txt', 'correct_results.csv')
