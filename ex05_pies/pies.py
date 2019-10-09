@@ -49,23 +49,30 @@ def filter_results(path_to_competitors: str, path_to_results: str) -> dict:
     :param path_to_results: is the path to the file with the results.
     :return: a dict with correct results.
     """
-    """filtered_dict = get_results_dict(path_to_results)
-    for key, value in get_results_dict(path_to_results).items():
-        if value not in get_competitors_list(path_to_competitors):
-            del filtered_dict[key]
-    return filtered_dict"""
-
-    """filtered_dict = {}
-    for key, value in get_results_dict(path_to_results).items():
-        if value in get_competitors_list(path_to_competitors):
-            filtered_dict.update({key, value})
-    return filtered_dict"""
-    results = get_results_dict(path_to_results)
-    competitors_list = get_competitors_list(path_to_competitors)
-    for value in results.copy():
-        if value not in competitors_list:
-            del results[value]
-    return results
+    """m = []
+    m.extend(get_competitors_list(path_to_competitors))
+    n = {}
+    n.update(get_results_dict(path_to_results))
+    for key, value in n.items():
+        if key not in m:
+            del n[key]
+        else:
+            continue"""
+    m = get_competitors_list(path_to_competitors)
+    n = get_results_dict(path_to_results)
+    keys_list = []
+    values_list = {}
+    values_list.update(n)
+    keys_list.extend(n)
+    for i in keys_list:
+        if i not in m:
+            keys_list.remove(i)
+    for key, value in results_dict.items():
+        if key not in keys_list:
+            del values_list[key]
+    values_list = list(values_list.values())
+    filtered = dict(zip(keys_list, values_list))
+    return filtered
 
 
 def sort_results(path_to_competitors: str, path_to_results: str) -> list:
@@ -132,8 +139,8 @@ if __name__ == '__main__':
     print('Check the lengths:')
     print(len(competitors))  # -> 66
     print(len(results_dict))  # -> 93
-    print(len(filtered_results))  # -> 66
-    print(len(sorted_results))  # -> 66
+    #print(len(filtered_results))  # -> 66
+    #print(len(sorted_results))  # -> 66
 
     print('Check results for certain competitors:')
     print(results_dict['Marina Eley'])  # -> 35
