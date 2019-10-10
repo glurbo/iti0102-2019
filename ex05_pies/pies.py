@@ -1,5 +1,7 @@
 """The Pies Eating Competition."""
 import csv
+from operator import add
+import functools
 
 
 def get_competitors_list(filename: str) -> list:
@@ -83,6 +85,7 @@ def sort_results(path_to_competitors: str, path_to_results: str) -> list:
     """
     filtered_dict = filter_results(path_to_competitors, path_to_results)
     sorted_result = (sorted(filtered_dict.items(), key=lambda x: (-x[1], x[0])))
+    print(sorted_result)
     return list(sorted_result)
 
 
@@ -111,16 +114,19 @@ def write_results_csv(path_to_competitors: str, path_to_results: str, file_to_wr
     :param file_to_write: is the name of the csv file.
     :return: None
     """
+    place_list = []
     place = 1
     correct_results = sort_results(path_to_competitors, path_to_results)
-    for i in correct_results:
-        i = (place,) + i
+    while place <= len(correct_results):
+        place_list.append(place)
         place += 1
+    final_result = zip(place_list, correct_results)
     with open(f"{file_to_write}", "w", newline="") as csv_file:
         writer = csv.writer(csv_file, delimiter=",")
         writer.writerow(["Place", "Name", "Result"])
-        for row in correct_results:
-            writer.writerow(row)
+        for row in final_result:
+            place + writer.writerow(row)
+
 
 # Some examples based on the given files:
 if __name__ == '__main__':
