@@ -11,7 +11,8 @@ def get_competitors_list(filename: str) -> list:
     """
     with open(f"{filename}") as csv_file:
         csv_reader = csv.reader(csv_file)
-        competitors_list = list(csv_reader)
+        comp_list = list(csv_reader)
+        competitors_list = [i[0] for i in comp_list]
     return competitors_list
 
 
@@ -50,9 +51,10 @@ def filter_results(path_to_competitors: str, path_to_results: str) -> dict:
     comp = get_competitors_list(path_to_competitors)
     res = get_results_dict(path_to_results)
     filtered_dict = {}
+    filtered_dict.update(res)
     for k, v in res.items():
-        if k in comp:
-            filtered_dict[k] = v
+        if k not in comp:
+            del filtered_dict[k]
     return filtered_dict
 
 
@@ -79,8 +81,9 @@ def sort_results(path_to_competitors: str, path_to_results: str) -> list:
     :param path_to_results: is the path to the file with the results.
     :return: a sorted results list of tuples (name, number of cakes eaten).
     """
-    sorted = []
-    return sorted
+    filtered_dict = filter_results(path_to_competitors, path_to_results)
+    sorted_result = (sorted(filtered_dict.items(), key=lambda x: (-x[1], x[0])))
+    return list(sorted_result)
 
 
 def find_average_score(results: dict) -> int:
@@ -90,9 +93,9 @@ def find_average_score(results: dict) -> int:
     :param results: is a dictionary with the results.
     :return: average score rounded down.
     """
-    for key, value in results:
-        return sum(results[value]) / len(results[value])
-
+    scores = results.values()
+    average_score = sum(scores) / len(scores)
+    return int(average_score)
 
 def write_results_csv(path_to_competitors: str, path_to_results: str, file_to_write: str) -> None:
     """
@@ -108,8 +111,16 @@ def write_results_csv(path_to_competitors: str, path_to_results: str, file_to_wr
     :param file_to_write: is the name of the csv file.
     :return: None
     """
-    pass
-
+    place = 1
+    correct_results = sort_results(path_to_competitors, path_to_results)
+    for i in correct_results:
+        i = (place,) + i
+        place += 1
+    with open(f"{file_to_write}", "w", newline="") as csv_file:
+        writer = csv.writer(csv_file, delimiter=",")
+        writer.writerow(["Place", "Name", "Result"])
+        for row in correct_results:
+            writer.writerow(row)
 
 # Some examples based on the given files:
 if __name__ == '__main__':
