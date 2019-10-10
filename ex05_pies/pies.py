@@ -1,7 +1,5 @@
 """The Pies Eating Competition."""
 import csv
-from operator import add
-import functools
 
 
 def get_competitors_list(filename: str) -> list:
@@ -100,6 +98,7 @@ def find_average_score(results: dict) -> int:
     average_score = sum(scores) / len(scores)
     return int(average_score)
 
+
 def write_results_csv(path_to_competitors: str, path_to_results: str, file_to_write: str) -> None:
     """
     Write the filtered and sorted results to csv file.
@@ -170,6 +169,6 @@ if __name__ == '__main__':
     print('Check the average value:')
     print(find_average_score(results_dict))  # -> 19
     print(find_average_score(filtered_results))  # -> 19
-    
+
     print('Write the results to CSV file:')
     write_results_csv('competitors_list.txt', 'results.txt', 'correct_results.csv')
