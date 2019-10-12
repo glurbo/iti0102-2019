@@ -124,7 +124,7 @@ def write_results_csv(path_to_competitors: str, path_to_results: str, file_to_wr
         writer = csv.writer(csv_file, delimiter=",")
         writer.writerow(["Place", "Name", "Result"])
         for row in final_result:
-            place + writer.writerow(row)
+            writer.writerow([row[0], row[1][0], row[1][1]])
 
 
 # Some examples based on the given files:
