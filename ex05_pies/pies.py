@@ -82,7 +82,7 @@ def sort_results(path_to_competitors: str, path_to_results: str) -> list:
     :return: a sorted results list of tuples (name, number of cakes eaten).
     """
     filtered_dict = filter_results(path_to_competitors, path_to_results)
-    sorted_result = sorted(filtered_dict.items(), key=lambda x: (-x[1], int(path_to_competitors.index(x[0]))))
+    sorted_result = sorted(filtered_dict.items(), key=lambda x: (-x[1], path_to_competitors.find(x[0])))
     print(sorted_result)
     return list(sorted_result)
 
