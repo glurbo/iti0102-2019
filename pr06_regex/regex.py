@@ -40,7 +40,7 @@ def detect_email_addresses(input_data: list) -> list:
     :param input_data: list
     :return: list
     """
-    emails = re.findall(r'[A-Za-z0-9_+-.]*@{1}[A-Za-z]*[.][a-z]*[.]?[a-z]*', str(input_data))
+    emails = re.findall(r'[A-Za-z0-9_+-.]+@{1}[A-Za-z]+[.][a-z]*[.]?[a-z]*', str(input_data))
     return emails
 
 
