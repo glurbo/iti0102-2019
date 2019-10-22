@@ -62,7 +62,7 @@ def get_minefield_string(minefield: list) -> str:
 
 def count_bombs_for_cell(minefield, row, col) -> int:
     """
-    Counts the number of mines in each cell's surroundings and outputs the number of mines.
+    Count the number of mines in each cell's surroundings and outputs the number of mines.
 
     :param minefield:
     :param row:
@@ -112,7 +112,7 @@ def calculate_mine_count(minefield: list) -> list:
 
 def get_position(minefield):
     """
-    Finds the position of #.
+    Find the position of #.
 
     :param minefield:
     :return:
@@ -125,7 +125,8 @@ def get_position(minefield):
 
 def get_new_position(move, row, col):
     """
-
+    Get new position for #.
+    
     :param move:
     :param row:
     :param col:
@@ -337,9 +338,9 @@ if __name__ == '__main__':
 
     """
     [
-        ['0', '1', '1', '1'], 
-        ['1', '3', 'x', '2'], 
-        ['X', '4', 'X', '3'], 
+        ['0', '1', '1', '1'],
+        ['1', '3', 'x', '2'],
+        ['X', '4', 'X', '3'],
         ['x', '3', '2', 'X']
     ]
     """
@@ -373,4 +374,3 @@ if __name__ == '__main__':
 ..x..
     """
     # minesweeper would die if stepping into the mine, therefore he stops
-
