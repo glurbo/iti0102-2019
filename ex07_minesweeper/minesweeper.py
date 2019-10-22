@@ -126,7 +126,7 @@ def get_position(minefield):
 def get_new_position(move, row, col):
     """
     Get new position for #.
-    
+
     :param move:
     :param row:
     :param col:
