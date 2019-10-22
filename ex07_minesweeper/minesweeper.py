@@ -263,15 +263,20 @@ def walk(minefield, moves, lives) -> list:
                 newrow, newcol = get_new_position(move, row, col)
                 if minefield[newrow][newcol] == "x":
                     minefield[newrow][newcol] = "."
-                if minefield[newrow][newcol] == ".":
+                    if count_bombs_for_cell(minefield, row, col) < 5:
+                        continue
+                    else:
+                        lives = lives - 1
+                    if lives == 0:
+                        break
+                elif minefield[newrow][newcol] == ".":
                     row, col = newrow, newcol
                 elif minefield[newrow][newcol] == "X":
+                    minefield[newrow][newcol] = "."
                     row, col = newrow, newcol
                     lives = lives - 1
                     if lives == 0:
                         break
-
-
     minefield[row][col] = "#"
     return minefield
 
