@@ -123,7 +123,7 @@ def get_position(minefield):
                 return rowi, coli
 
 
-def get_new_position(move, row, col):
+def get_new_position(minefield, move, row, col):
     """
     Get new position for #.
 
@@ -134,13 +134,17 @@ def get_new_position(move, row, col):
     """
     newrow, newcol = row, col
     if move == "N":
-        newrow = row - 1
+        if row in range(1, row):
+            newrow = row - 1
     elif move == "S":
-        newrow = row + 1
+        if row in range(0, len(minefield) - 1):
+            newrow = row + 1
     elif move == "E":
-        newcol = col + 1
+        if col in range(0, len(minefield[row])):
+            newcol = col + 1
     elif move == "W":
-        newcol = col - 1
+        if col in range(1, col):
+            newcol = col - 1
     return newrow, newcol
 
 
@@ -258,25 +262,23 @@ def walk(minefield, moves, lives) -> list:
     minefield[row][col] = "."
 
     for move in moves:
-        if 0 <= row < len(minefield):
-            if 0 <= col < len(minefield[row]):
-                newrow, newcol = get_new_position(move, row, col)
-                if minefield[newrow][newcol] == "x":
-                    minefield[newrow][newcol] = "."
-                    if count_bombs_for_cell(minefield, row, col) < 5:
-                        continue
-                    else:
-                        lives = lives - 1
-                    if lives == 0:
-                        break
-                elif minefield[newrow][newcol] == ".":
-                    row, col = newrow, newcol
-                elif minefield[newrow][newcol] == "X":
-                    minefield[newrow][newcol] = "."
-                    row, col = newrow, newcol
-                    lives = lives - 1
-                    if lives == 0:
-                        break
+        newrow, newcol = get_new_position(minefield, move, row, col)
+        if minefield[newrow][newcol] == ".":
+            row, col = newrow, newcol
+        elif minefield[newrow][newcol] == "x":
+            minefield[newrow][newcol] = "."
+            if count_bombs_for_cell(minefield, row, col) < 5:
+                continue
+            else:
+                lives = lives - 1
+            if lives == 0:
+                break
+        elif minefield[newrow][newcol] == "X":
+            minefield[newrow][newcol] = "."
+            row, col = newrow, newcol
+            lives = lives - 1
+            if lives == 0:
+                break
     minefield[row][col] = "#"
     return minefield
 
