@@ -132,7 +132,7 @@ def get_new_position(move, row, col):
     :param col:
     :return:
     """
-    newrow, newcol = 0, 0
+    newrow, newcol = row, col
     if move == "N":
         newrow = row - 1
     elif move == "S":
@@ -258,19 +258,19 @@ def walk(minefield, moves, lives) -> list:
     minefield[row][col] = "."
 
     for move in moves:
-        newrow, newcol = get_new_position(move, row, col)
         if 0 <= row < len(minefield):
             if 0 <= col < len(minefield[row]):
+                newrow, newcol = get_new_position(move, row, col)
                 if minefield[newrow][newcol] == "x":
                     minefield[newrow][newcol] = "."
-                    continue
                 if minefield[newrow][newcol] == ".":
                     row, col = newrow, newcol
                 elif minefield[newrow][newcol] == "X":
                     row, col = newrow, newcol
+                    lives = lives - 1
                     if lives == 0:
                         break
-                    lives = lives - 1
+
 
     minefield[row][col] = "#"
     return minefield
