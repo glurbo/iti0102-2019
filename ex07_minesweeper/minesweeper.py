@@ -134,16 +134,16 @@ def get_new_position(minefield, move, row, col):
     """
     newrow, newcol = row, col
     if move == "N":
-        if row in range(1, row):
+        if row in range(1, row + 1):
             newrow = row - 1
     elif move == "S":
         if row in range(0, len(minefield) - 1):
             newrow = row + 1
     elif move == "E":
-        if col in range(0, len(minefield[row])):
+        if col in range(0, len(minefield[row]) - 1):
             newcol = col + 1
     elif move == "W":
-        if col in range(1, col):
+        if col in range(1, col + 1):
             newcol = col - 1
     return newrow, newcol
 
@@ -263,7 +263,13 @@ def walk(minefield, moves, lives) -> list:
 
     for move in moves:
         newrow, newcol = get_new_position(minefield, move, row, col)
-        if minefield[newrow][newcol] == ".":
+        if minefield[newrow][newcol] == "X":
+            if lives == 0:
+                break
+            minefield[newrow][newcol] = "."
+            row, col = newrow, newcol
+            lives = lives - 1
+        elif minefield[newrow][newcol] == ".":
             row, col = newrow, newcol
         elif minefield[newrow][newcol] == "x":
             minefield[newrow][newcol] = "."
@@ -271,14 +277,9 @@ def walk(minefield, moves, lives) -> list:
                 continue
             else:
                 lives = lives - 1
-            if lives == 0:
-                break
-        elif minefield[newrow][newcol] == "X":
-            minefield[newrow][newcol] = "."
-            row, col = newrow, newcol
-            lives = lives - 1
-            if lives == 0:
-                break
+                if lives == 0:
+                    break
+
     minefield[row][col] = "#"
     return minefield
 
