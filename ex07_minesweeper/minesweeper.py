@@ -274,9 +274,9 @@ def walk(minefield, moves, lives) -> list:
         elif minefield[newrow][newcol] == "x":
             minefield[newrow][newcol] = "."
             if count_bombs_for_cell(minefield, row, col) >= 5:
-                lives = lives - 1
                 if lives == 0:
                     break
+                lives = lives - 1
 
     minefield[row][col] = "#"
     return minefield
@@ -380,3 +380,4 @@ if __name__ == '__main__':
 ..x..
     """
     # minesweeper would die if stepping into the mine, therefore he stops
+
