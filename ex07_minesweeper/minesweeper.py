@@ -277,7 +277,6 @@ def walk(minefield, moves, lives) -> list:
                     break
                 lives = lives - 1
             minefield[newrow][newcol] = "."
-
     minefield[row][col] = "#"
     return minefield
 
@@ -380,4 +379,3 @@ if __name__ == '__main__':
 ..x..
     """
     # minesweeper would die if stepping into the mine, therefore he stops
-
