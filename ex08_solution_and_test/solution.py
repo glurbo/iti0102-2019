@@ -11,8 +11,8 @@ def students_study(time: int, coffee_needed: bool) -> bool:
         return True
     elif time in range(5, 18) and coffee_needed:
         return True
-    elif time in range(1, 5):
-        return False
+    elif time in range(1, 5) and not coffee_needed:
+        return True
     else:
         return False
 
@@ -55,9 +55,10 @@ def fruit_order(small_baskets: int, big_baskets: int, ordered_amount: int) -> in
 
 
 if __name__ == '__main__':
-    print(students_study(12, True))
+    print(students_study(1, False))
+    print(students_study(2, False))
+    print(students_study(23, True))
     print(students_study(24, True))
-    print(students_study(1, True))
 
     print(lottery(5, 5, 5))
     print(lottery(2, 2, 1))
