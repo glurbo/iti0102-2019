@@ -8,6 +8,8 @@ def students_study(time: int, coffee_needed: bool) -> bool:
         return True
     elif time in range(5, 18) and coffee_needed:
         return True
+    elif time in range(1, 5):
+        return False
     else:
         return False
 
@@ -28,7 +30,9 @@ def lottery(a: int, b: int, c: int) -> int:
     if a != b:
         if a != c:
             return 1
-    else:
+        elif a == c:
+            return 0
+    elif a == b:
         return 0
 
 
@@ -54,7 +58,4 @@ if __name__ == '__main__':
 
     print(lottery(5, 5, 5))
     print(lottery(2, 2, 1))
-    print(lottery(2, 3, 1))
-
-    print(fruit_order(4, 1, 9))
-    print(fruit_order(3, 1, 10))
+    print(lottery(1, 2, 2))
