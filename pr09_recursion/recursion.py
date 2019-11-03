@@ -71,7 +71,6 @@ def task2(string):
 if __name__ == '__main__':
     print(recursive_reverse("abc"))
     print(recursive_reverse(""))
-
     print(task1("racecar"))
     print(task2("12334566"))
 
