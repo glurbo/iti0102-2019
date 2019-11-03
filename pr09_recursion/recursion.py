@@ -63,8 +63,8 @@ def task2(string):
     if len(string) < 2:
         return string
     for i in range(len(string)):
-        if string[i] == string[i-1]:
-            "-".join([string[i-1], string[i]])
+        if string[i] == string[i - 1]:
+            "-".join([string[i - 1], string[i]])
     return string
 
 

@@ -40,18 +40,28 @@ def get_formatted_time(time: str) -> str:
     return f"{hour}:{minute:0>2} {ampm}"
 
 
-def get_table_sizes(sorted: str) -> list:
-    """Determines table size for time and action partition."""
-
-
-def create_table(max_time_width: int, max_action_width: int) -> str:
+def create_table(input_str: str) -> str:
     """Creates table."""
+    table_data = create_schedule_string(input_str)
+    max_time_width = len(max([x[0] for x in table_data], key=len))
+    max_action_width = len(max([x[1] for x in table_data], key=len))
     table = []
-    table.append("-" * (max_time_width + max_action_width + 7))  # 7 tuleneb: 4 tühikud, 2 ääred ja 1 keskel
-
-    table.append("-" * (max_time_width + max_action_width + 7))
+    print(table_data)
+    if len(table_data) == 0:
+        return "----------------------\n"
+    line = "-" * (max_time_width + max_action_width + 7)  # 7 tuleneb: 4 tühikud, 2 ääred ja 1 keskel
+    header = f"| {'time':>{max_time_width}} | {'items':<{max_action_width}} |"
+    table.append(line)
+    table.append(header)
+    table.append(line)
+    for activity_tuple in table_data:
+        table.append(f"| {activity_tuple[0]:>{max_time_width}} | {activity_tuple[1]:<{max_action_width}} |")
+    table.append(line)
+    print(table)
+    return "\n".join(table)
 
 
 if __name__ == '__main__':
     print(create_schedule_string("wat 11:00 teine tekst 11:0 jah ei 10:00 pikktekst "))
     create_schedule_file("schedule_input.txt", "schedule_output.txt")
+    print(create_table("wat 11:00 teine tekst 11:0 jah ei 10:00 pikktekst"))
