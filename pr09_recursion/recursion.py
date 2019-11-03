@@ -28,6 +28,13 @@ def remove_nums_and_reverse(string):
     :param string: given string to change
     :return: reverse version of the original string, only missing numbers
     """
+    numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+    if string == "":
+        return string
+    if string[0] in numbers:
+        string[0] = ""
+    else:
+        return remove_nums_and_reverse(string[1:]) + string[0]
 
 
 def task1(string):
@@ -67,3 +74,8 @@ if __name__ == '__main__':
 
     print(task1("racecar"))
     print(task2("12334566"))
+
+    print(remove_nums_and_reverse("poo"))  # "oop"
+    print(remove_nums_and_reverse("3129047284"))  # empty string
+    print(remove_nums_and_reverse("34e34f7i8l 00r532o23f 4n5oh565ty7p4"))  # "python for life"
+    print(remove_nums_and_reverse("  k 4"))  # " k  "
