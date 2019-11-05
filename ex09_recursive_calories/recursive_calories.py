@@ -27,9 +27,8 @@ def x_sum_loop(nums, x) -> int:
         return 0
     if x == abs(1):
         return sum(nums)
-    for i, j in enumerate(nums, start=1):
-        i += 1
-    return sum(nums[::x])
+    for i, j in enumerate(nums, 1):
+        return sum(nums[::x])
     #return sum(nums.index(i) for i in range(0, len(nums), x))
     #return nums[nums.index(x) % x]
 
@@ -93,6 +92,8 @@ def lets_count_calories(salad: float, chocolate_pieces: int, fridge_visits: int)
         return 0
     if salad < 0.001:
         salad = 0
+    if salad == 0 and chocolate_pieces == 0:
+        return 0
     if fridge_visits > 0:
         if salad > 0:
             eaten_salad = 0.1
@@ -133,7 +134,7 @@ def cycle(cyclists: list, distance: float, time: int = 0, index: int = 0) -> str
     :param index: index to know which cyclist's turn it is to be first
     :return: string indicating the last cyclist to carry the others
     """
-    current_distance = 0
+    """current_distance = 0
     current_time = 0
 
     if distance < 0.001:
@@ -146,10 +147,7 @@ def cycle(cyclists: list, distance: float, time: int = 0, index: int = 0) -> str
         current_distance = cyclists[index][1]
         current_time = cyclists[index][2]
     # cyclists[name, distance km, time min], distance km, time min
-    return cycle(cyclists, distance - current_distance, time + current_time, index + 1 % len(cyclists))
-
-    # if current_distance > distance:
-    # return cycle(cyclists, distance - current_distance, time + current_time, (index + 1) % len(cyclists))
+    return cycle(cyclists, distance - current_distance, time + current_time, index + 1 % len(cyclists))"""
 
 
 def count_strings(data: list, pos=None, result: dict = None) -> dict:
