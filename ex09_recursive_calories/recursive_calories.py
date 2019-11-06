@@ -27,10 +27,10 @@ def x_sum_loop(nums, x) -> int:
         return 0
     if x == abs(1):
         return sum(nums)
-    for i, j in enumerate(nums, 1):
+    if x < 0:
+        nums.reverse()
         return sum(nums[::x])
-    #return sum(nums.index(i) for i in range(0, len(nums), x))
-    #return nums[nums.index(x) % x]
+    return sum(nums[x-1::x])
 
 
 def x_sum_recursion(nums, x) -> int:
@@ -134,16 +134,16 @@ def cycle(cyclists: list, distance: float, time: int = 0, index: int = 0) -> str
     :param index: index to know which cyclist's turn it is to be first
     :return: string indicating the last cyclist to carry the others
     """
-    """current_distance = 0
+    current_distance = 0
     current_time = 0
 
-    if distance < 0.001:
+    """if distance < 0.001:
         distance = 0
     if distance == 0:
         return f"{cyclists[index][0]} is the last leader. Total time: {time}h {time % 60}min."
     if cyclists == [] or distance <= 0:
         return "Everyone fails."
-    if 0 < distance:
+    if distance > 0:
         current_distance = cyclists[index][1]
         current_time = cyclists[index][2]
     # cyclists[name, distance km, time min], distance km, time min
@@ -167,9 +167,20 @@ def count_strings(data: list, pos=None, result: dict = None) -> dict:
     :param result: figure out how to use it
     :return: dict of given symbols and their count
     """
-    #if result is None:
-    #   result = {}
+    if result is None:
+        result = {}
 
+    """element = data[0], count_strings(data[1:], result)
+    result[element] += 1
+
+    if len(data) == 0:
+        return result
+
+    if isinstance(element, str):
+        tee seda mis varem
+    else:
+        count_strings(element, 0, result)
+    f(pos + 1)"""
     #if element is string:
     #    count_strings(data, pos + 1, result)
     #elif isinstance(element, list):
@@ -214,3 +225,9 @@ if __name__ == '__main__':
     print(cycle([("Loner", 0.1, 1)], 60))  # "Loner is the last leader. Total time: 10h 0min."
 
     print("-----------------------------------")
+
+    print(count_strings([[], ["J", "*", "W", "f"], ["j", "g", "*"], ["j", "8", "5", "6", "*"], ["*", "*", "A", "8"]]))
+    # {'J': 1, '*': 5, 'W': 1, 'f': 1, 'j': 2, 'g': 1, '8': 2, '5': 1, '6': 1, 'A': 1}
+    print(count_strings([[], [], [], [], ["h", "h", "m"], [], ["m", "m", "M", "m"]]))  # {'h': 2, 'm': 4, 'M': 1}
+    print(count_strings([]))  # {}
+    print(count_strings([['a'], 'b', ['a', ['b']]]))  # {'a': 2, 'b': 2}
