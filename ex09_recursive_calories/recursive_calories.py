@@ -142,7 +142,6 @@ def cycle(cyclists: list, distance: float, time: int = 0, index: int = 0) -> str
     :param index: index to know which cyclist's turn it is to be first
     :return: string indicating the last cyclist to carry the others
     """
-
     current_distance = 0
     current_time = 0
     if distance < 0.001:
@@ -161,9 +160,10 @@ def cycle(cyclists: list, distance: float, time: int = 0, index: int = 0) -> str
 
 def count_strings(data: list, pos=None, result: dict = None) -> dict:
     """
-    You are given a list of strings and lists, which may also contain strings and lists etc. Your job is to
-    collect these strings into a dict, where key would be the string and value the amount of occurrences of that string
-    in these lists.
+    You are given a list of strings and lists, which may also contain strings and lists etc.
+
+    Your job is to collect these strings into a dict, where key would be the string and value the amount of occurrences
+    of that string in these lists.
 
     print(count_strings([[], ["J", "*", "W", "f"], ["j", "g", "*"], ["j", "8", "5", "6", "*"], ["*", "*", "A", "8"]]))
     # {'J': 1, '*': 5, 'W': 1, 'f': 1, 'j': 2, 'g': 1, '8': 2, '5': 1, '6': 1, 'A': 1}
