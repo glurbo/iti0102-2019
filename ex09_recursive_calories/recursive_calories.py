@@ -1,4 +1,4 @@
-"""Let's count calories!"""
+"""Let's count calories."""
 
 
 def x_sum_loop(nums, x) -> int:
@@ -66,11 +66,12 @@ def x_sum_recursion(nums, x) -> int:
 
 def lets_count_calories(salad: float, chocolate_pieces: int, fridge_visits: int) -> int:
     """
-    Every time Kadri goes to fridge, she wants to eat something. In case she has salad in her fridge, she eats exactly 100g
-    of it, no matter what. If she has chocolate in the fridge and she had just eaten salad, she takes one piece of
-    chocolate. In case she came to fridge and didn't have any salad to eat, she takes two pieces of chocolate (if she
-    has at least two pieces, if she doesn't, she takes just one). She keeps on going to the fridge for a little snack until
-    she either runs out of fridge visits or snacks.
+    Every time Kadri goes to fridge, she wants to eat something.
+
+    In case she has salad in her fridge, she eats exactly 100g of it, no matter what. If she has chocolate in the fridge
+    and she had just eaten salad, she takes one piece of chocolate. In case she came to fridge and didn't have any salad
+    to eat, she takes two pieces of chocolate (if she has at least two pieces, if she doesn't, she takes just one). She
+    keeps on going to the fridge for a little snack until she either runs out of fridge visits or snacks.
 
     Eating 100g of salad gives her 120 calories, eating a piece of chocolate gives her 34 calories.
 
@@ -120,11 +121,13 @@ def lets_count_calories(salad: float, chocolate_pieces: int, fridge_visits: int)
 
 def cycle(cyclists: list, distance: float, time: int = 0, index: int = 0) -> str:
     """
-    Given cyclists and distance in kilometers, find out who crosses the finish line first. Cyclists is list of tuples,
-    every tuple contains name of the cyclist, how many kilometres this cyclist carries the others and time in minutes
-    showing how long it cycles first. If there are no cyclists or distance is 0 or less, return message "Everyone fails."
-    else return the last cyclist to carry others and total time taken to cross the finish line, including the last cyclist's
-    "over" minutes: "{cyclist1} is the last leader. Total time: {hours}h {minutes}min."
+    Given cyclists and distance in kilometers, find out who crosses the finish line first.
+
+    Cyclists is list of tuples, every tuple contains name of the cyclist, how many kilometres this cyclist carries the
+    others and time in minutes showing how long it cycles first. If there are no cyclists or distance is 0 or less,
+    return message "Everyone fails." else return the last cyclist to carry others and total time taken to cross the
+    finish line, including the last cyclist's "over" minutes: "{cyclist1} is the last leader. Total time: {hours}h
+    {minutes}min."
     We'll say if a cyclist has cycled its kilometres ahead of the others, it's the next cyclist's turn. If the last
     cyclist has done the leading, it's time for the first one again.
 
@@ -139,19 +142,21 @@ def cycle(cyclists: list, distance: float, time: int = 0, index: int = 0) -> str
     :param index: index to know which cyclist's turn it is to be first
     :return: string indicating the last cyclist to carry the others
     """
-    """current_distance = 0
+
+    current_distance = 0
     current_time = 0
     if distance < 0.001:
         distance = 0
-    if distance <= 0:
-        return f"{cyclists[index][0]} is the last leader. Total time: {time // 60}h {time % 60}min."
-    if cyclists == [] or distance <= 0:
+    if not cyclists:
         return "Everyone fails."
+    if distance <= 0:
+        return f"{cyclists[index - 1][0]} is the last leader. Total time: {time // 60}h {time % 60}min."
+
     if distance > 0:
         current_distance = cyclists[index][1]
         current_time = cyclists[index][2]
     # cyclists[name, distance km, time min], distance km, time min
-    return cycle(cyclists, distance - current_distance, time + current_time, index + 1 % len(cyclists))"""
+    return cycle(cyclists, distance - current_distance, time + current_time, (index + 1) % len(cyclists))
 
 
 def count_strings(data: list, pos=None, result: dict = None) -> dict:
