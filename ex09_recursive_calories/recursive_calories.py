@@ -30,7 +30,7 @@ def x_sum_loop(nums, x) -> int:
     if x < 0:
         nums.reverse()
         return sum(nums[::x])
-    return sum(nums[x-1::x])
+    return sum(nums[x - 1::x])
 
 
 def x_sum_recursion(nums, x) -> int:
