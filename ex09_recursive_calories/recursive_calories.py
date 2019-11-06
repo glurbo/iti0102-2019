@@ -139,13 +139,12 @@ def cycle(cyclists: list, distance: float, time: int = 0, index: int = 0) -> str
     :param index: index to know which cyclist's turn it is to be first
     :return: string indicating the last cyclist to carry the others
     """
-    current_distance = 0
+    """current_distance = 0
     current_time = 0
-
-    """if distance < 0.001:
+    if distance < 0.001:
         distance = 0
-    if distance == 0:
-        return f"{cyclists[index][0]} is the last leader. Total time: {time}h {time % 60}min."
+    if distance <= 0:
+        return f"{cyclists[index][0]} is the last leader. Total time: {time // 60}h {time % 60}min."
     if cyclists == [] or distance <= 0:
         return "Everyone fails."
     if distance > 0:
@@ -172,24 +171,24 @@ def count_strings(data: list, pos=None, result: dict = None) -> dict:
     :param result: figure out how to use it
     :return: dict of given symbols and their count
     """
+    pos = 0
+
     if result is None:
         result = {}
-
-    """element = data[0], count_strings(data[1:], result)
-    result[element] += 1
-
-    if len(data) == 0:
+    if len(data) == 0 or data == []:
         return result
+    element = data[0]
 
     if isinstance(element, str):
-        tee seda mis varem
-    else:
-        count_strings(element, 0, result)
-    f(pos + 1)"""
-    #if element is string:
-    #    count_strings(data, pos + 1, result)
-    #elif isinstance(element, list):
-    #    count_strings(element, 0 result)
+        if element not in result:
+            result[element] = 1
+        else:
+            result[element] = result[element] + 1
+        return count_strings(data[1:], pos, result)
+    elif isinstance(element, list):
+        count_strings(element, pos, result)
+
+    return count_strings(data[1:], pos, result)
 
 
 if __name__ == '__main__':
