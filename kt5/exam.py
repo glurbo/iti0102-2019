@@ -1,5 +1,6 @@
 """KT5 (R10)."""
 
+
 def get_date_string(date: list) -> str:
     """
     Pretty print the date.
@@ -61,10 +62,6 @@ def sum_elements_around_last_three(nums: list) -> int:
             if i == 0:
                 continue
             return nums[i - 1] + nums[i + 1]
-    #for i in reversed(nums):
-    #    if nums[i] == 3:
-    #        return nums[i - 1] + nums[i + 1]
-
 
 
 def pentabonacci(n: int) -> int:
@@ -89,7 +86,17 @@ def pentabonacci(n: int) -> int:
     :param n: The last term to take into account.
     :return: Total number of odd values.
     """
-    return (n - 1) + (n - 2) + (n - 3) + (n - 4) + (n - 5)
+    count = 0
+    nrs = []
+    f = [0, 1, 1, 2, 4, 8, 15, 30]
+    for i in range(1, 6):
+        nr = f[n - i]
+        nrs.append(nr)
+    for i in nrs:
+        if i % 2 == 1:
+            count += 1
+            nrs.remove(i)
+    return count
 
 
 if __name__ == '__main__':
@@ -106,5 +113,3 @@ if __name__ == '__main__':
     print(pentabonacci(5))  # -> 1
     print(pentabonacci(10))  # -> 3
     print(pentabonacci(15))  # -> 5
-    nums = [1, 2, 3]
-    print(nums[:len(nums) - 1])
