@@ -88,7 +88,7 @@ def pentabonacci(n: int) -> int:
     """
     count = 0
     nrs = []
-    f = [0, 1, 1, 2, 4, 8, 15, 30]
+    f = [0, 1, 1, 2, 4, 8, 15, 30]  # pidanud rek tegema
     for i in range(1, 6):
         nr = f[n - i]
         nrs.append(nr)
