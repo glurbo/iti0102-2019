@@ -51,11 +51,20 @@ def sum_elements_around_last_three(nums: list) -> int:
     :param nums: given list of ints
     :return: sum of elements before and after last 3
     """
-    if 3 not in nums or len(nums) < 2 or nums[-1] == 3:
+    if 3 not in nums or len(nums) < 2:
         return 0
-    for i in nums:
+    nums = nums[::-1]
+    for i in range(len(nums) - 1):
         if nums[i] == 3:
+            if i == 0:
+                nums = nums[1:]
+                if 3 not in nums:
+                    return 0
+                continue
             return nums[i - 1] + nums[i + 1]
+    #for i in reversed(nums):
+    #    if nums[i] == 3:
+    #        return nums[i - 1] + nums[i + 1]
 
 
 
@@ -81,7 +90,7 @@ def pentabonacci(n: int) -> int:
     :param n: The last term to take into account.
     :return: Total number of odd values.
     """
-    pass
+    return (n - 1) + (n - 2) + (n - 3) + (n - 4) + (n - 5)
 
 
 if __name__ == '__main__':
@@ -95,3 +104,6 @@ if __name__ == '__main__':
     print(sum_elements_around_last_three([1, 2, 3, 4, 6, 4, 3, 4, 5, 3, 3, 2, 3]))  # -> 5
     print(sum_elements_around_last_three([1, 2, 3])) # -> 0
     print("------------------------------------------------")
+    print(pentabonacci(5))  # -> 1
+    print(pentabonacci(10))  # -> 3
+    print(pentabonacci(15))  # -> 5
