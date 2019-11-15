@@ -53,13 +53,12 @@ def sum_elements_around_last_three(nums: list) -> int:
     """
     if 3 not in nums or len(nums) < 2:
         return 0
+    if 3 not in nums[:len(nums) - 1] or 3 not in nums[1:]:
+        return 0
     nums = nums[::-1]
     for i in range(len(nums) - 1):
         if nums[i] == 3:
             if i == 0:
-                nums = nums[1:]
-                if 3 not in nums:
-                    return 0
                 continue
             return nums[i - 1] + nums[i + 1]
     #for i in reversed(nums):
@@ -107,3 +106,5 @@ if __name__ == '__main__':
     print(pentabonacci(5))  # -> 1
     print(pentabonacci(10))  # -> 3
     print(pentabonacci(15))  # -> 5
+    nums = [1, 2, 3]
+    print(nums[:len(nums) - 1])
