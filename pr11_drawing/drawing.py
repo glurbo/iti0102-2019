@@ -2,15 +2,25 @@
 
 
 class Error(Exception):
+    """
+    Error exception.
+
+    """
     pass
 
 
 class DrawingFullError(Error):
+    """
+    DrawingFullError exception.
+    """
     def __init__(self, message):
         self.message = message
 
 
 class FigureDoesNotExistError(Error):
+    """
+    FigureDOesNotExistError exception.
+    """
     def __init__(self, message):
         self.message = message
 
@@ -18,8 +28,8 @@ class FigureDoesNotExistError(Error):
 class DrawingCanvas:
     """A drawing canvas where one can draw some simple figures."""
 
-    figures = []
     figures_str = "Empty data structure (it depends on which one you have chose)"
+    figures = []
 
     def __init__(self, max_figures: int, author: str):
         """
@@ -49,6 +59,8 @@ class DrawingCanvas:
         :param figure: A figure to draw.
         :return: The newly drawn figure.
         """
+        if len(self.figures) == 0:
+            self.figures_str = "Empty data structure"
         if figure in self.figures:
             return None
         self.figures.append(figure)
