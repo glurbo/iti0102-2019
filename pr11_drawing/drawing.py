@@ -17,9 +17,8 @@ class DrawingCanvas:
     """A drawing canvas where one can draw some simple figures."""
 
     figures_str = "Empty data structure"
-    figures = []
 
-    def __init__(self, max_figures: int, author: str):
+    def __init__(self, max_figures: int, author: str, figures: list):
         """
         Initialize the canvas.
 
@@ -30,6 +29,7 @@ class DrawingCanvas:
         """
         self.max_figures = max_figures
         self.author = author
+        self.figures = figures
 
     def draw_figure(self, figure: str) -> str or None:
         """
@@ -55,7 +55,7 @@ class DrawingCanvas:
 
         self.figures.append(figure)
         if len(self.figures) > 0:
-            self.figures_str = "Data structure containing " + ", ".join(self.figures[:-1]) + " and " + self.figures[-1]
+            self.figures_str = "Data structure containing " + ", ".join(self.figures)
         return figure
 
     def erase_figure(self, figure: str) -> str:
@@ -73,7 +73,7 @@ class DrawingCanvas:
         if len(self.figures) == 0:
             self.figures_str = "Empty data structure"
         else:
-            self.figures_str = "Data structure containing " + ", ".join(self.figures[:-1]) + " and " + self.figures[-1]
+            self.figures_str = "Data structure containing " + ", ".join(self.figures)
         return figure
 
     def is_empty(self) -> bool:
@@ -106,7 +106,7 @@ class DrawingCanvas:
 
 
 if __name__ == '__main__':
-    dc = DrawingCanvas(5, "Person")
+    dc = DrawingCanvas(5, "Person", [])
 
     print("Check attributes:")
     try:
