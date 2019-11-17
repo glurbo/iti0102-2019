@@ -47,6 +47,8 @@ class DrawingCanvas:
         :param figure: A figure to draw.
         :return: The newly drawn figure.
         """
+        if len(self.figures) >= self.max_figures:
+            raise DrawingFullError("The drawing is full")
         if len(self.figures) == 0:
             self.figures_str = "Empty data structure"
         if figure in self.figures:
@@ -54,8 +56,6 @@ class DrawingCanvas:
         self.figures.append(figure)
         if len(self.figures) > 0:
             self.figures_str = "Data structure containing " + ", ".join(self.figures)
-        if len(self.figures) >= self.max_figures:
-            raise DrawingFullError("The drawing is full")
         return figure
 
     def erase_figure(self, figure: str) -> str:
