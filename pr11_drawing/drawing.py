@@ -16,7 +16,7 @@ class FigureDoesNotExistError(Exception):
 class DrawingCanvas:
     """A drawing canvas where one can draw some simple figures."""
 
-    figures_str = "Empty data structure (it depends on which one you have chose)"
+    figures_str = "Empty data structure"
     figures = []
 
     def __init__(self, max_figures: int, author: str):
@@ -69,11 +69,11 @@ class DrawingCanvas:
         """
         if figure not in self.figures:
             raise FigureDoesNotExistError("There is no such figure on the drawing")
+        self.figures.remove(figure)
         if len(self.figures) == 0:
             self.figures_str = "Empty data structure"
         else:
             self.figures_str = "Data structure containing " + ", ".join(self.figures)
-        self.figures.remove(figure)
         return figure
 
     def is_empty(self) -> bool:
