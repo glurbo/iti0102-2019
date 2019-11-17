@@ -2,25 +2,18 @@
 
 
 class Error(Exception):
-    """
-    Error exception.
-
-    """
+    """Error exception."""
     pass
 
 
 class DrawingFullError(Error):
-    """
-    DrawingFullError exception.
-    """
+    """DrawingFullError exception."""
     def __init__(self, message):
         self.message = message
 
 
 class FigureDoesNotExistError(Error):
-    """
-    FigureDOesNotExistError exception.
-    """
+    """FigureDOesNotExistError exception."""
     def __init__(self, message):
         self.message = message
 
@@ -79,9 +72,10 @@ class DrawingCanvas:
 
         :return: The erased figure.
         """
+        if figure not in self.figures:
+            raise FigureDoesNotExistError("There is no such figure on the drawing")
         if len(self.figures) == 0:
             self.figures_str = "Empty data structure"
-            raise FigureDoesNotExistError("There is no such figure on the drawing")
         else:
             self.figures_str = "Data structure containing " + ", ".join(self.figures)
         self.figures.remove(figure)
