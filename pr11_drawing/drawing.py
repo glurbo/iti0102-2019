@@ -18,8 +18,8 @@ class FigureDoesNotExistError(Error):
 class DrawingCanvas:
     """A drawing canvas where one can draw some simple figures."""
 
-    figures_list = []
-    figures = "Empty data structure (it depends on which one you have chose)"
+    figures = []
+    figures_str = "Empty data structure (it depends on which one you have chose)"
 
     def __init__(self, max_figures: int, author: str):
         """
@@ -49,12 +49,12 @@ class DrawingCanvas:
         :param figure: A figure to draw.
         :return: The newly drawn figure.
         """
-        if figure in self.figures_list:
+        if figure in self.figures:
             return None
-        self.figures_list.append(figure)
-        if len(self.figures_list) > 0:
-            self.figures = "Data structure containing " + ", ".join(self.figures_list)
-        if len(self.figures_list) >= self.max_figures:
+        self.figures.append(figure)
+        if len(self.figures) > 0:
+            self.figures_str = "Data structure containing " + ", ".join(self.figures)
+        if len(self.figures) >= self.max_figures:
             raise DrawingFullError("The drawing is full")
         return figure
 
@@ -67,12 +67,12 @@ class DrawingCanvas:
 
         :return: The erased figure.
         """
-        if len(self.figures_list) == 0:
-            self.figures = "Empty data structure"
+        if len(self.figures) == 0:
+            self.figures_str = "Empty data structure"
             raise FigureDoesNotExistError("There is no such figure on the drawing")
         else:
-            self.figures = "Data structure containing " + ", ".join(self.figures_list)
-        self.figures_list.remove(figure)
+            self.figures_str = "Data structure containing " + ", ".join(self.figures)
+        self.figures.remove(figure)
         return figure
 
     def is_empty(self) -> bool:
@@ -83,14 +83,14 @@ class DrawingCanvas:
 
         :return: True if empty, False otherwise.
         """
-        if len(self.figures_list) == 0:
+        if len(self.figures) == 0:
             return True
         else:
             return False
 
     def size(self) -> int:
         """Return the amount of figures on the drawing."""
-        return len(self.figures_list)
+        return len(self.figures)
 
     def __str__(self):
         """
@@ -101,7 +101,7 @@ class DrawingCanvas:
 
         :return: A correct string representing the drawing.
         """
-        return f"The drawing painted by {self.author}. Contains {len(self.figures_list)} figure(s)"
+        return f"The drawing painted by {self.author}. Contains {len(self.figures)} figure(s)"
 
 
 if __name__ == '__main__':
@@ -111,7 +111,7 @@ if __name__ == '__main__':
     try:
         print(dc.max_figures)  # -> 5
         print(dc.author)  # -> Person
-        print(dc.figures)  # -> Empty data structure (it depends on which one you have chose)
+        print(dc.figures_str)  # -> Empty data structure (it depends on which one you have chose)
     except AttributeError:
         print("Not all of the required attributes are defined")
         exit()
@@ -120,7 +120,7 @@ if __name__ == '__main__':
     print("Canvas after creation:")
     print(dc.is_empty())  # -> True
     print(dc.size())  # -> 0
-    print(dc.figures)  # -> Empty data structure (it depends on which one you have chose)
+    print(dc.figures_str)  # -> Empty data structure (it depends on which one you have chose)
 
     print()
     print("Draw figures:")
@@ -133,7 +133,7 @@ if __name__ == '__main__':
     print("After drawing:")
     print(dc.size())  # -> 3
     print(dc.is_empty())  # -> False
-    print(dc.figures)  # -> Data structure containing 1 circle, 1 triangle and 1 Mona Lisa
+    print(dc.figures_str)  # -> Data structure containing 1 circle, 1 triangle and 1 Mona Lisa
     print(dc)  # -> The drawing painted by Person. Contains 3 figure(s)
     print()
     print("Draw figures when canvas is full:")
@@ -147,7 +147,7 @@ if __name__ == '__main__':
         print("The drawing is full, but exception wasn't thrown")
         exit()
     print(dc.size())  # -> 5
-    print(dc.figures)  # -> Data structure containing circle, triangle, Mona Lisa, 1, 2
+    print(dc.figures_str)  # -> Data structure containing circle, triangle, Mona Lisa, 1, 2
 
     print()
     print("Erase figures:")
@@ -155,15 +155,15 @@ if __name__ == '__main__':
     dc.erase_figure("2")
 
     print(dc.erase_figure("triangle"))  # -> triangle
-    print(dc.figures)  # -> Data structure containing circle and Mona Lisa
+    print(dc.figures_str)  # -> Data structure containing circle and Mona Lisa
     print(dc.size())  # -> 2
 
     print(dc.erase_figure("Mona Lisa"))  # -> Mona Lisa
-    print(dc.figures)  # -> Data structure containing only circle
+    print(dc.figures_str)  # -> Data structure containing only circle
     print(dc.size())  # -> 1
 
     print(dc.erase_figure("circle"))  # -> circle
-    print(dc.figures)  # -> Empty data structure
+    print(dc.figures_str)  # -> Empty data structure
 
     print()
     print("After erasing:")
