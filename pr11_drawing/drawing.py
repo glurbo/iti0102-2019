@@ -1,21 +1,16 @@
 """PR11 Drawing."""
 
 
-class Error(Exception):
-    """Error exception."""
+class DrawingFullError(Exception):
+    """DrawingFullError exception."""
+
     pass
 
 
-class DrawingFullError(Error):
-    """DrawingFullError exception."""
-    def __init__(self, message):
-        self.message = message
-
-
-class FigureDoesNotExistError(Error):
+class FigureDoesNotExistError(Exception):
     """FigureDOesNotExistError exception."""
-    def __init__(self, message):
-        self.message = message
+
+    pass
 
 
 class DrawingCanvas:
