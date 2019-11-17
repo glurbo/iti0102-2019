@@ -16,9 +16,7 @@ class FigureDoesNotExistError(Exception):
 class DrawingCanvas:
     """A drawing canvas where one can draw some simple figures."""
 
-    figures_str = "Empty data structure"
-
-    def __init__(self, max_figures: int, author: str, figures: list):
+    def __init__(self, max_figures: int, author: str):
         """
         Initialize the canvas.
 
@@ -29,7 +27,8 @@ class DrawingCanvas:
         """
         self.max_figures = max_figures
         self.author = author
-        self.figures = figures
+        self.figures = []
+        self.figures_str = ""
 
     def draw_figure(self, figure: str) -> str or None:
         """
@@ -49,7 +48,8 @@ class DrawingCanvas:
         """
         if len(self.figures) == self.max_figures:
             raise DrawingFullError("The drawing is full")
-
+        if len(self.figures) == 0:
+            self.figures_str = "Empty data structure"
         if figure in self.figures:
             return None
 
@@ -106,13 +106,13 @@ class DrawingCanvas:
 
 
 if __name__ == '__main__':
-    dc = DrawingCanvas(5, "Person", [])
+    dc = DrawingCanvas(5, "Person")
 
     print("Check attributes:")
     try:
         print(dc.max_figures)  # -> 5
         print(dc.author)  # -> Person
-        print(dc.figures_str)  # -> Empty data structure (it depends on which one you have chose)
+        print(dc.figures)  # -> Empty data structure (it depends on which one you have chose)
     except AttributeError:
         print("Not all of the required attributes are defined")
         exit()
