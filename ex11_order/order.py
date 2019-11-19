@@ -155,7 +155,7 @@ class ContainerAggregator:
                     c = Container(self.container_volume, [order])
                     containers[d] = [c]
                     containers[d].append(c)
-        return {}
+        return containers
 
 
 class Container:
@@ -167,7 +167,7 @@ class Container:
 
     @property
     def volume_left(self):
-        return self.volume - OrderItem.total_volume
+        return self.volume - sum(Order.total_volume)
 
 
 if __name__ == '__main__':
