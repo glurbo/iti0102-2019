@@ -32,9 +32,8 @@ class OrderAggregator:
     """Algorithm of aggregating orders."""
 
     def __init__(self):
-        """
-        Initialize order aggregator.
-        """
+        """Initialize order aggregator."""
+
         self.order_items = []
 
     def add_item(self, item: OrderItem):
@@ -165,11 +164,13 @@ class Container:
     """Container to transport orders."""
 
     def __init__(self, volume, orders):
+        """Initialize container"""
         self.volume = volume
         self.orders = orders
 
     @property
     def volume_left(self):
+        """"Calculate the free volume left in the container"""
         total = 0
         for item in self.orders:
             total += item.total_volume
@@ -214,7 +215,6 @@ if __name__ == '__main__':
     too_big_order.destination = "Somewhere"
     containers = ca.prepare_containers((order1, order2, too_big_order))
     print(f'prepare_containers produced containers to {len(containers)}(1 is correct) different destination(s)')
-    print(containers)
     try:
         containers_to_tallinn = containers['Tallinn']
         print(f'volume of the container to tallinn is {containers_to_tallinn[0].volume}(70000 is correct) cm^3')
