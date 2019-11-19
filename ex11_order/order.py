@@ -143,7 +143,8 @@ class ContainerAggregator:
 
             d = order.destination
             if d not in containers:
-                containers[d] = []
+                if order.total_volume <= self.container_volume:
+                    containers[d] = []
             fits = False
             for c in containers[d]:
                 if order.total_volume <= self.container_volume:
@@ -208,7 +209,7 @@ if __name__ == '__main__':
     too_big_order.destination = "Somewhere"
     containers = ca.prepare_containers((order1, order2, too_big_order))
     print(f'prepare_containers produced containers to {len(containers)}(1 is correct) different destination(s)')
-
+    print(containers)
     try:
         containers_to_tallinn = containers['Tallinn']
         print(f'volume of the container to tallinn is {containers_to_tallinn[0].volume}(70000 is correct) cm^3')
