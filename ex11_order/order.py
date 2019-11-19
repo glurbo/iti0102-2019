@@ -145,6 +145,8 @@ class ContainerAggregator:
             if d not in containers:
                 if order.total_volume <= self.container_volume:
                     containers[d] = []
+                else:
+                    self.not_used_orders.append(c)
             fits = False
             for c in containers[d]:
                 if order.total_volume <= self.container_volume:
@@ -168,7 +170,10 @@ class Container:
 
     @property
     def volume_left(self):
-        return self.volume - sum(Order.total_volume)
+        total = 0
+        for item in self.orders:
+            total += item.total_volume
+        return total
 
 
 if __name__ == '__main__':
