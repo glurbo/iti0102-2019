@@ -66,8 +66,9 @@ class OrderAggregator:
             if self.order_items[count].customer == customer:
                 current_quantity += self.order_items[count].quantity
                 current_volume += self.order_items[count].total_volume
-                if max_items_quantity >= current_quantity or max_volume >= current_volume:
-                    items.append(item)
+                if max_items_quantity >= current_quantity:
+                    if max_volume >= current_volume:
+                        items.append(item)
             count += 1
         for item in items:
             self.order_items.remove(item)
