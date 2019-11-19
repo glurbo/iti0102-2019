@@ -173,7 +173,7 @@ class Container:
         total = 0
         for item in self.orders:
             total += item.total_volume
-        return total
+        return self.volume - total
 
 
 if __name__ == '__main__':
