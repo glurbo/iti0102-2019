@@ -140,12 +140,13 @@ class ContainerAggregator:
         #  containers["Tallinn"].append(c2)
 
         for order in orders:
+            c = Container(self.container_volume, [order])
             d = order.destination
             if d not in containers:
                 if order.total_volume <= self.container_volume:
                     containers[d] = []
                 else:
-                    self.not_used_orders.append(Container(self.container_volume, [order]))
+                    self.not_used_orders.append(c)
                     break
             fits = False
             for c in containers[d]:
@@ -155,7 +156,6 @@ class ContainerAggregator:
                     if fits:
                         break
             if not fits:
-                c = Container(self.container_volume, [order])
                 containers[d] = [c]
                 containers[d].append(c)
         return containers
