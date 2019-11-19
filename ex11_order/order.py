@@ -33,7 +33,6 @@ class OrderAggregator:
 
     def __init__(self):
         """Initialize order aggregator."""
-
         self.order_items = []
 
     def add_item(self, item: OrderItem):
@@ -164,13 +163,13 @@ class Container:
     """Container to transport orders."""
 
     def __init__(self, volume, orders):
-        """Initialize container"""
+        """Initialize container."""
         self.volume = volume
         self.orders = orders
 
     @property
     def volume_left(self):
-        """"Calculate the free volume left in the container"""
+        """"Calculate the free volume left in the container."""
         total = 0
         for item in self.orders:
             total += item.total_volume
