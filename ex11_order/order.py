@@ -167,7 +167,7 @@ class Container:
 
     @property
     def volume_left(self):
-        return self.volume - Order.total_volume
+        return self.volume - OrderItem.total_volume
 
 
 if __name__ == '__main__':
