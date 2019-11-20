@@ -146,13 +146,13 @@ class ContainerAggregator:
                 else:
                     self.not_used_orders.append(c)
                     break
+
             fits = False
             for c in containers[d]:
                 if order.total_volume <= self.container_volume:
-                    containers[d].append(c)
+                    c.orders.append(order)
                     fits = True
-                    if fits:
-                        break
+                    break
             if not fits:
                 containers[d] = [c]
                 containers[d].append(c)
@@ -221,3 +221,4 @@ if __name__ == '__main__':
     except KeyError:
         print('Container to Tallinn not found!')
     print(f'{len(ca.not_used_orders)}(1 is correct) cannot be added to containers')
+
