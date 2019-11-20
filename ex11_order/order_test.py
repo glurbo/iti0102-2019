@@ -1,3 +1,5 @@
+"""Test function."""
+
 import pytest
 from order import Container
 from order import ContainerAggregator
@@ -8,6 +10,7 @@ from order import OrderItem
 
 @pytest.mark.timeout(1.0)
 def test__order_item__total_volume_is_correct():
+    """Test."""
     oi = OrderItem("customer", "item", 10, 20)
 
     assert oi.total_volume == 200
@@ -15,6 +18,7 @@ def test__order_item__total_volume_is_correct():
 
 @pytest.mark.timeout(1.0)
 def test__order__total_quantity_is_correct():
+    """Test."""
     o = Order([OrderItem("customer", "item", 2, 1), OrderItem("customer", "another item", 5, 1)])
 
     assert o.total_quantity == 7
@@ -22,6 +26,7 @@ def test__order__total_quantity_is_correct():
 
 @pytest.mark.timeout(1.0)
 def test__order__has_destination_attribute_after_initialization():
+    """Test."""
     o = Order([OrderItem("customer", "item", 1, 1)])
 
     assert hasattr(o, 'destination')
@@ -29,6 +34,7 @@ def test__order__has_destination_attribute_after_initialization():
 
 @pytest.mark.timeout(1.0)
 def test__order__total_volume_is_correct():
+    """Test."""
     o = Order([OrderItem("customer", "item", 4, 10), OrderItem("customer", "another item", 4, 30)])
 
     assert o.total_volume == 40 + 120
@@ -36,6 +42,7 @@ def test__order__total_volume_is_correct():
 
 @pytest.mark.timeout(1.0)
 def test__container__volume_left_is_correct_if_has_orders():
+    """Test."""
     orders = [Order([OrderItem("customer", "item1", 30, 5), OrderItem("customer", "item2", 3, 30)]),
               Order([OrderItem("customer", "item3", 20, 6)])]
     c = Container(1000, orders)
@@ -45,6 +52,7 @@ def test__container__volume_left_is_correct_if_has_orders():
 
 @pytest.mark.timeout(1.0)
 def test__container__volume_left_is_volume_if_no_orders():
+    """Test."""
     c = Container(300, [])
 
     assert c.volume_left == 300
@@ -52,6 +60,7 @@ def test__container__volume_left_is_volume_if_no_orders():
 
 @pytest.mark.timeout(1.0)
 def test__order_aggregator__order_items_list_is_empty_after_creation():
+    """Test."""
     oa = OrderAggregator()
 
     assert len(oa.order_items) == 0
@@ -59,6 +68,7 @@ def test__order_aggregator__order_items_list_is_empty_after_creation():
 
 @pytest.mark.timeout(1.0)
 def test__order_aggregator__order_item_is_added_to_list_after_calling_add_item():
+    """Test."""
     oa = OrderAggregator()
     item = OrderItem("customer", "item", 11, 1)
 
@@ -70,6 +80,7 @@ def test__order_aggregator__order_item_is_added_to_list_after_calling_add_item()
 
 @pytest.mark.timeout(1.0)
 def test__order_aggregator__all_order_items_are_in_the_list_if_add_item_is_called_multiple_times():
+    """Test."""
     oa = OrderAggregator()
     item1 = OrderItem("customer", "item", 11, 1)
     item2 = OrderItem("customer", "item2", 20, 4)
@@ -84,6 +95,7 @@ def test__order_aggregator__all_order_items_are_in_the_list_if_add_item_is_calle
 
 @pytest.mark.timeout(1.0)
 def test__order_aggregator__aggregates_order_with_exact_capacity_and_quantity_for_customer():
+    """Test."""
     oa = OrderAggregator()
     item1 = OrderItem("customer", "item1", 1, 1)
     item2 = OrderItem("customer", "item2", 2, 2)
@@ -99,6 +111,7 @@ def test__order_aggregator__aggregates_order_with_exact_capacity_and_quantity_fo
 
 @pytest.mark.timeout(1.0)
 def test__order_aggregator__ignores_other_customers_items_when_aggregating_order():
+    """Test."""
     oa = OrderAggregator()
     c1_item = OrderItem("customer1", "item1", 1, 1)
     c2_item = OrderItem("customer2", "item2", 2, 2)
@@ -116,6 +129,7 @@ def test__order_aggregator__ignores_other_customers_items_when_aggregating_order
 
 @pytest.mark.timeout(1.0)
 def test__order_aggregator__ignores_next_item_if_max_items_quantity_is_exceeded():
+    """Test."""
     oa = OrderAggregator()
     item1 = OrderItem("customer", "item1", 1, 1)
     item2 = OrderItem("customer", "item2", 3, 2)
@@ -133,6 +147,7 @@ def test__order_aggregator__ignores_next_item_if_max_items_quantity_is_exceeded(
 
 @pytest.mark.timeout(1.0)
 def test__order_aggregator__ignores_next_item_if_max_items_volume_is_exceeded():
+    """Test."""
     oa = OrderAggregator()
     item1 = OrderItem("customer", "item1", 1, 1)
     item2 = OrderItem("customer", "item2", 2, 2)
@@ -150,6 +165,7 @@ def test__order_aggregator__ignores_next_item_if_max_items_volume_is_exceeded():
 
 @pytest.mark.timeout(1.0)
 def test__order_aggregator__order_item_is_removed_after_it_is_aggregated_to_order():
+    """Test."""
     oa = OrderAggregator()
     item1 = OrderItem("customer", "item1", 1, 1)
     item2 = OrderItem("customer", "item2", 2, 2)
@@ -163,6 +179,7 @@ def test__order_aggregator__order_item_is_removed_after_it_is_aggregated_to_orde
 
 @pytest.mark.timeout(1.0)
 def test__container_aggregator__correct_container_volume_is_assigned_and_not_used_orders_is_empty_list_after_creation():
+    """Test."""
     ca = ContainerAggregator(400)
 
     assert ca.container_volume == 400
@@ -171,6 +188,7 @@ def test__container_aggregator__correct_container_volume_is_assigned_and_not_use
 
 @pytest.mark.timeout(1.0)
 def test__container_aggregator__puts_orders_to_one_dest_container_if_possible():
+    """Test."""
     ca = ContainerAggregator(999999)
     order1 = Order([OrderItem("customer", "item1", 1, 1), OrderItem("customer", "item2", 1, 1)])
     order2 = Order([OrderItem("customer", "item1", 1, 1)])
@@ -190,6 +208,7 @@ def test__container_aggregator__puts_orders_to_one_dest_container_if_possible():
 
 @pytest.mark.timeout(1.0)
 def test__container_aggregator__sets_correct_volume_to_new_container():
+    """Test."""
     ca = ContainerAggregator(999999)
     order1 = Order([OrderItem("customer", "item1", 1, 1), OrderItem("customer", "item2", 1, 1)])
     order2 = Order([OrderItem("customer", "item1", 1, 1)])
@@ -201,7 +220,8 @@ def test__container_aggregator__sets_correct_volume_to_new_container():
 
 
 @pytest.mark.timeout(1.0)
-def test__container_aggregator__returns_two_containers_with_correct_orders_and_volume_if_has_orders_to_two_different_destination():
+def test__container_aggregator__returns_two_containers_with_correct_orders_and_volume_if_has_orders_to_two_dif_dest():
+    """Test."""
     ca = ContainerAggregator(999999)
     order1 = Order([OrderItem("customer", "item1", 1, 1), OrderItem("customer", "item2", 1, 1)])
     order2 = Order([OrderItem("customer", "item1", 1, 1)])
@@ -225,6 +245,7 @@ def test__container_aggregator__returns_two_containers_with_correct_orders_and_v
 
 @pytest.mark.timeout(1.0)
 def test__container_aggregator__creates_new_container_if_order_does__not_fit_to_already_existing_container():
+    """Test."""
     ca = ContainerAggregator(50)
     order1 = Order([OrderItem("customer", "item1", 4, 5), OrderItem("customer", "item2", 1, 28)])
     order2 = Order([OrderItem("customer", "item3", 1, 1)])
@@ -249,6 +270,7 @@ def test__container_aggregator__creates_new_container_if_order_does__not_fit_to_
 
 @pytest.mark.timeout(1.0)
 def test__container_aggregator__puts_orders_that_cannot_be_added_to_container_to_not_used_orders_list():
+    """Test."""
     ca = ContainerAggregator(50)
     order1 = Order([OrderItem("customer", "item1", 4, 5), OrderItem("customer", "item2", 1, 28)])
     order_that_wont_fit = Order([OrderItem("customer", "item4", 10, 10)])
@@ -264,6 +286,7 @@ def test__container_aggregator__puts_orders_that_cannot_be_added_to_container_to
 
 @pytest.mark.timeout(1.0)
 def test__container_aggregator__does_not_add_dest_to_dict_if_no_containers_are_created():
+    """Test."""
     ca = ContainerAggregator(50)
     order_that_wont_fit = Order([OrderItem("customer", "item4", 10, 10)])
     order_that_wont_fit.destination = "Tallinn"
@@ -275,6 +298,7 @@ def test__container_aggregator__does_not_add_dest_to_dict_if_no_containers_are_c
 
 @pytest.mark.timeout(1.0)
 def test__components_integration__create_containers_from_order_items__happy_case():
+    """Test."""
     orders_items = (
         OrderItem("Apple", "iPhone 11", 103, 10),
         OrderItem("Apple", "iPhone X", 41, 9),
