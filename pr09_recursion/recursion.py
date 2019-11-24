@@ -64,8 +64,9 @@ def task2(string):
         return string
     for i in range(len(string)):
         string = string[1:]
-        if string[0] == string[1]:
-            string = string[0] + "-" + string[1]
+        if len(string) >= 2:
+            if string[0] == string[1]:
+                string = string[0] + "-" + string[1]
     return string
 
 
