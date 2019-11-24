@@ -56,7 +56,7 @@ class Pizzeria:
 
     def remove_chef(self, chef: Chef):
         if chef not in self.chef_list:
-            exit()
+            return None
         self.chef_list.remove(chef)
 
     def add_pizza_to_menu(self, pizza: Pizza):
@@ -65,21 +65,21 @@ class Pizzeria:
                 if len(self.chef_list) >= 1:
                     self.menu.append(pizza)
         else:
-            pass
+            return None
 
     def remove_pizza_from_menu(self, pizza: Pizza):
         if pizza not in self.menu:
-            exit()
+            return None
         self.menu.remove(pizza)
 
     def bake_pizza(self, pizza: Pizza) -> Pizza or None:
         if pizza in self.menu:
             for i in self.chef_list:
                 self.chef_list = sorted(self.chef_list, key=lambda c: (i.experience_level, self.chef_list))
-                for i in range(len(self.chef_list)):
-                    if self.chef_list[i].experience_level >= pizza.calculate_complexity():
-                        self.chef_list[i].experience_level += len(pizza.name) // 2
-                        self.chef_list[i].money += (pizza.calculate_price() * 4 + len(pizza.name)) // 2
+                for j in range(len(self.chef_list)):
+                    if self.chef_list[j].experience_level >= pizza.calculate_complexity():
+                        self.chef_list[j].experience_level += len(pizza.name) // 2
+                        self.chef_list[j].money += (pizza.calculate_price() * 4 + len(pizza.name)) // 2
                         self.budget += (pizza.calculate_price() * 4 + len(pizza.name)) // 2
                         return pizza
         else:
