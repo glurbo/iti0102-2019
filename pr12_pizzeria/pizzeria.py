@@ -1,23 +1,28 @@
+"""PR12_Pizzeria."""
 from math import pi
 
 
 class Chef:
+    """Chef class."""
     def __init__(self, name: str, experience_level: int):
         self.name = name
         self.experience_level = experience_level
         self.money = 0
 
     def __repr__(self):
+        """Return string when class is called."""
         return f"Pizza chef {self.name.capitalize()} with {self.experience_level} XP"
 
 
 class Pizza:
+    """Pizza class."""
     def __init__(self, name: str, diameter: int, toppings: list):
         self.name = name
         self.diameter = diameter
         self.toppings = toppings
 
     def calculate_complexity(self) -> int:
+        """Calculate complexity of given pizza."""
         complexity = 0
         for item in self.toppings:
             one_topping_complexity = len(item) // 3
@@ -25,15 +30,18 @@ class Pizza:
         return complexity
 
     def calculate_price(self) -> int:
+        """Calculate price of given pizza."""
         pizza_area = pi * ((self.diameter / 2) ** 2)
         price = pizza_area / 40 + len(self.toppings) // 2
         return int(price * 100 // 1)
 
     def __repr__(self):
+        """Return string when class is called."""
         return f"{self.name.capitalize()} pizza with a price of {self.calculate_price() / 100}"
 
 
 class Pizzeria:
+    """Pizzeria class."""
     def __init__(self, name: str, is_fancy: bool, budget: int):
         self.name = name
         self.is_fancy = is_fancy
@@ -42,6 +50,7 @@ class Pizzeria:
         self.menu = []
 
     def add_chef(self, chef: Chef) -> Chef or None:
+        """Add chef to a chef list."""
         if chef not in self.chef_list:
             if self.is_fancy:
                 if chef.experience_level >= 25:
@@ -55,24 +64,29 @@ class Pizzeria:
             return None
 
     def remove_chef(self, chef: Chef):
+        """Remove chef from chef list. If chef not in list, do nothing."""
         if chef not in self.chef_list:
             return None
         self.chef_list.remove(chef)
 
     def add_pizza_to_menu(self, pizza: Pizza):
+        """Add a pizza to a list of pizzas, if the budget allows it."""
         if self.budget - pizza.calculate_price() >= 0:
             if pizza not in self.menu:
                 if len(self.chef_list) >= 1:
                     self.menu.append(pizza)
+                    self.budget -= pizza.calculate_price()
         else:
             return None
 
     def remove_pizza_from_menu(self, pizza: Pizza):
+        """Remove pizza from the pizza list."""
         if pizza not in self.menu:
             return None
         self.menu.remove(pizza)
 
     def bake_pizza(self, pizza: Pizza) -> Pizza or None:
+        """Bake a pizza. """
         if pizza in self.menu:
             for i in self.chef_list:
                 self.chef_list = sorted(self.chef_list, key=lambda c: (i.experience_level, self.chef_list))
@@ -86,6 +100,7 @@ class Pizzeria:
             return None
 
     def get_pizza_menu(self) -> list:
+        """"""
         return sorted(self.menu, key=lambda pizza: (-pizza.calculate_price(), self.menu))
 
     def get_baked_pizzas(self) -> dict:
@@ -95,7 +110,8 @@ class Pizzeria:
         return sorted(self.chef_list, key=lambda chef: chef.experience_level)
 
     def __repr__(self):
-        return f"{self.name.capitalize()} with {len(self.get_chefs())} pizza chef(s)"
+        """Return string when class is called."""
+        return f"{self.name.capitalize()} with {len(self.get_chefs())} pizza chef(s)."
 
 
 if __name__ == '__main__':
@@ -118,7 +134,6 @@ if __name__ == '__main__':
     pizzeria1.add_chef(sebastian)
     pizzeria1.add_chef(charles)
     pizzeria1.add_chef(kimi)
-
     # Trying to order a pizza which is not on the menu.
 
     print(pizzeria1.bake_pizza(pizza1))  # None
