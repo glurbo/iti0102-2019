@@ -4,7 +4,9 @@ from math import pi
 
 class Chef:
     """Chef class."""
+
     def __init__(self, name: str, experience_level: int):
+        """Initialize chef properties."""
         self.name = name
         self.experience_level = experience_level
         self.money = 0
@@ -16,7 +18,9 @@ class Chef:
 
 class Pizza:
     """Pizza class."""
+
     def __init__(self, name: str, diameter: int, toppings: list):
+        """Initialize pizza properties."""
         self.name = name
         self.diameter = diameter
         self.toppings = toppings
@@ -42,7 +46,9 @@ class Pizza:
 
 class Pizzeria:
     """Pizzeria class."""
+
     def __init__(self, name: str, is_fancy: bool, budget: int):
+        """Initialize pizzeria properties."""
         self.name = name
         self.is_fancy = is_fancy
         self.budget = budget
@@ -88,17 +94,17 @@ class Pizzeria:
         self.menu.remove(pizza)
 
     def bake_pizza(self, pizza: Pizza) -> Pizza or None:
-        """Bake a pizza. """
+        """Bake a pizza."""
         if pizza in self.menu:
-            for i in self.chef_list:
-                self.chef_list = sorted(self.chef_list, key=lambda c: (i.experience_level, self.chef_list))
-                for j in range(len(self.chef_list)):
-                    if self.chef_list[j].experience_level >= pizza.calculate_complexity():
-                        self.chef_list[j].experience_level += len(pizza.name) // 2
-                        self.chef_list[j].money += (pizza.calculate_price() * 4 + len(pizza.name)) // 2
-                        self.budget += (pizza.calculate_price() * 4 + len(pizza.name)) // 2
-                        self.baked_pizzas.append(pizza)
-                        return pizza
+            self.chef_list = self.get_chefs()
+            for j in range(0, len(self.chef_list) - 1):
+                if self.chef_list[j].experience_level >= pizza.calculate_complexity():
+                    self.chef_list[j].experience_level += len(pizza.name) // 2
+                    profit = (pizza.calculate_price() * 4) + len(pizza.name)
+                    self.chef_list[j].money += profit // 2
+                    self.budget += profit // 2
+                    self.baked_pizzas.append(pizza)
+                    return pizza
         else:
             return None
 
@@ -107,6 +113,7 @@ class Pizzeria:
         return sorted(self.menu, key=lambda pizza: (-pizza.calculate_price(), self.menu))
 
     def get_baked_pizzas(self) -> dict:
+        """Make a dictionary of baked pizzas."""
         for i in self.baked_pizzas:
             if i in self.baked_pizzas_dict:
                 self.baked_pizzas_dict[i] += 1
@@ -123,31 +130,8 @@ class Pizzeria:
 
 
 if __name__ == '__main__':
-    pizzeria_lux = Pizzeria("Lux Pizza", True, 100000)
 
-    pizzeria_lux.add_chef(Chef("Gordon", 99))
-    pizzeria_lux.add_chef(Chef("Clara", 42))
-    pizzeria_lux.add_chef(Chef("Mati", 24))
-    pizzeria_lux.add_chef(Chef("Justin", 65))
-    pizzeria_lux.add_chef(Chef("Oscar", 65))
-
-    print(len(pizzeria_lux.get_chefs())) # 4
-
-    pizza_fantasia = Pizza("Fantastica", 30, ["Some", "random", "so", "called", "ingredients", "of", "a", "pizza"])
-    pizzeria_lux.add_pizza_to_menu(pizza_fantasia)
-    print(len(pizzeria_lux.get_pizza_menu())) # 1
-
-    print(len(pizzeria_lux.get_baked_pizzas())) # == 1
-    #assert pizza_fantasia in pizzeria_lux.get_baked_pizzas()
-    print(pizzeria_lux.budget) # == 102172
-
-
-
-
-
-
-
-    """pizzeria1 = Pizzeria("Mama's Pizza", True, 10000)
+    pizzeria1 = Pizzeria("Mama's Pizza", True, 10000)
     print(pizzeria1)  # Mama's pizza with 0 pizza chef(s).
 
     pizzeria1.add_chef(Chef("Clara", 24))
@@ -185,7 +169,7 @@ if __name__ == '__main__':
     print(pizzeria1.get_baked_pizzas())  # {Basic pizza with a price of 8.85: 1}
 
     ##########################################################
-    pizzeria2 = Pizzeria("Maranello", False, 10000)
+    """pizzeria2 = Pizzeria("Maranello", False, 10000)
 
     fernando = Chef("Fernando", 9)
     felipe = Chef("Felipe", 6)
