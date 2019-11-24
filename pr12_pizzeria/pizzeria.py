@@ -97,7 +97,7 @@ class Pizzeria:
         """Bake a pizza."""
         if pizza in self.menu:
             for i in self.chef_list:
-                self.chef_list = sorted(self.chef_list, key=lambda c: (i.experience_level, self.chef_list))
+                self.chef_list = self.get_chefs()
                 for j in range(len(self.chef_list)):
                     if self.chef_list[j].experience_level >= pizza.calculate_complexity():
                         self.chef_list[j].experience_level += len(pizza.name) // 2
