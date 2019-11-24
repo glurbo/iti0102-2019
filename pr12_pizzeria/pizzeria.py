@@ -96,15 +96,15 @@ class Pizzeria:
     def bake_pizza(self, pizza: Pizza) -> Pizza or None:
         """Bake a pizza."""
         if pizza in self.menu:
-            self.chef_list = self.get_chefs()
-            for j in range(0, len(self.chef_list) - 1):
-                if self.chef_list[j].experience_level >= pizza.calculate_complexity():
-                    self.chef_list[j].experience_level += len(pizza.name) // 2
-                    profit = (pizza.calculate_price() * 4) + len(pizza.name)
-                    self.chef_list[j].money += profit // 2
-                    self.budget += profit // 2
-                    self.baked_pizzas.append(pizza)
-                    return pizza
+            for i in self.chef_list:
+                self.chef_list = sorted(self.chef_list, key=lambda c: (i.experience_level, self.chef_list))
+                for j in range(len(self.chef_list)):
+                    if self.chef_list[j].experience_level >= pizza.calculate_complexity():
+                        self.chef_list[j].experience_level += len(pizza.name) // 2
+                        self.chef_list[j].money += (pizza.calculate_price() * 4 + len(pizza.name)) // 2
+                        self.budget += (pizza.calculate_price() * 4 + len(pizza.name)) // 2
+                        self.baked_pizzas.append(pizza)
+                        return pizza
         else:
             return None
 
@@ -169,7 +169,7 @@ if __name__ == '__main__':
     print(pizzeria1.get_baked_pizzas())  # {Basic pizza with a price of 8.85: 1}
 
     ##########################################################
-    """pizzeria2 = Pizzeria("Maranello", False, 10000)
+    pizzeria2 = Pizzeria("Maranello", False, 10000)
 
     fernando = Chef("Fernando", 9)
     felipe = Chef("Felipe", 6)
@@ -199,4 +199,4 @@ if __name__ == '__main__':
 
     pizzeria2.bake_pizza(smoke)
     print(pizzeria2.get_chefs())
-    # [Pizza chef Rubens with 4 XP, Pizza chef Felipe with 6 XP, Pizza chef Fernando with 9 XP, Pizza chef Eddie with 14 XP, Pizza chef Michael with 17 XP]"""
+    # [Pizza chef Rubens with 4 XP, Pizza chef Felipe with 6 XP, Pizza chef Fernando with 9 XP, Pizza chef Eddie with 14 XP, Pizza chef Michael with 17 XP]
