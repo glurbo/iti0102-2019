@@ -56,7 +56,7 @@ class Pizzeria:
 
     def remove_chef(self, chef: Chef):
         if chef not in self.chef_list:
-            pass
+            exit()
         self.chef_list.remove(chef)
 
     def add_pizza_to_menu(self, pizza: Pizza):
@@ -69,7 +69,7 @@ class Pizzeria:
 
     def remove_pizza_from_menu(self, pizza: Pizza):
         if pizza not in self.menu:
-            pass
+            exit()
         self.menu.remove(pizza)
 
     def bake_pizza(self, pizza: Pizza) -> Pizza or None:
@@ -86,7 +86,7 @@ class Pizzeria:
             return None
 
     def get_pizza_menu(self) -> list:
-        return sorted(self.menu, key=lambda pizza: (pizza.calculate_price(), self.menu))
+        return sorted(self.menu, key=lambda pizza: (-pizza.calculate_price(), self.menu))
 
     def get_baked_pizzas(self) -> dict:
         pass
