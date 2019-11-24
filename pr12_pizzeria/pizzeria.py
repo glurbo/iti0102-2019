@@ -1,8 +1,14 @@
-    from math import pi
+from math import pi
+
+
 class Chef:
     def __init__(self, name: str, experience_level: int):
         self.name = name
         self.experience_level = experience_level
+        self.money = 0
+
+    def __repr__(self):
+        return f"Pizza chef {self.name.capitalize()} with {self.experience_level} XP"
 
 
 class Pizza:
@@ -12,10 +18,19 @@ class Pizza:
         self.toppings = toppings
 
     def calculate_complexity(self) -> int:
-        pass
+        complexity = 0
+        for item in self.toppings:
+            one_topping_complexity = len(item) // 3
+            complexity += one_topping_complexity
+        return complexity
 
     def calculate_price(self) -> int:
-        pass
+        pizza_area = pi * ((self.diameter / 2) ** 2)
+        price = pizza_area / 40 + len(self.toppings) // 2
+        return int(price * 100 // 1)
+
+    def __repr__(self):
+        return f"{self.name.capitalize()} pizza with a price of {self.calculate_price() / 100}"
 
 
 class Pizzeria:
@@ -23,34 +38,69 @@ class Pizzeria:
         self.name = name
         self.is_fancy = is_fancy
         self.budget = budget
+        self.chef_list = []
+        self.menu = []
 
     def add_chef(self, chef: Chef) -> Chef or None:
-        pass
+        if chef not in self.chef_list:
+            if self.is_fancy:
+                if chef.experience_level >= 25:
+                    self.chef_list.append(chef)
+                    return chef
+                else:
+                    return None
+            self.chef_list.append(chef)
+            return chef
+        else:
+            return None
 
     def remove_chef(self, chef: Chef):
-        pass
+        if chef not in self.chef_list:
+            pass
+        self.chef_list.remove(chef)
 
     def add_pizza_to_menu(self, pizza: Pizza):
-        pass
+        if self.budget - pizza.calculate_price() >= 0:
+            if pizza not in self.menu:
+                if len(self.chef_list) >= 1:
+                    self.menu.append(pizza)
+        else:
+            pass
 
     def remove_pizza_from_menu(self, pizza: Pizza):
-        pass
+        if pizza not in self.menu:
+            pass
+        self.menu.remove(pizza)
 
     def bake_pizza(self, pizza: Pizza) -> Pizza or None:
-        pass
+        if pizza in self.menu:
+            for i in self.chef_list:
+                self.chef_list = sorted(self.chef_list, key=lambda c: (i.experience_level, self.chef_list))
+                for i in range(len(self.chef_list)):
+                    if self.chef_list[i].experience_level >= pizza.calculate_complexity():
+                        self.chef_list[i].experience_level += len(pizza.name) // 2
+                        self.chef_list[i].money += (pizza.calculate_price() * 4 + len(pizza.name)) // 2
+                        self.budget += (pizza.calculate_price() * 4 + len(pizza.name)) // 2
+                        return pizza
+        else:
+            return None
 
     def get_pizza_menu(self) -> list:
-        pass
+        return sorted(self.menu, key=lambda pizza: (pizza.calculate_price(), self.menu))
 
     def get_baked_pizzas(self) -> dict:
         pass
 
     def get_chefs(self) -> list:
-        pass
+        return sorted(self.chef_list, key=lambda chef: chef.experience_level)
+
+    def __repr__(self):
+        return f"{self.name.capitalize()} with {len(self.get_chefs())} pizza chef(s)"
 
 
 if __name__ == '__main__':
-        pizzeria1 = Pizzeria("Mama's Pizza", True, 10000)
+
+    pizzeria1 = Pizzeria("Mama's Pizza", True, 10000)
     print(pizzeria1)  # Mama's pizza with 0 pizza chef(s).
 
     pizzeria1.add_chef(Chef("Clara", 24))
