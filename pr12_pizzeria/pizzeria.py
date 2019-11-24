@@ -48,6 +48,8 @@ class Pizzeria:
         self.budget = budget
         self.chef_list = []
         self.menu = []
+        self.baked_pizzas = []
+        self.baked_pizzas_dict = {}
 
     def add_chef(self, chef: Chef) -> Chef or None:
         """Add chef to a chef list."""
@@ -95,18 +97,24 @@ class Pizzeria:
                         self.chef_list[j].experience_level += len(pizza.name) // 2
                         self.chef_list[j].money += (pizza.calculate_price() * 4 + len(pizza.name)) // 2
                         self.budget += (pizza.calculate_price() * 4 + len(pizza.name)) // 2
+                        self.baked_pizzas.append(pizza)
                         return pizza
         else:
             return None
 
     def get_pizza_menu(self) -> list:
-        """"""
+        """Sort pizza menu by descending price. If the price is same, sort by adding order."""
         return sorted(self.menu, key=lambda pizza: (-pizza.calculate_price(), self.menu))
 
     def get_baked_pizzas(self) -> dict:
-        pass
+        for i in self.baked_pizzas:
+            if i in self.baked_pizzas_dict:
+                self.baked_pizzas_dict[i] += 1
+            self.baked_pizzas_dict[i] = 1
+        return self.baked_pizzas_dict
 
     def get_chefs(self) -> list:
+        """Sort chef list by experience level."""
         return sorted(self.chef_list, key=lambda chef: chef.experience_level)
 
     def __repr__(self):
@@ -115,8 +123,31 @@ class Pizzeria:
 
 
 if __name__ == '__main__':
+    pizzeria_lux = Pizzeria("Lux Pizza", True, 100000)
 
-    pizzeria1 = Pizzeria("Mama's Pizza", True, 10000)
+    pizzeria_lux.add_chef(Chef("Gordon", 99))
+    pizzeria_lux.add_chef(Chef("Clara", 42))
+    pizzeria_lux.add_chef(Chef("Mati", 24))
+    pizzeria_lux.add_chef(Chef("Justin", 65))
+    pizzeria_lux.add_chef(Chef("Oscar", 65))
+
+    print(len(pizzeria_lux.get_chefs())) # 4
+
+    pizza_fantasia = Pizza("Fantastica", 30, ["Some", "random", "so", "called", "ingredients", "of", "a", "pizza"])
+    pizzeria_lux.add_pizza_to_menu(pizza_fantasia)
+    print(len(pizzeria_lux.get_pizza_menu())) # 1
+
+    print(len(pizzeria_lux.get_baked_pizzas())) # == 1
+    #assert pizza_fantasia in pizzeria_lux.get_baked_pizzas()
+    print(pizzeria_lux.budget) # == 102172
+
+
+
+
+
+
+
+    """pizzeria1 = Pizzeria("Mama's Pizza", True, 10000)
     print(pizzeria1)  # Mama's pizza with 0 pizza chef(s).
 
     pizzeria1.add_chef(Chef("Clara", 24))
@@ -184,4 +215,4 @@ if __name__ == '__main__':
 
     pizzeria2.bake_pizza(smoke)
     print(pizzeria2.get_chefs())
-    # [Pizza chef Rubens with 4 XP, Pizza chef Felipe with 6 XP, Pizza chef Fernando with 9 XP, Pizza chef Eddie with 14 XP, Pizza chef Michael with 17 XP]
+    # [Pizza chef Rubens with 4 XP, Pizza chef Felipe with 6 XP, Pizza chef Fernando with 9 XP, Pizza chef Eddie with 14 XP, Pizza chef Michael with 17 XP]"""
