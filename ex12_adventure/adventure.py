@@ -14,12 +14,10 @@ class Adventurer:
         self.power = power
         self.experience = experience
 
-    @property
     def add_experience(self, exp):
         """Add experience to an adventurer."""
         self.experience += exp
 
-    @property
     def add_power(self, power):
         """Add power to an adventurer."""
         self.power += power
