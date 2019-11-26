@@ -1,3 +1,5 @@
+"""EX12 Adventure."""
+
 
 class Adventurer:
     """Adventurer class."""
@@ -205,8 +207,16 @@ class World:
         return sorted(self.active_monsters, key=lambda x: -x.power)
 
     def remove_character(self, name):
-        """Remove a character by name from any list. Only one name can be removed with one callout and priority order
-        being adventurer list > monster list > graveyard."""
+        """
+        Remove a character by name from any list.
+
+        Only one name can be removed with one callout.
+
+        Priority order being adventurer list > monster list > graveyard.
+
+        :param name:
+        :return:
+        """
         for c in self.adventurerlist:
             if c.name == name:
                 self.adventurerlist.remove(c)
@@ -221,8 +231,14 @@ class World:
                 return
 
     def if_druid(self):
-        """If a druid is in active adventurers list and active monsters list has an animal or ent, then these monsters
-        will not be included in the battle and inserted back into monster list."""
+        """
+        Druid and monster type interaction.
+
+        If a druid is in active adventurers list and active monsters list has an animal or ent, then these monsters
+        will not be included in the battle and inserted back into monster list.
+
+        :return:
+        """
         is_druid = False
         for c in self.active_adventurers:
             if c.class_type == "Druid":
@@ -264,8 +280,15 @@ class World:
             c.add_experience(int(xp_per_adv))
 
     def go_adventure(self, deadly=False):
-        """Initialize the game. If the power sum of adventurers is higher than power sum of monsters, then adventurers
-        gain their total power level as experience, divided between the adventurers."""
+        """
+        Main game.
+
+        Initialize the game. If the power sum of adventurers is higher than power sum of monsters, then adventurers
+        gain their total power level as experience, divided between the adventurers.
+
+        :param deadly:
+        :return:
+        """
         total_adv_power = 0
         total_monster_power = 0
         for c in self.active_adventurers:
