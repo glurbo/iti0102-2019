@@ -28,7 +28,7 @@ class Monster:
     @property
     def get_name(self):
         if self.mon_type == "Zombie":
-            return "Undead " + self.name
+            return "Undead" + self.name
         return self.name
 
     def __repr__(self):
