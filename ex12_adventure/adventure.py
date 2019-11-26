@@ -59,6 +59,7 @@ class World:
         self.pm = pm
         self.active_adventurers = []
         self.active_monsters = []
+        self.necro = False
 
     def add_adventurer(self, adventurer):
         """Add an adventurer to adventurer list if it is the correct type."""
@@ -92,7 +93,7 @@ class World:
 
     def change_necromancer(self) -> bool:
         """Find if a necromancer is present or not."""
-        if len(self.graveyard) >= 1:
+        if not self.necro:
             return True
         else:
             return False
@@ -115,6 +116,7 @@ class World:
                     self.monsterlist.append(undead_adventurer)
             for i in range(len(self.graveyard)):
                 self.graveyard.remove(self.graveyard[0])
+            self.necro = False
         else:
             return
 
