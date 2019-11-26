@@ -1,4 +1,262 @@
+
+class Adventurer:
+    def __init__(self, name, class_type, power, experience=0):
+        self.name = name
+        if class_type not in ["Fighter", "Druid", "Wizard", "Paladin"]:
+            self.class_type = "Fighter"
+        else:
+            self.class_type = class_type
+        self.power = power
+        self.experience = experience
+
+    def add_experience(self, exp):
+        self.experience += exp
+
+    def add_power(self, power):
+        self.power += power
+
+    def __repr__(self):
+        return f"{self.name}, the {self.class_type}, Power: {self.power}, Experience: {self.experience}"
+
+
+class Monster:
+    def __init__(self, name, mon_type, power=0):
+        self.name = name
+        self.mon_type = mon_type
+        self.power = power
+
+    @property
+    def get_name(self):
+        if self.mon_type == "Zombie":
+            return "Undead " + self.name
+        return self.name
+
+    def __repr__(self):
+        return f"{self.get_name} of type {self.mon_type}, Power: {self.power}"
+
+
+class World:
+    def __init__(self, pm):
+        self.adventurerlist = []
+        self.monsterlist = []
+        self.graveyard = []
+        self.pm = pm
+        self.active_adventurers = []
+        self.active_monsters = []
+
+    def add_adventurer(self, adventurer):
+        if isinstance(adventurer, Adventurer):
+            self.adventurerlist.append(adventurer)
+        else:
+            return "I'm afraid i can't let you do that."
+
+    def add_monster(self, monster):
+        if isinstance(monster, Monster):
+            self.monsterlist.append(monster)
+        else:
+            return "I'm afraid i can't let you do that."
+
+    def get_adventurerlist(self):
+        return self.adventurerlist
+
+    def get_monsterlist(self):
+        return self.monsterlist
+
+    def get_graveyard(self):
+        return self.graveyard
+
+    def get_python_master(self):
+        return self.pm
+
+    def change_necromancer(self) -> bool:
+        if len(self.graveyard) >= 1:
+            return True
+        else:
+            return False
+
+    def revive_graveyard(self):
+        if self.change_necromancer:
+            for i in range(len(self.graveyard)):
+                current = self.graveyard[i]
+                if isinstance(current, Monster):
+                    self.monsterlist.append(Monster(current.name, "Zombie", current.power))
+                if isinstance(current, Adventurer):
+                    undead_adventurer = Monster("Undead " + current.name, "Zombie " + current.class_type, current.power)
+                    self.monsterlist.append(undead_adventurer)
+            for i in range(len(self.graveyard)):
+                self.graveyard.remove(self.graveyard[0])
+        else:
+            return
+
+    def add_strongest(self, class_type):
+        strongest = sorted([c for c in self.adventurerlist if c.class_type == class_type], key=lambda x: -x.power)[0]
+        self.active_adventurers.append(strongest)
+        self.adventurerlist.remove(strongest)
+
+    def add_weakest(self, class_type):
+        weakest = sorted([c for c in self.adventurerlist if c.class_type == class_type], key=lambda x: x.power)[0]
+        self.active_adventurers.append(weakest)
+        self.adventurerlist.remove(weakest)
+
+    def add_most_experience(self, class_type):
+        xp = sorted([c for c in self.adventurerlist if c.class_type == class_type], key=lambda x: -x.experience)[0]
+        self.active_adventurers.append(xp)
+        self.adventurerlist.remove(xp)
+
+    def add_least_experience(self, class_type):
+        no_xp = sorted([c for c in self.adventurerlist if c.class_type == class_type], key=lambda x: x.experience)[0]
+        self.active_adventurers.append(no_xp)
+        self.adventurerlist.remove(no_xp)
+
+    def add_by_name(self, name):
+        for c in self.adventurerlist:
+            if c.name == name:
+                self.active_adventurers.append(c)
+                self.adventurerlist.remove(c)
+
+    def add_all_of_class_type(self, class_type):
+        for c in self.adventurerlist:
+            if c.class_type == class_type:
+                self.active_adventurers.append(c)
+        for c in self.active_adventurers:
+            self.adventurerlist.remove(c)
+
+    def add_all(self):
+        for c in self.adventurerlist:
+            self.active_adventurers.append(c)
+        for _ in range(len(self.adventurerlist)):
+            self.adventurerlist.remove(self.adventurerlist[0])
+
+    def get_active_adventurers(self):
+        return sorted(self.active_adventurers, key=lambda x: -x.experience)
+
+    def add_monster_by_name(self, name):
+        for c in self.monsterlist:
+            if c.name == name:
+                self.active_monsters.append(c)
+                self.monsterlist.remove(c)
+
+    def add_strongest_monster(self):
+        strongest = sorted(self.monsterlist, key=lambda x: -x.power)[0]
+        self.active_monsters.append(strongest)
+        self.monsterlist.remove(strongest)
+
+    def add_weakest_monster(self):
+        weakest = sorted(self.monsterlist, key=lambda x: x.power)[0]
+        self.active_monsters.append(weakest)
+        self.monsterlist.remove(weakest)
+
+    def add_all_of_type(self, mon_type):
+        for c in self.monsterlist:
+            if c.mon_type == mon_type:
+                self.active_monsters.append(c)
+        for c in self.active_monsters:
+            self.monsterlist.remove(c)
+
+    def add_all_monsters(self):
+        for c in self.monsterlist:
+            self.active_monsters.append(c)
+        for _ in range(len(self.monsterlist)):
+            self.monsterlist.remove(self.monsterlist[0])
+
+    def get_active_monsters(self):
+        return sorted(self.active_monsters, key=lambda x: -x.power)
+
+    def remove_character(self, name):
+        for c in self.adventurerlist:
+            if c.name == name:
+                self.adventurerlist.remove(c)
+                return
+        for c in self.monsterlist:
+            if c.name == name:
+                self.monsterlist.remove(c)
+                return
+        for c in self.graveyard:
+            if c.name == name:
+                self.graveyard.remove(c)
+                return
+
+    def if_druid(self):
+        is_druid = False
+        for c in self.active_adventurers:
+            if c.class_type == "Druid":
+                is_druid = True
+        for i in range(len(self.active_monsters)):
+            if (self.active_monsters[i].mon_type == "Animal" or self.active_monsters[i].mon_type == "Ent") and is_druid:
+                self.monsterlist.append(self.active_monsters[i])
+                self.active_monsters.remove(self.active_monsters[i])
+
+    def paladin_power(self):
+        is_zombie = False
+        for c in self.active_monsters:
+            if c.mon_type in ["Zombie", "Zombie Fighter", "Zombie Druid", "Zombie Paladin", "Zombie Wizard"]:
+                is_zombie = True
+        for c in self.active_adventurers:
+            if c.class_type == "Paladin" and is_zombie:
+                c.power = c.power * 2
+
+    def empty_the_field(self, activelist, regularlist):
+        for c in activelist:
+            regularlist.append(c)
+        for i in range(len(activelist)):
+            activelist.remove(activelist[i])
+
+    def is_deadly_loser(self, activelist):
+        for c in activelist:
+            self.graveyard.append(c)
+        for i in range(len(activelist)):
+            activelist.remove(activelist[i])
+
+    def get_xp(self, total_xp, nr_of_adv):
+        xp_per_adv = total_xp / nr_of_adv
+        xp_per_adv //= 1
+        if self.go_adventure().deadly:
+            xp_per_adv = xp_per_adv * 2
+        for c in self.active_adventurers:
+            c.experience += xp_per_adv
+
+    def get_xp_draw(self, total_xp, nr_of_adv):
+        xp_per_adv = total_xp / nr_of_adv
+        xp_per_adv //= 1
+        xp_per_adv /= 2
+        xp_per_adv //= 1
+        for c in self.active_adventurers:
+            c.experience += xp_per_adv
+
+    def go_adventure(self, deadly=False):
+        total_adv_power = 0
+        total_monster_power = 0
+        for c in self.active_adventurers:
+            self.paladin_power()
+            total_adv_power += c.power
+        for c in self.active_monsters:
+            self.if_druid()
+            total_monster_power += c.power
+
+        if total_adv_power > total_monster_power:
+            if not deadly:
+                self.get_xp(total_monster_power, len(self.active_adventurers))
+                self.empty_the_field(self.active_adventurers, self.adventurerlist)
+                self.empty_the_field(self.active_monsters, self.monsterlist)
+            else:
+                self.get_xp(total_monster_power, len(self.active_adventurers))
+                self.empty_the_field(self.active_adventurers, self.adventurerlist)
+                self.is_deadly_loser(self.active_monsters)
+        elif total_adv_power < total_monster_power:
+            if not deadly:
+                self.empty_the_field(self.active_adventurers, self.adventurerlist)
+                self.empty_the_field(self.active_monsters, self.monsterlist)
+            else:
+                self.empty_the_field(self.active_monsters, self.monsterlist)
+                self.is_deadly_loser(self.active_adventurers)
+        elif total_adv_power == total_monster_power:
+            self.get_xp_draw(total_monster_power, len(self.active_adventurers))
+            self.empty_the_field(self.active_adventurers, self.adventurerlist)
+            self.empty_the_field(self.active_monsters, self.monsterlist)
+
+
 if __name__ == "__main__":
+
     print("Kord oli maailm.")
     Maailm = World("Sõber")
     print(Maailm.get_python_master())  # -> "Sõber"
