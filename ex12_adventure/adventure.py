@@ -59,21 +59,20 @@ class World:
         self.pm = pm
         self.active_adventurers = []
         self.active_monsters = []
-        self.necro = False
 
     def add_adventurer(self, adventurer):
         """Add an adventurer to adventurer list if it is the correct type."""
         if isinstance(adventurer, Adventurer):
             self.adventurerlist.append(adventurer)
         else:
-            return "I'm afraid i can't let you do that."
+            return
 
     def add_monster(self, monster):
         """Add a monster to monster list if it is the correct type."""
         if isinstance(monster, Monster):
             self.monsterlist.append(monster)
         else:
-            return "I'm afraid i can't let you do that."
+            return
 
     def get_adventurerlist(self):
         """Get adventurer list."""
@@ -91,9 +90,9 @@ class World:
         """Get the name of python master."""
         return self.pm
 
-    def change_necromancer(self) -> bool:
+    def change_necromancer(self, boolean) -> bool:
         """Find if a necromancer is present or not."""
-        if not self.necro:
+        if boolean:
             return True
         else:
             return False
@@ -116,7 +115,7 @@ class World:
                     self.monsterlist.append(undead_adventurer)
             for i in range(len(self.graveyard)):
                 self.graveyard.remove(self.graveyard[0])
-            self.necro = False
+            self.change_necromancer(False)
         else:
             return
 
@@ -323,7 +322,6 @@ class World:
 
 
 if __name__ == "__main__":
-
     print("Kord oli maailm.")
     Maailm = World("Sõber")
     print(Maailm.get_python_master())  # -> "Sõber"
