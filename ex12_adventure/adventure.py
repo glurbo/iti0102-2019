@@ -155,8 +155,7 @@ class World:
         for c in self.adventurerlist:
             if c.class_type == class_type:
                 self.active_adventurers.append(c)
-        for c in self.active_adventurers:
-            self.adventurerlist.remove(c)
+                self.adventurerlist.remove(c)
 
     def add_all(self):
         """Add all adventurers to active adventurer list."""
@@ -322,7 +321,19 @@ class World:
 
 
 if __name__ == "__main__":
-    print("Kord oli maailm.")
+    Tüütu_Sõber = Adventurer("XxX_Eepiline_Sõdalane_XxX", "Tulevikurändaja ja ninja", 999999)
+    Lahe_Sõber = Adventurer("Peep", "Druid", 25)
+    Teine_Sõber = Adventurer("Toots", "Wizard", 40)
+    Maailm = World("Sõber")
+    Maailm.add_adventurer(Tüütu_Sõber)
+    Maailm.add_adventurer(Lahe_Sõber)
+    Maailm.add_adventurer(Teine_Sõber)
+    Maailm.add_by_name("XxX_Eepiline_Sõdalane_XxX")
+    Maailm.add_all_of_class_type("Druid")
+    print(Maailm.active_adventurers)
+    print(Maailm.adventurerlist)
+
+    """print("Kord oli maailm.")
     Maailm = World("Sõber")
     print(Maailm.get_python_master())  # -> "Sõber"
     print(Maailm.get_graveyard())  # -> []
@@ -400,4 +411,4 @@ if __name__ == "__main__":
 
     print(
         "Su sõber ütleb: \"Kui kõik need testid andsid sinu koodiga sama tulemuse mille ma siin ette kirjutasin, peaks "
-        "kõik okei olema, proovi testerisse pushida! \" ")
+        "kõik okei olema, proovi testerisse pushida! \" ")"""
