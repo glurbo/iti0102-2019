@@ -24,7 +24,7 @@ class Adventurer:
 
     def __repr__(self):
         """Return a string representation of adventurer class."""
-        return f"{self.name}, the {self.class_type}, Power: {self.power}, Experience: {self.experience}"
+        return f"{self.name}, the {self.class_type}, Power: {self.power}, Experience: {self.experience}."
 
 
 class Monster:
@@ -45,7 +45,7 @@ class Monster:
 
     def __repr__(self):
         """Return a string representation of monster class."""
-        return f"{self.get_name} of type {self.mon_type}, Power: {self.power}"
+        return f"{self.get_name} of type {self.mon_type}, Power: {self.power}."
 
 
 class World:
