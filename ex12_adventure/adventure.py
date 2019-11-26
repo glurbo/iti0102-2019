@@ -218,16 +218,16 @@ class World:
         :param name:
         :return:
         """
-        for c in self.adventurerlist:
-            if c.name == name:
+        for c in range(len(self.adventurerlist)):
+            if self.adventurerlist[c].name == name:
                 self.adventurerlist.remove(c)
                 return
-        for c in self.monsterlist:
-            if c.name == name:
+        for c in range(len(self.adventurerlist)):
+            if self.adventurerlist[c].name == name:
                 self.monsterlist.remove(c)
                 return
-        for c in self.graveyard:
-            if c.name == name:
+        for c in range(len(self.adventurerlist)):
+            if self.adventurerlist[c].name == name:
                 self.graveyard.remove(c)
                 return
 
