@@ -210,8 +210,6 @@ class World:
     def get_xp(self, total_xp, nr_of_adv):
         xp_per_adv = total_xp / nr_of_adv
         xp_per_adv //= 1
-        if self.go_adventure().deadly:
-            xp_per_adv = xp_per_adv * 2
         for c in self.active_adventurers:
             c.experience += xp_per_adv
 
@@ -250,7 +248,7 @@ class World:
                 self.empty_the_field(self.active_monsters, self.monsterlist)
                 self.is_deadly_loser(self.active_adventurers)
         elif total_adv_power == total_monster_power:
-            self.get_xp_draw(total_monster_power, len(self.active_adventurers))
+            self.get_xp(total_monster_power, len(self.active_adventurers))
             self.empty_the_field(self.active_adventurers, self.adventurerlist)
             self.empty_the_field(self.active_monsters, self.monsterlist)
 
