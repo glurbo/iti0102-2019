@@ -300,27 +300,31 @@ class World:
             self.if_druid()
             total_monster_power += c.power
 
-        if total_adv_power > total_monster_power:
+        if total_adv_power > total_monster_power:  # WIN
             if not deadly:
                 self.get_xp(total_monster_power, len(self.active_adventurers))
                 self.empty_the_field(self.active_adventurers, self.adventurerlist)
                 self.empty_the_field(self.active_monsters, self.monsterlist)
-            else:
-                self.get_xp(total_monster_power, len(self.active_adventurers))
+            elif deadly:
+                self.get_xp(total_monster_power * 2, len(self.active_adventurers))
                 self.empty_the_field(self.active_adventurers, self.adventurerlist)
                 self.is_deadly_loser(self.active_monsters)
-        elif total_adv_power < total_monster_power:
+        elif total_adv_power < total_monster_power:  # LOSS
             if not deadly:
                 self.empty_the_field(self.active_adventurers, self.adventurerlist)
                 self.empty_the_field(self.active_monsters, self.monsterlist)
-            else:
+            elif deadly:
                 self.empty_the_field(self.active_monsters, self.monsterlist)
                 self.is_deadly_loser(self.active_adventurers)
-        elif total_adv_power == total_monster_power:
-            self.get_xp(total_monster_power, len(self.active_adventurers))
-            self.empty_the_field(self.active_adventurers, self.adventurerlist)
-            self.empty_the_field(self.active_monsters, self.monsterlist)
-
+        elif total_adv_power == total_monster_power:  # DRAW
+            if not deadly:
+                self.get_xp(total_monster_power // 2, len(self.active_adventurers))
+                self.empty_the_field(self.active_adventurers, self.adventurerlist)
+                self.empty_the_field(self.active_monsters, self.monsterlist)
+            elif deadly:
+                self.get_xp(total_monster_power, len(self.active_adventurers))
+                self.empty_the_field(self.active_adventurers, self.adventurerlist)
+                self.empty_the_field(self.active_monsters, self.monsterlist)
 
 if __name__ == "__main__":
 
