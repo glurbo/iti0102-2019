@@ -1,6 +1,9 @@
 
 class Adventurer:
+    """Adventurer class."""
+
     def __init__(self, name, class_type, power, experience=0):
+        """Initiate adventurer properties."""
         self.name = name
         if class_type not in ["Fighter", "Druid", "Wizard", "Paladin"]:
             self.class_type = "Fighter"
@@ -10,33 +13,44 @@ class Adventurer:
         self.experience = experience
 
     def add_experience(self, exp):
+        """Add experience to an adventurer."""
         self.experience += exp
 
     def add_power(self, power):
+        """Add power to an adventurer."""
         self.power += power
 
     def __repr__(self):
+        """Return a string representation of adventurer class."""
         return f"{self.name}, the {self.class_type}, Power: {self.power}, Experience: {self.experience}"
 
 
 class Monster:
+    """Monster class."""
+
     def __init__(self, name, mon_type, power=0):
+        """Initialize monster properties."""
         self.name = name
         self.mon_type = mon_type
         self.power = power
 
     @property
     def get_name(self):
+        """Find out the name of a monster. If monster is type zombie, add an undead prefix."""
         if self.mon_type == "Zombie":
-            return "Undead" + self.name
+            return "Undead " + self.name
         return self.name
 
     def __repr__(self):
+        """Return a string representation of monster class."""
         return f"{self.get_name} of type {self.mon_type}, Power: {self.power}"
 
 
 class World:
+    """World class."""
+
     def __init__(self, pm):
+        """Initialize world properties."""
         self.adventurerlist = []
         self.monsterlist = []
         self.graveyard = []
@@ -45,36 +59,50 @@ class World:
         self.active_monsters = []
 
     def add_adventurer(self, adventurer):
+        """Add an adventurer to adventurer list if it is the correct type."""
         if isinstance(adventurer, Adventurer):
             self.adventurerlist.append(adventurer)
         else:
             return "I'm afraid i can't let you do that."
 
     def add_monster(self, monster):
+        """Add a monster to monster list if it is the correct type."""
         if isinstance(monster, Monster):
             self.monsterlist.append(monster)
         else:
             return "I'm afraid i can't let you do that."
 
     def get_adventurerlist(self):
+        """Get adventurer list."""
         return self.adventurerlist
 
     def get_monsterlist(self):
+        """Get monster list."""
         return self.monsterlist
 
     def get_graveyard(self):
+        """Get a list of characters who have died."""
         return self.graveyard
 
     def get_python_master(self):
+        """Get the name of python master."""
         return self.pm
 
     def change_necromancer(self) -> bool:
+        """Find if a necromancer is present or not."""
         if len(self.graveyard) >= 1:
             return True
         else:
             return False
 
     def revive_graveyard(self):
+        """
+        Revive all characters who have died previously.
+
+        Revived monsters are all type zombies and revived adventurers are all type undead class name.
+
+        :return:
+        """
         if self.change_necromancer:
             for i in range(len(self.graveyard)):
                 current = self.graveyard[i]
@@ -89,32 +117,38 @@ class World:
             return
 
     def add_strongest(self, class_type):
+        """Add the strongest adventurer to active adventurer list."""
         strongest = sorted([c for c in self.adventurerlist if c.class_type == class_type], key=lambda x: -x.power)[0]
         self.active_adventurers.append(strongest)
         self.adventurerlist.remove(strongest)
 
     def add_weakest(self, class_type):
+        """Add the weakest adventurer to active adventurer list."""
         weakest = sorted([c for c in self.adventurerlist if c.class_type == class_type], key=lambda x: x.power)[0]
         self.active_adventurers.append(weakest)
         self.adventurerlist.remove(weakest)
 
     def add_most_experience(self, class_type):
+        """Add the most experienced adventurer to active adventurer list."""
         xp = sorted([c for c in self.adventurerlist if c.class_type == class_type], key=lambda x: -x.experience)[0]
         self.active_adventurers.append(xp)
         self.adventurerlist.remove(xp)
 
     def add_least_experience(self, class_type):
+        """Add the least experienced adventurer to active adventurer list."""
         no_xp = sorted([c for c in self.adventurerlist if c.class_type == class_type], key=lambda x: x.experience)[0]
         self.active_adventurers.append(no_xp)
         self.adventurerlist.remove(no_xp)
 
     def add_by_name(self, name):
+        """Add an adventurer to active adventurer list by name."""
         for c in self.adventurerlist:
             if c.name == name:
                 self.active_adventurers.append(c)
                 self.adventurerlist.remove(c)
 
     def add_all_of_class_type(self, class_type):
+        """Add all adventurers of a certain class type to active adventurer list."""
         for c in self.adventurerlist:
             if c.class_type == class_type:
                 self.active_adventurers.append(c)
@@ -122,31 +156,37 @@ class World:
             self.adventurerlist.remove(c)
 
     def add_all(self):
+        """Add all adventurers to active adventurer list."""
         for c in self.adventurerlist:
             self.active_adventurers.append(c)
         for _ in range(len(self.adventurerlist)):
             self.adventurerlist.remove(self.adventurerlist[0])
 
     def get_active_adventurers(self):
+        """Get active adventurer list, sorted by highest experience to lowest."""
         return sorted(self.active_adventurers, key=lambda x: -x.experience)
 
     def add_monster_by_name(self, name):
+        """Add a monster to active monster list by name."""
         for c in self.monsterlist:
             if c.name == name:
                 self.active_monsters.append(c)
                 self.monsterlist.remove(c)
 
     def add_strongest_monster(self):
+        """Add the monster with highest power level to active monster list."""
         strongest = sorted(self.monsterlist, key=lambda x: -x.power)[0]
         self.active_monsters.append(strongest)
         self.monsterlist.remove(strongest)
 
     def add_weakest_monster(self):
+        """Add the monster with lowest power level to active monster list."""
         weakest = sorted(self.monsterlist, key=lambda x: x.power)[0]
         self.active_monsters.append(weakest)
         self.monsterlist.remove(weakest)
 
     def add_all_of_type(self, mon_type):
+        """Add all monsters of a certain type to active monster list."""
         for c in self.monsterlist:
             if c.mon_type == mon_type:
                 self.active_monsters.append(c)
@@ -154,15 +194,19 @@ class World:
             self.monsterlist.remove(c)
 
     def add_all_monsters(self):
+        """Add all monsters to active monster list."""
         for c in self.monsterlist:
             self.active_monsters.append(c)
         for _ in range(len(self.monsterlist)):
             self.monsterlist.remove(self.monsterlist[0])
 
     def get_active_monsters(self):
+        """Get a list of active monsters sorted by power from highest to lowest."""
         return sorted(self.active_monsters, key=lambda x: -x.power)
 
     def remove_character(self, name):
+        """Remove a character by name from any list. Only one name can be removed with one callout and priority order
+        being adventurer list > monster list > graveyard."""
         for c in self.adventurerlist:
             if c.name == name:
                 self.adventurerlist.remove(c)
@@ -177,6 +221,8 @@ class World:
                 return
 
     def if_druid(self):
+        """If a druid is in active adventurers list and active monsters list has an animal or ent, then these monsters
+        will not be included in the battle and inserted back into monster list."""
         is_druid = False
         for c in self.active_adventurers:
             if c.class_type == "Druid":
@@ -187,6 +233,7 @@ class World:
                 self.active_monsters.remove(self.active_monsters[i])
 
     def paladin_power(self):
+        """Double the power of paladins if there is a type zombie on active monsters list."""
         is_zombie = False
         for c in self.active_monsters:
             if c.mon_type in ["Zombie", "Zombie Fighter", "Zombie Druid", "Zombie Paladin", "Zombie Wizard"]:
@@ -196,32 +243,29 @@ class World:
                 c.power = c.power * 2
 
     def empty_the_field(self, activelist, regularlist):
+        """Remove all characters from active list and places them back into regular list."""
         for c in activelist:
             regularlist.append(c)
         for i in range(len(activelist)):
             activelist.remove(activelist[i])
 
     def is_deadly_loser(self, activelist):
+        """Send all losing characters to a graveyard if the game is deadly."""
         for c in activelist:
             self.graveyard.append(c)
         for i in range(len(activelist)):
             activelist.remove(activelist[i])
 
     def get_xp(self, total_xp, nr_of_adv):
+        """Add experience to all active adventurers if battle was victorious."""
         xp_per_adv = total_xp / nr_of_adv
         xp_per_adv //= 1
         for c in self.active_adventurers:
-            c.experience += xp_per_adv
-
-    def get_xp_draw(self, total_xp, nr_of_adv):
-        xp_per_adv = total_xp / nr_of_adv
-        xp_per_adv //= 1
-        xp_per_adv /= 2
-        xp_per_adv //= 1
-        for c in self.active_adventurers:
-            c.experience += xp_per_adv
+            c.add_experience(int(xp_per_adv))
 
     def go_adventure(self, deadly=False):
+        """Initialize the game. If the power sum of adventurers is higher than power sum of monsters, then adventurers
+        gain their total power level as experience, divided between the adventurers."""
         total_adv_power = 0
         total_monster_power = 0
         for c in self.active_adventurers:
@@ -332,4 +376,5 @@ if __name__ == "__main__":
     print(Maailm.get_monsterlist())  # -> []
 
     print(
-        "Su sõber ütleb: \"Kui kõik need testid andsid sinu koodiga sama tulemuse mille ma siin ette kirjutasin, peaks kõik okei olema, proovi testerisse pushida! \" ")
+        "Su sõber ütleb: \"Kui kõik need testid andsid sinu koodiga sama tulemuse mille ma siin ette kirjutasin, peaks "
+        "kõik okei olema, proovi testerisse pushida! \" ")
