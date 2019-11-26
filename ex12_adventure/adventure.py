@@ -317,14 +317,10 @@ class World:
                 self.empty_the_field(self.active_monsters, self.monsterlist)
                 self.is_deadly_loser(self.active_adventurers)
         elif total_adv_power == total_monster_power:  # DRAW
-            if not deadly:
-                self.get_xp(total_monster_power // 2, len(self.active_adventurers))
-                self.empty_the_field(self.active_adventurers, self.adventurerlist)
-                self.empty_the_field(self.active_monsters, self.monsterlist)
-            elif deadly:
-                self.get_xp(total_monster_power, len(self.active_adventurers))
-                self.empty_the_field(self.active_adventurers, self.adventurerlist)
-                self.empty_the_field(self.active_monsters, self.monsterlist)
+            self.get_xp(total_monster_power, len(self.active_adventurers))
+            self.empty_the_field(self.active_adventurers, self.adventurerlist)
+            self.empty_the_field(self.active_monsters, self.monsterlist)
+
 
 if __name__ == "__main__":
 
