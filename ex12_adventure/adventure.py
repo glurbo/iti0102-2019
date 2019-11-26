@@ -148,15 +148,16 @@ class World:
         for c in self.adventurerlist:
             if c.name == name:
                 self.active_adventurers.append(c)
-                self.adventurerlist.remove(c)
+        for c in range(len(self.active_adventurers)):
+            self.adventurerlist.remove(self.active_adventurers[c])
 
     def add_all_of_class_type(self, class_type):
         """Add all adventurers of a certain class type to active adventurer list."""
         for c in self.adventurerlist:
             if c.class_type == class_type:
                 self.active_adventurers.append(c)
-        for c in self.active_adventurers:
-            self.adventurerlist.remove(c)
+        for c in range(len(self.active_adventurers)):
+            self.adventurerlist.remove(self.active_adventurers[c])
 
     def add_all(self):
         """Add all adventurers to active adventurer list."""
@@ -171,10 +172,10 @@ class World:
 
     def add_monster_by_name(self, name):
         """Add a monster to active monster list by name."""
-        for c in self.monsterlist:
-            if c.name == name:
+        for c in range(len(self.monsterlist)):
+            if self.monsterlist[c].name == name:
                 self.active_monsters.append(c)
-                self.monsterlist.remove(c)
+                self.monsterlist.remove(self.monsterlist[c])
 
     def add_strongest_monster(self):
         """Add the monster with highest power level to active monster list."""
@@ -193,8 +194,8 @@ class World:
         for c in self.monsterlist:
             if c.mon_type == mon_type:
                 self.active_monsters.append(c)
-        for c in self.active_monsters:
-            self.monsterlist.remove(c)
+        for c in range(len(self.active_monsters)):
+            self.monsterlist.remove(self.active_monsters[c])
 
     def add_all_monsters(self):
         """Add all monsters to active monster list."""
