@@ -155,7 +155,8 @@ class World:
         for c in self.adventurerlist:
             if c.class_type == class_type:
                 self.active_adventurers.append(c)
-                self.adventurerlist.remove(c)
+        for c in self.active_adventurers:
+            self.adventurerlist.remove(c)
 
     def add_all(self):
         """Add all adventurers to active adventurer list."""
@@ -289,6 +290,7 @@ class World:
         :param deadly:
         :return:
         """
+
         total_adv_power = 0
         total_monster_power = 0
         for c in self.active_adventurers:
