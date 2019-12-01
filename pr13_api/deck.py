@@ -77,7 +77,7 @@ class Deck:
 
     def shuffle(self) -> None:
         """Shuffle the deck."""
-        self._request(Deck.DECK_BASE_API + f"{self.deck_id}/shuffle")
+        self._request(Deck.DECK_BASE_API + f"{self.deck_id}/shuffle/")
 
     def draw_card(self, top_down: bool = False) -> Optional[Card]:
         """
