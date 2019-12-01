@@ -1,7 +1,33 @@
 """Deck."""
 from typing import Optional, List
 import requests
-import random
+
+
+    #deck_id = result.get("deck_id", None)
+    #remaining = result["remaining"]
+
+"""    backup_deck = []
+    for char in "abc":
+        #for suit in ("DIAMOND")
+        for nr in range(1, 10):
+            backup_deck.append(char + str(nr))
+            backup_deck.append(Card(char, nr, d[char]))
+            value = char
+            code = char[0] + suit
+            name = d[char]
+if result.get("success", False) is True:
+    card = result["Cards"][0]
+    #new_card = Card(card["suit"], card["value"])
+    new_card = card["code"]
+    remaining = result["remaining"]
+
+else:
+    #no api
+    new_card = backup_deck[0]
+
+if new_card in backup_deck:
+    backup_deck.remove(new_card)
+    remaining = len(backup_deck)"""
 
 
 class Card:
@@ -26,7 +52,10 @@ class Card:
 
     def __eq__(self, o) -> bool:
         """Eq."""
-        return False
+        if isinstance(o, Card):
+            return self.value == o.value and self.suit == o.suit
+        else:
+            return False
 
 
 class Deck:
@@ -36,24 +65,17 @@ class Deck:
 
     def __init__(self, deck_count: int = 1, shuffle: bool = False):
         """Constructor."""
-        self.deck_count = deck_count
-        self.is_shuffled = shuffle
-        self.result = self._request(Deck.DECK_BASE_API + f"new/shuffle/?deck_count={self.deck_count}")
-        self.deck_id = self.result["deck_id"]
         self._backup_deck = self._generate_backup_pile(deck_count)
 
-    @property
-    def get_remaining(self):
-        return self.result["remaining"]
+        self.deck_count = deck_count
+        self.is_shuffled = shuffle
+        self.result = self._request(Deck.DECK_BASE_API + "new/")
+        self.deck_id = self.result["deck_id"]
+        self.remaining = self.result["remaining"]
 
     def shuffle(self) -> None:
         """Shuffle the deck."""
-        url = Deck.DECK_BASE_API + f"{self.deck_id}/shuffle/"
-        result = requests.get(url).json()
-        if result.get("success", False) is True:
-            self._request(url)
-        else:
-            random.shuffle(self._backup_deck)
+        self._request(Deck.DECK_BASE_API + f"{self.deck_id}/shuffle/")
 
     def draw_card(self, top_down: bool = False) -> Optional[Card]:
         """
@@ -66,14 +88,9 @@ class Deck:
         result = requests.get(url).json()
         if result.get("success", False) is True:
             card = result["cards"][0]
-            new_card = card["code"]
+            new_card = Card(card["suit"], card["value"], card["code"])
             if new_card in self._backup_deck:
                 self._backup_deck.remove(new_card)
-        else:
-            new_card = self._backup_deck[0]
-        if new_card in self._backup_deck:
-            self._backup_deck.remove(new_card)
-        return new_card
 
     def _request(self, url: str) -> dict:
         """Update deck."""
@@ -90,16 +107,15 @@ class Deck:
     def _generate_backup_pile(deck_count) -> List[Card]:
         """Generate backup pile."""
         backup_deck = []
-
         for char in "HSCD":
             for nr in ["A", "2", "3", "4", "5", "6", "7", "8", "9", "0", "J", "Q", "K"]:
-                backup_deck.append(Card(char, nr, nr + char))
+                backup_deck.append(Card(char, nr, char + nr))
         return backup_deck * deck_count
 
 
 if __name__ == '__main__':
     d = Deck(shuffle=True)
-    print(d.get_remaining)  # 52
+    print(d.remaining)  # 52
     card1 = d.draw_card()  # Random card
     print(card1 in d._backup_deck)  # False
     print(d._backup_deck)  # 51 shuffled cards
