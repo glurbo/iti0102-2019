@@ -1,6 +1,7 @@
 """Deck."""
 from typing import Optional, List
 import requests
+import random
 
 
 class Card:
@@ -47,7 +48,12 @@ class Deck:
 
     def shuffle(self) -> None:
         """Shuffle the deck."""
-        self._request(Deck.DECK_BASE_API + f"{self.deck_id}/shuffle/")
+        url = Deck.DECK_BASE_API + f"{self.deck_id}/shuffle/"
+        result = requests.get(url).json()
+        if result.get("success", False) is True:
+            self._request(url)
+        else:
+            random.shuffle(self._backup_deck)
 
     def draw_card(self, top_down: bool = False) -> Optional[Card]:
         """
