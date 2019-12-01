@@ -39,13 +39,11 @@ class Deck:
         self.is_shuffled = shuffle
         self.result = self._request(Deck.DECK_BASE_API + f"new/shuffle/?deck_count={self.deck_count}")
         self.deck_id = self.result["deck_id"]
-        self.remaining = self.result["remaining"]
         self._backup_deck = self._generate_backup_pile(deck_count)
 
-    #@property
-    #def get_remaining(self):
-    #    remaining = self.result["remaining"]
-    #    return remaining
+    @property
+    def get_remaining(self):
+        return self.result["remaining"]
 
     def shuffle(self) -> None:
         """Shuffle the deck."""
@@ -95,7 +93,7 @@ class Deck:
 
 if __name__ == '__main__':
     d = Deck(shuffle=True)
-    print(d.remaining)  # 52
+    print(d.get_remaining)  # 52
     card1 = d.draw_card()  # Random card
     print(card1 in d._backup_deck)  # False
     print(d._backup_deck)  # 51 shuffled cards
