@@ -63,13 +63,17 @@ class Deck:
 
     def __init__(self, deck_count: int = 1, shuffle: bool = False):
         """Constructor."""
-        self._backup_deck = self._generate_backup_pile()
-
         self.deck_count = deck_count
         self.is_shuffled = shuffle
-        self.result = self._request(Deck.DECK_BASE_API + "new/")
+        self.result = self._request(Deck.DECK_BASE_API + f"new/shuffle/?deck_count={self.deck_count}")
         self.deck_id = self.result["deck_id"]
         self.remaining = self.result["remaining"]
+        self._backup_deck = self._generate_backup_pile(deck_count)
+
+    #@property
+    #def get_remaining(self):
+    #    remaining = self.result["remaining"]
+    #    return remaining
 
     def shuffle(self) -> None:
         """Shuffle the deck."""
@@ -102,13 +106,14 @@ class Deck:
         return result
 
     @staticmethod
-    def _generate_backup_pile() -> List[Card]:
+    def _generate_backup_pile(deck_count) -> List[Card]:
         """Generate backup pile."""
         backup_deck = []
+
         for char in "HSCD":
             for nr in ["A", "2", "3", "4", "5", "6", "7", "8", "9", "0", "J", "Q", "K"]:
                 backup_deck.append(Card(char, nr, char + nr))
-        return backup_deck
+        return backup_deck * deck_count
 
 
 if __name__ == '__main__':
