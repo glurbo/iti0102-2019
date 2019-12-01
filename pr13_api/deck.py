@@ -107,7 +107,7 @@ class Deck:
         backup_deck = []
         for char in "HSCD":
             for nr in ["A", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "J", "Q", "K"]:
-                backup_deck.append(char + nr)
+                backup_deck.append(Card(char, nr, char + nr))
         return backup_deck
 
 
@@ -119,5 +119,3 @@ if __name__ == '__main__':
     print(d._backup_deck)  # 51 shuffled cards
     d2 = Deck(deck_count=2)
     print(d2._backup_deck)  # 104 ordered cards (deck after deck)
-    #r = requests.get("https://deckofcardsapi.com/api/deck/new/").json()
-    #print(r)
