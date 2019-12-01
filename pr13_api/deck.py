@@ -106,7 +106,7 @@ class Deck:
         """Generate backup pile."""
         backup_deck = []
         for char in "HSCD":
-            for nr in ["A", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "J", "Q", "K"]:
+            for nr in ["A", "2", "3", "4", "5", "6", "7", "8", "9", "0", "J", "Q", "K"]:
                 backup_deck.append(Card(char, nr, char + nr))
         return backup_deck
 
