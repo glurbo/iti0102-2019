@@ -1,33 +1,7 @@
 """Deck."""
 from typing import Optional, List
 import requests
-
-
-    #deck_id = result.get("deck_id", None)
-    #remaining = result["remaining"]
-
-"""    backup_deck = []
-    for char in "abc":
-        #for suit in ("DIAMOND")
-        for nr in range(1, 10):
-            backup_deck.append(char + str(nr))
-            backup_deck.append(Card(char, nr, d[char]))
-            value = char
-            code = char[0] + suit
-            name = d[char]
-if result.get("success", False) is True:
-    card = result["Cards"][0]
-    #new_card = Card(card["suit"], card["value"])
-    new_card = card["code"]
-    remaining = result["remaining"]
-
-else:
-    #no api
-    new_card = backup_deck[0]
-
-if new_card in backup_deck:
-    backup_deck.remove(new_card)
-    remaining = len(backup_deck)"""
+import random
 
 
 class Card:
@@ -75,7 +49,12 @@ class Deck:
 
     def shuffle(self) -> None:
         """Shuffle the deck."""
-        self._request(Deck.DECK_BASE_API + f"{self.deck_id}/shuffle/")
+        url = Deck.DECK_BASE_API + f"{self.deck_id}/shuffle/"
+        result = requests.get(url).json()
+        if result.get("success", False) is True:
+            self._request(url)
+        else:
+            random.shuffle(self._backup_deck)
 
     def draw_card(self, top_down: bool = False) -> Optional[Card]:
         """
@@ -88,9 +67,14 @@ class Deck:
         result = requests.get(url).json()
         if result.get("success", False) is True:
             card = result["cards"][0]
-            new_card = Card(card["suit"], card["value"], card["code"])
+            new_card = card["code"]
             if new_card in self._backup_deck:
                 self._backup_deck.remove(new_card)
+        else:
+            new_card = self._backup_deck[0]
+        if new_card in self._backup_deck:
+            self._backup_deck.remove(new_card)
+        return new_card
 
     def _request(self, url: str) -> dict:
         """Update deck."""
