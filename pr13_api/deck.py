@@ -3,34 +3,6 @@ from typing import Optional, List
 import requests
 
 
-
-    #deck_id = result.get("deck_id", None)
-    #remaining = result["remaining"]
-
-"""    backup_deck = []
-    for char in "abc":
-        #for suit in ("DIAMOND")
-        for nr in range(1, 10):
-            backup_deck.append(char + str(nr))
-            backup_deck.append(Card(char, nr, d[char]))
-            value = char
-            code = char[0] + suit
-            name = d[char]
-if result.get("success", False) is True:
-    card = result["Cards"][0]
-    #new_card = Card(card["suit"], card["value"])
-    new_card = card["code"]
-    remaining = result["remaining"]
-
-else:
-    #no api
-    new_card = backup_deck[0]
-
-if new_card in backup_deck:
-    backup_deck.remove(new_card)
-    remaining = len(backup_deck)"""
-
-
 class Card:
     """Simple dataclass for holding card information."""
 
@@ -88,11 +60,16 @@ class Deck:
         url = Deck.DECK_BASE_API + f"{self.deck_id}/draw/?count=1"
         self._request(url)
         result = requests.get(url).json()
+        drawn_card = result["cards"]
+        print(drawn_card)
+        new_card = Card(drawn_card[0]["suit"], drawn_card[0]["value"], drawn_card[0]["code"])
         if result.get("success", False) is True:
             card = result["cards"][0]
             new_card = Card(card["suit"], card["value"], card["code"])
-            if new_card in self._backup_deck:
-                self._backup_deck.remove(new_card)
+        print(new_card.code)
+        if new_card in self._backup_deck:
+            self._backup_deck.remove(new_card)
+        return new_card
 
     def _request(self, url: str) -> dict:
         """Update deck."""
@@ -112,7 +89,7 @@ class Deck:
 
         for char in "HSCD":
             for nr in ["A", "2", "3", "4", "5", "6", "7", "8", "9", "0", "J", "Q", "K"]:
-                backup_deck.append(Card(char, nr, char + nr))
+                backup_deck.append(Card(char, nr, nr + char))
         return backup_deck * deck_count
 
 
