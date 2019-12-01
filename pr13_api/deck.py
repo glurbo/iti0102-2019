@@ -58,14 +58,14 @@ class Deck:
         url = Deck.DECK_BASE_API + f"{self.deck_id}/draw/?count=1"
         self._request(url)
         result = requests.get(url).json()
-        drawn_card = result["cards"]
-        print(drawn_card)
-        new_card = Card(drawn_card[0]["suit"], drawn_card[0]["value"], drawn_card[0]["code"])
         if result.get("success", False) is True:
             card = result["cards"][0]
-            new_card = Card(card["suit"], card["value"], card["code"])
-        print(new_card.code)
-        if new_card in self._backup_deck:
+            new_card = card["code"]
+            if new_card in self._backup_deck:
+                self._backup_deck.remove(new_card)
+        else:
+            new_card = self._backup_deck[0]
+        if new_card in backup_deck_copy:
             self._backup_deck.remove(new_card)
         return new_card
 
