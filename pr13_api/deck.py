@@ -65,7 +65,7 @@ class Deck:
                 self._backup_deck.remove(new_card)
         else:
             new_card = self._backup_deck[0]
-        if new_card in backup_deck_copy:
+        if new_card in self._backup_deck:
             self._backup_deck.remove(new_card)
         return new_card
 
