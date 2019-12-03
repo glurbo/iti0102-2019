@@ -4,6 +4,7 @@
 def swap_items(dic: dict) -> dict:
     """
     Given a dictionary return a new dictionary where keys and values are swapped.
+
     If duplicate keys in the new dictionary exist, leave the first one.
     {"a": 1, "b": 2, "c": 3} => {1: "a", 2: "b", 3: "c"}
     {"Morning": "Good", "Evening": "Good"} => {"Good": "Morning"}
@@ -23,6 +24,7 @@ def swap_items(dic: dict) -> dict:
 def find_divisors(number) -> list:
     """
     The task is to find all the divisors for given number in range to the given number's value.
+
     Divisor - a number that divides evenly into another number.
     Return list of given number divisors in ascending order.
     NB! Numbers 1 and number itself must be excluded if there are more divisors
@@ -46,6 +48,7 @@ def find_divisors(number) -> list:
 def sum_of_multiplies(first_num, second_num, limit) -> int:
     """
     The task is to find all the multiplies of each given of two numbers within the limit.
+
     Then, find the sum of those multiplies.
     (3, 5, 20) => 98 (3 + 6 + 9 + 12 + 15 + 18 + 5 + 10 + 20) 15 is included only once
     (3, 3, 10) => 18 (3 + 6 + 9)
@@ -74,8 +77,9 @@ def sum_of_multiplies(first_num, second_num, limit) -> int:
 
 
 def count_odds_and_evens(numbers: list) -> str:
-    """
+    r"""
     The task is to count how many odd and even numbers does the given list contain.
+
     Do not count zeros (0).
     Result should be displayed as string "ODDS: {number of odds}\nEVENS: {number of evens}"
 
@@ -126,8 +130,9 @@ def sum_between_25(numbers: list) -> int:
 
 def transcribe(dna_strand: str):
     """
-    Write a function that returns a transcribed RNA strand from the given DNA strand,
-    that is formed by replacing each nucleotide(character) with its complement: G => C, C => G, T => A, A => U
+    Write a function that returns a transcribed RNA strand from the given DNA strand.
+
+    That is formed by replacing each nucleotide(character) with its complement: G => C, C => G, T => A, A => U
     Return None if it is not possible to transcribe a DNA strand.
     Empty string should return empty string.
 
@@ -141,13 +146,13 @@ def transcribe(dna_strand: str):
         return ""
     dna_strand = list(dna_strand)
     for i in range(0, len(dna_strand)):
-        if dna_strand[i] == "G":
+        if dna_strand[i] == "G" or dna_strand[i] == "g":
             dna_strand[i] = "C"
-        elif dna_strand[i] == "C":
+        elif dna_strand[i] == "C" or dna_strand[i] == "c":
             dna_strand[i] = "G"
-        elif dna_strand[i] == "T":
+        elif dna_strand[i] == "T" or dna_strand[i] == "t":
             dna_strand[i] = "A"
-        elif dna_strand[i] == "A":
+        elif dna_strand[i] == "A" or dna_strand[i] == "a":
             dna_strand[i] = "U"
         else:
             return None
@@ -171,8 +176,9 @@ def union_of_dict(d1: dict, d2: dict):
 
 def reserve_list(input_strings: list) -> list:
     """
-    Given list of strings, return new reversed list where each list element is
-    reversed too. Do not reverse strings followed after element "python". If element is "java" -
+    Given list of strings, return new reversed list where each list element is reversed too.
+
+    Do not reverse strings followed after element "python". If element is "java" -
     reverse mode is on again.
     P.S - "python" and "java" are not being reversed
 
@@ -262,8 +268,11 @@ if __name__ == '__main__':
     print(sum_between_25([1, 2, 3, 4, 5, 6, 1, 2, 9, 5, 6]))  # = > 16
     print(sum_between_25([1, 2, 3, 2, 5, 5, 3, 5]))  # = > 5
     print("-------------------------------")
-    print(transcribe("ACGTGGTCTTAA"))  # = > "UGCACCAGAAUU"
+    print(transcribe("ACgTggTCTTAA"))  # = > "UGCACCAGAAUU"
     print(transcribe("gcu"))  # = > None
+    print(transcribe("GTCAGTCGTACGCCGTATAGCGAATCGCATGCCATCGACGATCGA"))
+    print(transcribe("gctacagatacacgt"))
+    print(transcribe(""))
     print("-------------------------------")
     print(union_of_dict({"a": 1, "b": 2, "c": 3}, {"a": 1, "b": 42}))  # == > {"a": 1}
     print(union_of_dict({}, {"bar": "foo"}))  # = > {}
@@ -272,6 +281,7 @@ if __name__ == '__main__':
     print(reserve_list(['lollipop', 'python', 'candy']))  # -> ['candy', 'python', 'popillol']
     print(reserve_list(['sky', 'python', 'candy', 'java', 'fly']))  # -> ['ylf', 'java', 'candy', 'python', 'yks']
     print(reserve_list(['sky', 'python', 'java', 'candy']))  # -> ['ydnac', 'java', 'python', 'yks']
+    print(reserve_list([]))
     print("-------------------------------")
     print(convert_binary_to_decimal([0, 0, 0, 0]))
     print(convert_binary_to_decimal([0, 1, 0, 0]))
