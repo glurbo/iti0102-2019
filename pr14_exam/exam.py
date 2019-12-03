@@ -190,16 +190,18 @@ def reserve_list(input_strings: list) -> list:
     :param input_strings: list of strings
     :return: reversed list
     """
+    new_list = []
+    for i in input_strings:
+        new_list.append(i)
     no_reverse = True
-    for i in range(0, len(input_strings)):
-        if input_strings[i] == "python":
+    for i in range(0, len(new_list)):
+        if new_list[i] == "python":
             no_reverse = False
-        elif input_strings[i] == "java":
+        elif new_list[i] == "java":
             no_reverse = True
         elif no_reverse:
-            input_strings[i] = input_strings[i][::-1]
-
-    return input_strings[::-1]
+            new_list[i] = new_list[i][::-1]
+    return new_list[::-1]
 
 
 def convert_binary_to_decimal(binary_list: list):
