@@ -243,10 +243,19 @@ def print_pages(pages: str) -> list:
     :param pages: string containing page numbers and page ranges to print.
     :return: list of pages to print with no duplicates, sorted in increasing order.
     """
+    new_pages = []
     if len(pages) == 0:
         return list(pages)
     pages = pages.split(",")
-    return pages
+    for i in range(len(pages)):
+        if "-" in pages[i]:
+            pages[i] = pages[i].split("-")
+            for j in range(int(pages[i][0]), int(pages[i][1]) + 1):
+                new_pages.append(j)
+        else:
+            new_pages.append(int(pages[i]))
+    new_pages = list(dict.fromkeys(new_pages))
+    return new_pages
 
 
 if __name__ == '__main__':
