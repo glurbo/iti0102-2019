@@ -255,7 +255,7 @@ def print_pages(pages: str) -> list:
         else:
             new_pages.append(int(pages[i]))
     new_pages = list(dict.fromkeys(new_pages))
-    return new_pages
+    return sorted(new_pages, key=lambda x: x)
 
 
 if __name__ == '__main__':
