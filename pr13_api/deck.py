@@ -5,7 +5,7 @@ import random
 
 
 class Card:
-    """Simple dataclass for holding card information."""
+    """Simple dataclass for holding card information.."""
 
     def __init__(self, value: str, suit: str, code: str):
         """Constructor."""
