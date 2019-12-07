@@ -46,7 +46,7 @@ class Deck:
         self.is_shuffled = shuffle
         self.result = self._request(Deck.DECK_BASE_API + "new/")
         self.deck_id = self.result.get("deck_id", None)
-        self.remaining = self.result.get("remaining", None)
+        self.remaining = self.result["remaining"]
         self.shuffle = shuffle
 
     def shuffle(self) -> None:
@@ -69,12 +69,16 @@ class Deck:
         result = requests.get(url).json()
         if result.get("success", False) is True:
             card = result["cards"][0]
-            new_card = card["code"]
-            if new_card in self._backup_deck:
-                self._backup_deck.remove(new_card)
+            new_card = Card(card["value"], card["suit"], card["code"])
+            print(new_card)
+            for i in range(len(self._backup_deck)):
+                if self._backup_deck[i] == new_card:
+                    self._backup_deck.remove(new_card)
         else:
             new_card = random.choice(self._backup_deck)
-            self._backup_deck.remove(new_card)
+            for i in range(len(self._backup_deck)):
+                if self._backup_deck[i] == new_card:
+                    self._backup_deck.remove(new_card)
         return new_card
 
     def _request(self, url: str) -> dict:
@@ -84,7 +88,6 @@ class Deck:
             response = requests.get(url)
         except requests.exceptions.ConnectionError as e:
             print(e)
-        print(response)
         result = response.json()
         return result
 
@@ -94,7 +97,7 @@ class Deck:
         backup_deck = []
         for char in "HSCD":
             for nr in ["A", "2", "3", "4", "5", "6", "7", "8", "9", "0", "J", "Q", "K"]:
-                backup_deck.append(Card(char, nr, char + nr))
+                backup_deck.append(Card(nr, char, nr + char))
         return backup_deck * deck_count
 
 
@@ -104,8 +107,8 @@ if __name__ == '__main__':
     card1 = d.draw_card()  # Random card
     print(card1 in d._backup_deck)  # False
     print(d._backup_deck)  # 51 shuffled cards
-    print(len(d._backup_deck))
+    print(f"{len(d._backup_deck)}, should be 51")
     d2 = Deck(deck_count=2)
     print(d2._backup_deck)  # 104 ordered cards (deck after deck)
-    print(len(d2._backup_deck))
+    print(f"{len(d2._backup_deck)}, should be 104")
 
