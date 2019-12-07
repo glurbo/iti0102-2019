@@ -40,12 +40,14 @@ class Deck:
     def __init__(self, deck_count: int = 1, shuffle: bool = False):
         """Constructor."""
         self._backup_deck = self._generate_backup_pile(deck_count)
-
+        if shuffle is True:
+            random.shuffle(self._backup_deck)
         self.deck_count = deck_count
         self.is_shuffled = shuffle
         self.result = self._request(Deck.DECK_BASE_API + "new/")
         self.deck_id = self.result["deck_id"]
         self.remaining = self.result["remaining"]
+        self.shuffle = shuffle
 
     def shuffle(self) -> None:
         """Shuffle the deck."""
@@ -71,7 +73,7 @@ class Deck:
             if new_card in self._backup_deck:
                 self._backup_deck.remove(new_card)
         else:
-            new_card = self._backup_deck[0]
+            new_card = random.choice(self._backup_deck)
         if new_card in self._backup_deck:
             self._backup_deck.remove(new_card)
         return new_card
@@ -103,5 +105,7 @@ if __name__ == '__main__':
     card1 = d.draw_card()  # Random card
     print(card1 in d._backup_deck)  # False
     print(d._backup_deck)  # 51 shuffled cards
+    print(len(d._backup_deck))
     d2 = Deck(deck_count=2)
     print(d2._backup_deck)  # 104 ordered cards (deck after deck)
+    print(len(d2._backup_deck))
