@@ -45,8 +45,8 @@ class Deck:
         self.deck_count = deck_count
         self.is_shuffled = shuffle
         self.result = self._request(Deck.DECK_BASE_API + "new/")
-        self.deck_id = self.result["deck_id"]
-        self.remaining = self.result["remaining"]
+        self.deck_id = self.result.get("deck_id", None)
+        self.remaining = self.result.get("remaining", None)
         self.shuffle = shuffle
 
     def shuffle(self) -> None:
@@ -74,7 +74,6 @@ class Deck:
                 self._backup_deck.remove(new_card)
         else:
             new_card = random.choice(self._backup_deck)
-        if new_card in self._backup_deck:
             self._backup_deck.remove(new_card)
         return new_card
 
@@ -109,3 +108,4 @@ if __name__ == '__main__':
     d2 = Deck(deck_count=2)
     print(d2._backup_deck)  # 104 ordered cards (deck after deck)
     print(len(d2._backup_deck))
+
