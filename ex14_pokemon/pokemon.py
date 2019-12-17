@@ -1,5 +1,6 @@
 import requests
 import json
+import os
 
 
 class SamePokemonFightException(Exception):
@@ -24,6 +25,10 @@ class Pokemon:
         """
         self.score = 0
         self.data = {}
+        if url_or_path_name[:5] == "https":
+            self.parse_json_to_pokemon_information(url_or_path_name)
+        else:
+            self.data = json.loads(url_or_path_name)
 
     def parse_json_to_pokemon_information(self, url):
         """
@@ -31,7 +36,17 @@ class Pokemon:
         Called from constructor and this method requests data from url to parse it into proper json object
         and then saved under self.data example done previously
         """
-        pass
+        result = requests.get(url).json()
+        self.data["name"] = result["name"]
+        for i in range(len(result["stats"])):
+            self.data[result["stats"][i]["stat"]["name"]] = result["stats"][i]["base_stat"]
+        self.data["types"] = [result["types"][i]["type"]["name"] for i in range(len(result["types"]))]
+        self.data["abilities"] = [result["abilities"][i]["ability"]["name"] for i in range(len(result["abilities"]))]
+        self.data["forms"] = [result["forms"][i]["name"] for i in range(len(result["forms"]))]
+        self.data["moves"] = [result["moves"][i]["move"]["name"] for i in range(len(result["moves"]))]
+        self.data["height"] = result["height"]
+        self.data["weight"] = result["weight"]
+        self.data["base_experience"] = result["base_experience"]
 
     def get_attack_multiplier(self, other: list):
         """
@@ -67,14 +82,14 @@ class Pokemon:
         One way to accomplish this is to use json.dumps functionality
         :return: string version of json file with necessary information
         """
-        pass
+        return json.dumps(self.data)
 
     def __repr__(self):
         """
         Object representation.
         :return: Pokemon's name in string format and his score, for example: "garchomp-mega 892"
         """
-        pass
+        return f"{self.data['name']}  {self.score}"
 
 
 class World:
@@ -90,6 +105,19 @@ class World:
         f"{name}_{offset}_{limit}.txt" file
         """
         self.pokemons = []
+        url = f"https://pokeapi.co/api/v2/pokemon?offset={offset}&limit={limit}"
+        filename = f"{name}_{offset}_{limit}.txt"
+        result = requests.get(url).json()
+        for pokemon_data in result["results"]:
+            url = pokemon_data["url"]
+            self.pokemons.append(Pokemon(url))
+        print(self.pokemons)
+        if os.path.exists(name):
+            f = open(name, "r")
+            for line in f:
+                print(line)
+        else:
+            self.dump_pokemons_to_file_as_json(filename)
 
     def dump_pokemons_to_file_as_json(self, name):
         """
@@ -97,7 +125,9 @@ class World:
         Write all self.pokemons separated by a newline to the given filename(if it doesnt exist, then create one)
         PS: Write the pokemon.__str__() version, not __repr__() as only name is useless :)
         """
-        pass
+        with open(name, "w+") as f:
+            for p in self.pokemons:
+                f.write(json.dumps(p.__str__()) + "\n")
 
     def fight(self):
         """
@@ -163,3 +193,8 @@ class World:
         :return: sorted List of pokemons
         """
         pass
+
+
+if __name__ == '__main__':
+    world1 = World("koht", 2, 5)
+    p1 = Pokemon("https://pokeapi.co/api/v2/pokemon/6/")
