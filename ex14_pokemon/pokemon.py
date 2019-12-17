@@ -67,7 +67,10 @@ class Pokemon:
         :param turn_counter: every third round the attack is empowered. (return self.data['special-attack'])
         otherwise basic attack is returned (self.data['attack'])
         """
-        pass
+        if turn_counter % 3 == 0:
+            return self.data["special-attack"]
+        else:
+            return self.data["attack"]
 
     def get_pokemon_defense(self, turn_counter):
         """
@@ -75,6 +78,9 @@ class Pokemon:
         :param turn_counter: every second round the defense is empowered. (return self.data['special-defense'])
         otherwise basic defense is returned (self.data['defense'])
         """
+        if turn_counter % 2 == 0:
+            return self.data["special-defense"] / 2
+        return self.data["defense"] / 2
 
     def __str__(self):
         """
@@ -127,7 +133,7 @@ class World:
         """
         with open(name, "w+") as f:
             for p in self.pokemons:
-                f.write(json.dumps(p.__str__()) + "\n")
+                f.write(json.dumps(p.__dict__) + "\n")  # __str__()?
 
     def fight(self):
         """
@@ -198,3 +204,5 @@ class World:
 if __name__ == '__main__':
     world1 = World("koht", 2, 5)
     p1 = Pokemon("https://pokeapi.co/api/v2/pokemon/6/")
+    print(p1.data)
+    w = World("Pokeland", 0, 1)
