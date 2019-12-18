@@ -209,21 +209,24 @@ class World:
         p1_full_hp = pokemon1.data["hp"]
         p2_full_hp = pokemon2.data["hp"]
         turn_counter = 1
+        multiplier1 = pokemon1.get_attack_multiplier(list(pokemon2.data["types"]))
+        multiplier2 = pokemon2.get_attack_multiplier(list(pokemon1.data["types"]))
         while True:
             if turn_counter > 100:
                 pokemon1.data["hp"] = p1_full_hp
                 pokemon2.data["hp"] = p2_full_hp
                 break
                 #raise PokemonFightResultsInATieException("Pokemon fight results in a tie.")
-            total_attack1 = pokemon1.get_pokemon_attack(turn_counter) * \
-                pokemon1.get_attack_multiplier(list(pokemon2.data["types"])) - \
+            total_attack1 = pokemon1.get_pokemon_attack(turn_counter) * multiplier1 - \
                 pokemon2.get_pokemon_defense(turn_counter)
+            if total_attack1 < 0:
+                total_attack1 = 0
             pokemon2.data["hp"] -= total_attack1
 
-            total_attack2 = pokemon2.get_pokemon_attack(turn_counter) * \
-                pokemon2.get_attack_multiplier(list(pokemon1.data["types"])) - \
+            total_attack2 = pokemon2.get_pokemon_attack(turn_counter) * multiplier2 - \
                 pokemon1.get_pokemon_defense(turn_counter)
-
+            if total_attack2 < 0:
+                total_attack2 = 0
             pokemon1 .data["hp"] -= total_attack2
             if pokemon2.data["hp"] <= 0:
                 pokemon1.score += 1
@@ -288,6 +291,6 @@ class World:
 
 
 if __name__ == '__main__':
-    world = World("PokeLand", 15, 20)
+    world = World("PokeLand", 149, 53)
     world.fight()
     print(world.get_leader_board())
