@@ -213,7 +213,8 @@ class World:
             if turn_counter > 100:
                 pokemon1.data["hp"] = p1_full_hp
                 pokemon2.data["hp"] = p2_full_hp
-                raise PokemonFightResultsInATieException("Pokemon fight results in a tie.")
+                break
+                #raise PokemonFightResultsInATieException("Pokemon fight results in a tie.")
             total_attack1 = pokemon1.get_pokemon_attack(turn_counter) * \
                 pokemon1.get_attack_multiplier(list(pokemon2.data["types"])) - \
                 pokemon2.get_pokemon_defense(turn_counter)
