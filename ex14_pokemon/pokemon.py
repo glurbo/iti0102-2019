@@ -239,9 +239,9 @@ class World:
 
 
 if __name__ == '__main__':
-    world1 = World("koht", 2, 5)
-    p1 = Pokemon("https://pokeapi.co/api/v2/pokemon/801/")
-    p2 = Pokemon("https://pokeapi.co/api/v2/pokemon/654/")
-    print(p1.data["types"])
-    print(p2.data["types"])
-    print(p1.get_attack_multiplier(p2.data["types"]))
+    #world1 = World("koht", 2, 5)
+    #p1 = Pokemon("https://pokeapi.co/api/v2/pokemon/801/")
+    #p2 = Pokemon("https://pokeapi.co/api/v2/pokemon/654/")
+    #print(p1.data["types"])
+    #print(p2.data["types"])
+    #print(p1.get_attack_multiplier(p2.data["types"]))
