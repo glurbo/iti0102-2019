@@ -143,7 +143,8 @@ class World:
         :param name: name of the pokemon world
         :param offset: offset for api request
         :param limit: limit for api request
-        Check if f"{name}_{offset}_{limit}.txt" file exists, if it does, read pokemons in from that file, if not, then make an api
+        Check if f"{name}_{offset}_{limit}.txt" file exists, if it does, read pokemons in from that file, if not, then
+        make an api.
         request to f"https://pokeapi.co/api/v2/pokemon?offset={offset}&limit={limit}" to get pokemons and dump them to
         f"{name}_{offset}_{limit}.txt" file
         """
@@ -216,7 +217,7 @@ class World:
                 pokemon1.data["hp"] = p1_full_hp
                 pokemon2.data["hp"] = p2_full_hp
                 break
-                #raise PokemonFightResultsInATieException("Pokemon fight results in a tie.")
+                #  raise PokemonFightResultsInATieException("Pokemon fight results in a tie.")
             total_attack1 = pokemon1.get_pokemon_attack(turn_counter) * multiplier1 - \
                 pokemon2.get_pokemon_defense(turn_counter)
             if total_attack1 < 0:
@@ -288,9 +289,3 @@ class World:
         :return: sorted List of pokemons
         """
         return sorted(self.pokemons, key=lambda x: x.data[attribute])
-
-
-if __name__ == '__main__':
-    world = World("PokeLand", 149, 53)
-    world.fight()
-    print(world.get_leader_board())
