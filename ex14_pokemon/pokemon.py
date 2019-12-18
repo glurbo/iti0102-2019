@@ -154,7 +154,6 @@ class World:
         for pokemon_data in result["results"]:
             url = pokemon_data["url"]
             self.pokemons.append(Pokemon(url))
-        print(self.pokemons)
         if os.path.exists(name):
             f = open(name, "r")
             for line in f:
@@ -170,7 +169,7 @@ class World:
         """
         with open(name, "w+") as f:
             for p in self.pokemons:
-                f.write(p.__str__() + "\n")  # __str__()?
+                f.write(p.__str__() + "\n")
 
     def fight(self):
         """
@@ -182,7 +181,10 @@ class World:
         Call pokemon_duel function in this method with the aforementioned pokemons.
         every exception thrown by called sub methods must be caught and dealt with.
         """
-        pass
+        for i in range(len(self.pokemons)):
+            for j in range(i + 1, len(self.pokemons)):
+                order = self.choose_which_pokemon_hits_first(self.pokemons[i], self.pokemons[j])
+                self.pokemon_duel(order[0], order[1])
 
     @staticmethod
     def pokemon_duel(pokemon1, pokemon2):
@@ -204,6 +206,34 @@ class World:
         If one pokemon runs out of hp, fight ends and the winner gets 1 point, (self.score += 1)
         then both pokemons are healed to full hp.
         """
+        p1_full_hp = pokemon1.data["hp"]
+        p2_full_hp = pokemon2.data["hp"]
+        turn_counter = 1
+        while True:
+            if turn_counter > 100:
+                raise PokemonFightResultsInATieException("Pokemon fight results in a tie.")
+            if turn_counter % 2 == 1:
+                attacker = pokemon1
+                defender = pokemon2
+            else:
+                attacker = pokemon2
+                defender = pokemon1
+            total_attack = attacker.get_pokemon_attack(turn_counter) * \
+                attacker.get_attack_multiplier(list(defender.data["types"])) - \
+                defender.get_pokemon_defense(turn_counter)
+            defender.data["hp"] -= total_attack
+            if defender.data["hp"] <= 0:
+                winner = attacker
+                attacker.score += 1
+                break
+            elif attacker.data["hp"] <= 0:
+                winner = defender
+                defender.score += 1
+                break
+        pokemon1.data["hp"] = p1_full_hp
+        pokemon2.data["hp"] = p2_full_hp
+        return winner
+
     @staticmethod
     def choose_which_pokemon_hits_first(pokemon1, pokemon2):
         """
@@ -257,26 +287,6 @@ class World:
 
 
 if __name__ == '__main__':
-    world1 = World("koht", 2, 5)
-
-    p1 = Pokemon("https://pokeapi.co/api/v2/pokemon/1/")
-    p2 = Pokemon("https://pokeapi.co/api/v2/pokemon/120/")
-    print(p1.data["types"])
-    print(p2.data["types"])
-    print(p1.get_attack_multiplier(p2.data["types"]))
-    print(p1.data["name"])
-    print(p1.data["speed"])
-    print(p1.data["weight"])
-    print(p1.data["height"])
-    print(len(p1.data["abilities"]))
-    print("-----------------")
-    print(p2.data["name"])
-    print(p2.data["speed"])
-    print(p2.data["weight"])
-    print(p2.data["height"])
-    print(len(p2.data["abilities"]))
-
-    print(world1.choose_which_pokemon_hits_first(p1, p2))
-    world1.pokemons[4].score += 1
-    print(world1.get_leader_board())
-    print(world1.get_pokemons_sorted_by_attribute("speed"))
+    world = World("PokeLand", 15, 20)
+    world.fight()
+    print(world.get_leader_board())
