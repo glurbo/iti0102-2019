@@ -211,28 +211,28 @@ class World:
         turn_counter = 1
         while True:
             if turn_counter > 100:
+                pokemon1.data["hp"] = p1_full_hp
+                pokemon2.data["hp"] = p2_full_hp
                 raise PokemonFightResultsInATieException("Pokemon fight results in a tie.")
-            if turn_counter % 2 == 1:
-                attacker = pokemon1
-                defender = pokemon2
-            else:
-                attacker = pokemon2
-                defender = pokemon1
-            total_attack = attacker.get_pokemon_attack(turn_counter) * \
-                attacker.get_attack_multiplier(list(defender.data["types"])) - \
-                defender.get_pokemon_defense(turn_counter)
-            defender.data["hp"] -= total_attack
-            if defender.data["hp"] <= 0:
-                winner = attacker
-                attacker.score += 1
+            total_attack1 = pokemon1.get_pokemon_attack(turn_counter) * \
+                pokemon1.get_attack_multiplier(list(pokemon2.data["types"])) - \
+                pokemon2.get_pokemon_defense(turn_counter)
+            pokemon2.data["hp"] -= total_attack1
+
+            total_attack2 = pokemon2.get_pokemon_attack(turn_counter) * \
+                pokemon2.get_attack_multiplier(list(pokemon1.data["types"])) - \
+                pokemon1.get_pokemon_defense(turn_counter)
+
+            pokemon1 .data["hp"] -= total_attack2
+            if pokemon2.data["hp"] <= 0:
+                pokemon1.score += 1
                 break
-            elif attacker.data["hp"] <= 0:
-                winner = defender
-                defender.score += 1
+            elif pokemon1.data["hp"] <= 0:
+                pokemon2.score += 1
                 break
+            turn_counter += 1
         pokemon1.data["hp"] = p1_full_hp
         pokemon2.data["hp"] = p2_full_hp
-        return winner
 
     @staticmethod
     def choose_which_pokemon_hits_first(pokemon1, pokemon2):
