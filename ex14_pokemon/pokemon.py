@@ -2,6 +2,7 @@ import requests
 import json
 import os
 
+
 class SamePokemonFightException(Exception):
     """Custom exception thrown when same pokemons are fighting."""
     pass
@@ -59,7 +60,44 @@ class Pokemon:
         chosen(attack can only be of 1 type, choose better[higher multiplier])
         :return: Multiplier.
         """
-        pass
+        "ax * ay * az * bx * by * bz * cx * cy * cz"
+        results = []
+        highest_multiplier_selector = []
+        for x in self.data["types"]:
+            multipliers = []
+            for y in other:
+                multipliers.append(self.get_multiplier(x, y))  # leiab kõik kordajad
+            highest_multiplier_selector.append(multipliers)  # lisab leitud kordajad listi
+        for multiplier in highest_multiplier_selector:
+            multiplier_result = 1
+            for x in multiplier:
+                multiplier_result = multiplier_result * float(x)  # mitme tüübi puhul korrutatakse kordajad omavahel
+            results.append(multiplier_result)
+        return max(results)  # tagastab kõige kõrgema kordaja
+
+    def get_multiplier(self, type1, type2):
+        """
+        Calculate attack multiplier using multipliers.txt.
+
+        :param type1: your pokemon type.
+        :param type2: enemy pokemon type.
+        :return:
+        """
+        data = []
+        dic = {}
+        with open("multipliers.txt", "r") as f:
+            for line in f:
+                line = line.rstrip()
+                line = line.split(" ")
+                data.append([x for x in line if x != ""])
+        classes = data[:1]
+        classes = classes[0]
+        data = data[1:]
+        for i in range(len(data)):
+            data[i] = data[i][1:]
+        for i in range(len(classes)):
+            dic[classes[i]] = data[i]
+        return dic[type1][classes.index(type2)]
 
     def get_pokemon_attack(self, turn_counter):
         """
@@ -202,6 +240,8 @@ class World:
 
 if __name__ == '__main__':
     world1 = World("koht", 2, 5)
-    p1 = Pokemon("https://pokeapi.co/api/v2/pokemon/6/")
-    print(p1.data)
-    w = World("Pokeland", 0, 1)
+    p1 = Pokemon("https://pokeapi.co/api/v2/pokemon/801/")
+    p2 = Pokemon("https://pokeapi.co/api/v2/pokemon/654/")
+    print(p1.data["types"])
+    print(p2.data["types"])
+    print(p1.get_attack_multiplier(p2.data["types"]))
