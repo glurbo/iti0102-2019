@@ -217,7 +217,25 @@ class World:
         base_experience then SamePokemonFightException() is thrown
         :return pokemon1 who goes first and pokemon2 who goes second (return pokemon1, pokemon2)
         """
-        pass
+        if pokemon1.data["speed"] == pokemon2.data["speed"]:
+            if pokemon1.data["weight"] == pokemon2.data["weight"]:
+                if pokemon1.data["height"] == pokemon2.data["height"]:
+                    if len(pokemon1.data["abilities"]) == len(pokemon2.data["abilities"]):
+                        if len(pokemon1.data["moves"]) == len(pokemon2.data["moves"]):
+                            if pokemon1.data["base_experience"] == pokemon2.data["base_experience"]:
+                                raise SamePokemonFightException("Can't decide who goes first.")
+                            else:
+                                return sorted((pokemon1, pokemon2), key=lambda x: -x.data["base_experience"])
+                        else:
+                            return sorted((pokemon1, pokemon2), key=lambda x: -len(x.data["moves"]))
+                    else:
+                        return sorted((pokemon1, pokemon2), key=lambda x: -len(x.data["abilities"]))
+                else:
+                    return sorted((pokemon1, pokemon2), key=lambda x: x.data["height"])
+            else:
+                return sorted((pokemon1, pokemon2), key=lambda x: x.data["weight"])
+        else:
+            return sorted((pokemon1, pokemon2), key=lambda x: -x.data["speed"])
 
     def get_leader_board(self):
         """
@@ -227,7 +245,7 @@ class World:
 
         :return: List of leader board. where winners are first
         """
-        pass
+        return sorted(self.pokemons, key=lambda x: (-x.score, x.data["name"]))
 
     def get_pokemons_sorted_by_attribute(self, attribute: str):
         """
@@ -235,13 +253,30 @@ class World:
         :param attribute:  pokemon data attribute to sort by
         :return: sorted List of pokemons
         """
-        pass
+        return sorted(self.pokemons, key=lambda x: x.data[attribute])
 
 
 if __name__ == '__main__':
     world1 = World("koht", 2, 5)
-    p1 = Pokemon("https://pokeapi.co/api/v2/pokemon/801/")
-    p2 = Pokemon("https://pokeapi.co/api/v2/pokemon/654/")
-    #  print(p1.data["types"])
-    #  print(p2.data["types"])
-    #  print(p1.get_attack_multiplier(p2.data["types"]))
+
+    p1 = Pokemon("https://pokeapi.co/api/v2/pokemon/1/")
+    p2 = Pokemon("https://pokeapi.co/api/v2/pokemon/120/")
+    print(p1.data["types"])
+    print(p2.data["types"])
+    print(p1.get_attack_multiplier(p2.data["types"]))
+    print(p1.data["name"])
+    print(p1.data["speed"])
+    print(p1.data["weight"])
+    print(p1.data["height"])
+    print(len(p1.data["abilities"]))
+    print("-----------------")
+    print(p2.data["name"])
+    print(p2.data["speed"])
+    print(p2.data["weight"])
+    print(p2.data["height"])
+    print(len(p2.data["abilities"]))
+
+    print(world1.choose_which_pokemon_hits_first(p1, p2))
+    world1.pokemons[4].score += 1
+    print(world1.get_leader_board())
+    print(world1.get_pokemons_sorted_by_attribute("speed"))
