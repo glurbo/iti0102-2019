@@ -75,7 +75,8 @@ class Pokemon:
             results.append(multiplier_result)
         return max(results)  # tagastab kõige kõrgema kordaja
 
-    def get_multiplier(self, type1, type2):
+    @staticmethod
+    def get_multiplier(type1, type2):
         """
         Calculate attack multiplier using multipliers.txt.
 
@@ -151,16 +152,18 @@ class World:
         self.pokemons = []
         url = f"https://pokeapi.co/api/v2/pokemon?offset={offset}&limit={limit}"
         filename = f"{name}_{offset}_{limit}.txt"
-        result = requests.get(url).json()
-        for pokemon_data in result["results"]:
-            url = pokemon_data["url"]
-            self.pokemons.append(Pokemon(url))
-        if os.path.exists(name):
-            f = open(name, "r")
+        if os.path.exists(filename):
+            f = open(filename, "r")
             for line in f:
-                print(line)
+                p = Pokemon(line)
+                self.pokemons.append(p)
         else:
-            self.dump_pokemons_to_file_as_json(filename)
+            result = requests.get(url).json()
+            for pokemon_data in result["results"]:
+                url = pokemon_data["url"]
+                self.pokemons.append(Pokemon(url))
+
+        self.dump_pokemons_to_file_as_json(filename)
 
     def dump_pokemons_to_file_as_json(self, name):
         """
@@ -168,7 +171,7 @@ class World:
         Write all self.pokemons separated by a newline to the given filename(if it doesnt exist, then create one)
         PS: Write the pokemon.__str__() version, not __repr__() as only name is useless :)
         """
-        with open(name, "w+") as f:
+        with open(name, "w") as f:
             for p in self.pokemons:
                 f.write(p.__str__() + "\n")
 
@@ -229,6 +232,7 @@ class World:
             if total_attack2 < 0:
                 total_attack2 = 0
             pokemon1 .data["hp"] -= total_attack2
+
             if pokemon2.data["hp"] <= 0:
                 pokemon1.score += 1
                 break
@@ -289,3 +293,9 @@ class World:
         :return: sorted List of pokemons
         """
         return sorted(self.pokemons, key=lambda x: x.data[attribute])
+
+
+if __name__ == '__main__':
+    world = World("Pokeland", 149, 53)
+    world.fight()
+    print(world.get_leader_board())
