@@ -5,11 +5,13 @@ import os
 
 class SamePokemonFightException(Exception):
     """Custom exception thrown when same pokemons are fighting."""
+
     pass
 
 
 class PokemonFightResultsInATieException(Exception):
     """Custom exception thrown when the fight lasts longer than 100 rounds."""
+
     pass
 
 
@@ -34,6 +36,7 @@ class Pokemon:
     def __init__(self, url_or_path_name: str):
         """
         Class constructor.
+
         :param url_or_path_name: url or json object.
         If it is url, then parse information from request to proper
         json file and save it to self.data.
@@ -49,6 +52,7 @@ class Pokemon:
     def parse_json_to_pokemon_information(self, url):
         """
         :param url: url where the information is requested.
+
         Called from constructor and this method requests data from url to parse it into proper json object
         and then saved under self.data example done previously
         """
@@ -66,7 +70,8 @@ class Pokemon:
 
     def get_attack_multiplier(self, other: list):
         """
-        self.pokemon is attacking, other is defending
+        self.pokemon is attacking, other is defending.
+
         :param other: list of other pokemon2.data['types']
         Calculate Pokemons attack multiplier against others types and take the best result.
         get the initial multiplier from Fighting Multiplier matrix.
@@ -93,6 +98,8 @@ class Pokemon:
 
     def get_pokemon_attack(self, turn_counter):
         """
+        Return either attack or special attack.
+
         :param turn_counter: every third round the attack is empowered. (return self.data['special-attack'])
         otherwise basic attack is returned (self.data['attack'])
         """
@@ -103,6 +110,8 @@ class Pokemon:
 
     def get_pokemon_defense(self, turn_counter):
         """
+        Return either defense or special defense.
+
         Note: whatever the result is returned, return half of it instead (for example return self.data['defense'] / 2)
         :param turn_counter: every second round the defense is empowered. (return self.data['special-defense'])
         otherwise basic defense is returned (self.data['defense'])
@@ -114,6 +123,7 @@ class Pokemon:
     def __str__(self):
         """
         String representation of json(self.data) object.
+
         One way to accomplish this is to use json.dumps functionality
         :return: string version of json file with necessary information
         """
@@ -122,6 +132,7 @@ class Pokemon:
     def __repr__(self):
         """
         Object representation.
+
         :return: Pokemon's name in string format and his score, for example: "garchomp-mega 892"
         """
         return f"{self.data['name']}  {self.score}"
@@ -129,9 +140,11 @@ class Pokemon:
 
 class World:
     """World class."""
+
     def __init__(self, name, offset, limit):
         """
         Class constructor.
+
         :param name: name of the pokemon world
         :param offset: offset for api request
         :param limit: limit for api request
@@ -158,6 +171,8 @@ class World:
 
     def dump_pokemons_to_file_as_json(self, name):
         """
+        Write pokemons to file as json.
+
         :param name: name of the .txt file
         Write all self.pokemons separated by a newline to the given filename(if it doesnt exist, then create one)
         PS: Write the pokemon.__str__() version, not __repr__() as only name is useless :)
@@ -168,7 +183,8 @@ class World:
 
     def fight(self):
         """
-        A wild brawl between all pokemons where points are assigned to winners
+        A wild brawl between all pokemons where points are assigned to winners.
+
         Note, every pokemon fights another pokemon only once
         Fight lasts until one pokemon runs out of hp.
         every pokemon hits only 1 time per turn and they take turns when they attack.
@@ -188,11 +204,12 @@ class World:
     @staticmethod
     def pokemon_duel(pokemon1, pokemon2):
         """
+        Here 2 pokemons fight.
+
         :param pokemon1: pokemon, who attacks first.
         :param pokemon2: pokemon, who attacks second.
         :return winner: pokemon, who won.
 
-        Here 2 pokemons fight.
         To get the attack and defense of the pokemon, call pokemon1.get_pokemon_attack()
         and pokemon1.get_pokemon_defense() respectively.
         Attack is multiplied by the pokemon1.get_attack_multiplier(list(second.data['types'])) multiplier
@@ -243,6 +260,8 @@ class World:
     @staticmethod
     def choose_which_pokemon_hits_first(pokemon1, pokemon2):
         """
+        Decide which pokemon hits first based on parameters.
+
         :param pokemon1:
         :param pokemon2:
         Pokemon who's speed is higher, goes first. if both pokemons have the same speed, then pokemon who's weight
@@ -259,7 +278,8 @@ class World:
                     if len(pokemon1.data["abilities"]) == len(pokemon2.data["abilities"]):
                         if len(pokemon1.data["moves"]) == len(pokemon2.data["moves"]):
                             if pokemon1.data["base_experience"] == pokemon2.data["base_experience"]:
-                                raise SamePokemonFightException("Can't decide who goes first.")
+                                raise SamePokemonFightException(f"Can't decide if {pokemon1.__repr__()} "
+                                                                f"or {pokemon2.__repr__()} goes first.")
                             else:
                                 return sorted((pokemon1, pokemon2), key=lambda x: -x.data["base_experience"])
                         else:
@@ -285,7 +305,8 @@ class World:
 
     def get_pokemons_sorted_by_attribute(self, attribute: str):
         """
-        Get Pokemons by given format in a list sorted by the pokemon.data[attribute]
+        Get Pokemons by given format in a list sorted by the pokemon.data[attribute].
+
         :param attribute:  pokemon data attribute to sort by
         :return: sorted List of pokemons
         """
