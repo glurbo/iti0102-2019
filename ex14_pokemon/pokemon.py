@@ -117,10 +117,8 @@ class Pokemon:
         otherwise basic defense is returned (self.data['defense'])
         """
         if turn_counter % 2 == 0:
-            self.data["special-defense"] /= 2
-            return self.data["special-defense"]
-        self.data["defense"] /= 2
-        return self.data["defense"]
+            return self.data["special-defense"] / 2
+        return self.data["defense"] / 2
 
     def __str__(self):
         """
@@ -213,8 +211,6 @@ class World:
         If one pokemon runs out of hp, fight ends and the winner gets 1 point, (self.score += 1)
         then both pokemons are healed to full hp.
         """
-        p1_def = pokemon1.data["defense"]
-        p2_def = pokemon2.data["defense"]
         p1_full_hp = pokemon1.data["hp"]
         p2_full_hp = pokemon2.data["hp"]
         turn_counter = 1
@@ -244,14 +240,10 @@ class World:
             if pokemon2.data["hp"] <= 0:
                 pokemon1.data["hp"] = p1_full_hp
                 pokemon2.data["hp"] = p2_full_hp
-                pokemon1.data["defense"] = p1_def
-                pokemon2.data["defense"] = p2_def
                 return pokemon1
             elif pokemon1.data["hp"] <= 0:
                 pokemon1.data["hp"] = p1_full_hp
                 pokemon2.data["hp"] = p2_full_hp
-                pokemon1.data["defense"] = p1_def
-                pokemon2.data["defense"] = p2_def
                 return pokemon2
             turn_counter += 1
 
