@@ -15,6 +15,22 @@ class PokemonFightResultsInATieException(Exception):
 
 class Pokemon:
     """Class for Pokemon."""
+
+    data = []
+    multi_dic = {}
+    with open("multipliers.txt", "r") as f:
+        for line in f:
+            line = line.rstrip()
+            line = line.split(" ")
+            data.append([x for x in line if x != ""])
+    multi_classes = data[:1]
+    multi_classes = multi_classes[0]
+    data = data[1:]
+    for i in range(len(data)):
+        data[i] = data[i][1:]
+    for i in range(len(multi_classes)):
+        multi_dic[multi_classes[i]] = data[i]
+
     def __init__(self, url_or_path_name: str):
         """
         Class constructor.
@@ -66,7 +82,7 @@ class Pokemon:
         for x in self.data["types"]:
             multipliers = []
             for y in other:
-                multipliers.append(self.get_multiplier(x, y))  # leiab kõik kordajad
+                multipliers.append(self.multi_dic[x][self.multi_classes.index(y)])  # leiab kõik kordajad
             highest_multiplier_selector.append(multipliers)  # lisab leitud kordajad listi
         for multiplier in highest_multiplier_selector:
             multiplier_result = 1
@@ -74,31 +90,6 @@ class Pokemon:
                 multiplier_result = multiplier_result * float(x)  # mitme tüübi puhul korrutatakse kordajad omavahel
             results.append(multiplier_result)
         return max(results)  # tagastab kõige kõrgema kordaja
-
-    @staticmethod
-    def get_multiplier(type1, type2):
-        """
-        Calculate attack multiplier using multipliers.txt.
-
-        :param type1: your pokemon type.
-        :param type2: enemy pokemon type.
-        :return:
-        """
-        data = []
-        dic = {}
-        with open("multipliers.txt", "r") as f:
-            for line in f:
-                line = line.rstrip()
-                line = line.split(" ")
-                data.append([x for x in line if x != ""])
-        classes = data[:1]
-        classes = classes[0]
-        data = data[1:]
-        for i in range(len(data)):
-            data[i] = data[i][1:]
-        for i in range(len(classes)):
-            dic[classes[i]] = data[i]
-        return dic[type1][classes.index(type2)]
 
     def get_pokemon_attack(self, turn_counter):
         """
@@ -189,7 +180,10 @@ class World:
             for j in range(i + 1, len(self.pokemons)):
                 order = self.choose_which_pokemon_hits_first(self.pokemons[i], self.pokemons[j])
                 winner = self.pokemon_duel(order[0], order[1])
-                winner.score += 1
+                if winner is None:
+                    continue
+                else:
+                    winner.score += 1
 
     @staticmethod
     def pokemon_duel(pokemon1, pokemon2):
@@ -220,7 +214,7 @@ class World:
             if turn_counter > 100:
                 pokemon1.data["hp"] = p1_full_hp
                 pokemon2.data["hp"] = p2_full_hp
-                return pokemon1
+                break
                 #  raise PokemonFightResultsInATieException(f"{pokemon1.__repr__()} vs "
                 #                                         f"{pokemon2.__repr__()} results in a tie.")
 
@@ -299,6 +293,6 @@ class World:
 
 
 if __name__ == '__main__':
-    world = World("koht", 6, 2)
+    world = World("koht", 0, 1000)
     world.fight()
     print(world.get_leader_board())
