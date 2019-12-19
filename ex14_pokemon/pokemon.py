@@ -1,3 +1,5 @@
+"""EX14 Pokemon."""
+
 import requests
 import json
 import os
@@ -278,8 +280,11 @@ class World:
                     if len(pokemon1.data["abilities"]) == len(pokemon2.data["abilities"]):
                         if len(pokemon1.data["moves"]) == len(pokemon2.data["moves"]):
                             if pokemon1.data["base_experience"] == pokemon2.data["base_experience"]:
-                                raise SamePokemonFightException(f"Can't decide if {pokemon1.__repr__()} "
-                                                                f"or {pokemon2.__repr__()} goes first.")
+                                if pokemon1.data["name"] == pokemon2.data["name"]:
+                                    raise SamePokemonFightException(f"Can't decide if {pokemon1.__repr__()} "
+                                                                    f"or {pokemon2.__repr__()} goes first.")
+                                else:
+                                    return [pokemon1, pokemon2]
                             else:
                                 return sorted((pokemon1, pokemon2), key=lambda x: -x.data["base_experience"])
                         else:
