@@ -220,8 +220,6 @@ class World:
             if turn_counter > 100:
                 pokemon1.data["hp"] = p1_full_hp
                 pokemon2.data["hp"] = p2_full_hp
-                pokemon1.data["defense"] = p1_def
-                pokemon2.data["defense"] = p2_def
                 raise PokemonFightResultsInATieException(f"{pokemon1.__repr__()} vs "
                                                          f"{pokemon2.__repr__()} results in a tie.")
 
