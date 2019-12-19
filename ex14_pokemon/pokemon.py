@@ -196,14 +196,17 @@ class World:
         """
         for i in range(len(self.pokemons)):
             for j in range(i + 1, len(self.pokemons)):
-                order = self.choose_which_pokemon_hits_first(self.pokemons[i], self.pokemons[j])
-                winner = self.pokemon_duel(order[0], order[1])
-                if winner is None:
-                    continue
-                    #  raise PokemonFightResultsInATieException(f"{self.pokemons[i].__repr__()} vs "
-                    #                                           f"{self.pokemons[j].__repr__()} results in a tie.")
-                else:
-                    winner.score += 1
+                try:
+                    order = self.choose_which_pokemon_hits_first(self.pokemons[i], self.pokemons[j])
+                    winner = self.pokemon_duel(order[0], order[1])
+                    if winner is None:
+                        continue
+                        #  raise PokemonFightResultsInATieException(f"{self.pokemons[i].__repr__()} vs "
+                        #                                           f"{self.pokemons[j].__repr__()} results in a tie.")
+                    else:
+                        winner.score += 1
+                except SamePokemonFightException as f:
+                    print(f)
 
     @staticmethod
     def pokemon_duel(pokemon1, pokemon2):
@@ -280,11 +283,8 @@ class World:
                     if len(pokemon1.data["abilities"]) == len(pokemon2.data["abilities"]):
                         if len(pokemon1.data["moves"]) == len(pokemon2.data["moves"]):
                             if pokemon1.data["base_experience"] == pokemon2.data["base_experience"]:
-                                if pokemon1.data["name"] == pokemon2.data["name"]:
-                                    raise SamePokemonFightException(f"Can't decide if {pokemon1.__repr__()} "
-                                                                    f"or {pokemon2.__repr__()} goes first.")
-                                else:
-                                    return [pokemon1, pokemon2]
+                                raise SamePokemonFightException(f"Can't decide if {pokemon1.__repr__()} "
+                                                                f"or {pokemon2.__repr__()} goes first.")
                             else:
                                 return sorted((pokemon1, pokemon2), key=lambda x: -x.data["base_experience"])
                         else:
