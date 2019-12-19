@@ -298,6 +298,12 @@ class World:
 
 if __name__ == '__main__':
     world = World("Pokeland", 151, 2)
+    for pokemon in world.pokemons:
+        print(f"{pokemon.data['name']} atk: {pokemon.data['attack']}")
+        print(f"{pokemon.data['name']} s-atk: {pokemon.data['special-attack']}")
+        print(f"{pokemon.data['name']} def: {pokemon.data['defense']}")
+        print(f"{pokemon.data['name']} s-def: {pokemon.data['special-defense']}")
+        print("-----")
     world.fight()
     print(world.get_leader_board())
     #  bayleef vs chikorita fix
