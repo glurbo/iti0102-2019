@@ -284,7 +284,7 @@ class World:
                                     raise SamePokemonFightException(f"Can't decide if {pokemon1.__repr__()} "
                                                                     f"or {pokemon2.__repr__()} goes first.")
                                 else:
-                                    return [pokemon1, pokemon2]
+                                    return sorted((pokemon1, pokemon2), key=lambda x: x)
                             else:
                                 return sorted((pokemon1, pokemon2), key=lambda x: -x.data["base_experience"])
                         else:
