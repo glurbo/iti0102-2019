@@ -201,11 +201,11 @@ class World:
                     winner = self.pokemon_duel(order[0], order[1])
                     if winner is None:
                         continue
-                        #  raise PokemonFightResultsInATieException(f"{self.pokemons[i].__repr__()} vs "
-                        #                                           f"{self.pokemons[j].__repr__()} results in a tie.")
                     else:
                         winner.score += 1
                 except SamePokemonFightException as f:
+                    print(f)
+                except PokemonFightResultsInATieException as f:
                     print(f)
 
     @staticmethod
@@ -238,7 +238,8 @@ class World:
             if turn_counter > 100:
                 pokemon1.data["hp"] = p1_full_hp
                 pokemon2.data["hp"] = p2_full_hp
-                break
+                raise PokemonFightResultsInATieException(f"{pokemon1.__repr__()} vs "
+                                                         f"{pokemon2.__repr__()} results in a tie.")
 
             total_attack1 = pokemon1.get_pokemon_attack(turn_counter) * multiplier1 - \
                 pokemon2.get_pokemon_defense(turn_counter)
