@@ -117,8 +117,10 @@ class Pokemon:
         otherwise basic defense is returned (self.data['defense'])
         """
         if turn_counter % 2 == 0:
-            return self.data["special-defense"] / 2
-        return self.data["defense"] / 2
+            self.data["special-defense"] /= 2
+            return self.data["special-defense"]
+        self.data["defense"] /= 2
+        return self.data["defense"]
 
     def __str__(self):
         """
@@ -188,7 +190,8 @@ class World:
         for i in range(len(self.pokemons)):
             for j in range(i + 1, len(self.pokemons)):
                 order = self.choose_which_pokemon_hits_first(self.pokemons[i], self.pokemons[j])
-                self.pokemon_duel(order[0], order[1])
+                winner = self.pokemon_duel(order[0], order[1])
+                winner.score += 1
 
     @staticmethod
     def pokemon_duel(pokemon1, pokemon2):
@@ -210,6 +213,8 @@ class World:
         If one pokemon runs out of hp, fight ends and the winner gets 1 point, (self.score += 1)
         then both pokemons are healed to full hp.
         """
+        p1_def = pokemon1.data["defense"]
+        p2_def = pokemon2.data["defense"]
         p1_full_hp = pokemon1.data["hp"]
         p2_full_hp = pokemon2.data["hp"]
         turn_counter = 1
@@ -219,6 +224,8 @@ class World:
             if turn_counter > 100:
                 pokemon1.data["hp"] = p1_full_hp
                 pokemon2.data["hp"] = p2_full_hp
+                pokemon1.data["defense"] = p1_def
+                pokemon2.data["defense"] = p2_def
                 raise PokemonFightResultsInATieException(f"{pokemon1.__repr__()} vs "
                                                          f"{pokemon2.__repr__()} results in a tie.")
 
@@ -235,14 +242,18 @@ class World:
             pokemon1 .data["hp"] -= total_attack2
 
             if pokemon2.data["hp"] <= 0:
-                pokemon1.score += 1
-                break
+                pokemon1.data["hp"] = p1_full_hp
+                pokemon2.data["hp"] = p2_full_hp
+                pokemon1.data["defense"] = p1_def
+                pokemon2.data["defense"] = p2_def
+                return pokemon1
             elif pokemon1.data["hp"] <= 0:
-                pokemon2.score += 1
-                break
+                pokemon1.data["hp"] = p1_full_hp
+                pokemon2.data["hp"] = p2_full_hp
+                pokemon1.data["defense"] = p1_def
+                pokemon2.data["defense"] = p2_def
+                return pokemon2
             turn_counter += 1
-        pokemon1.data["hp"] = p1_full_hp
-        pokemon2.data["hp"] = p2_full_hp
 
     @staticmethod
     def choose_which_pokemon_hits_first(pokemon1, pokemon2):
@@ -294,16 +305,3 @@ class World:
         :return: sorted List of pokemons
         """
         return sorted(self.pokemons, key=lambda x: x.data[attribute])
-
-
-if __name__ == '__main__':
-    world = World("Pokeland", 151, 2)
-    for pokemon in world.pokemons:
-        print(f"{pokemon.data['name']} atk: {pokemon.data['attack']}")
-        print(f"{pokemon.data['name']} s-atk: {pokemon.data['special-attack']}")
-        print(f"{pokemon.data['name']} def: {pokemon.data['defense']}")
-        print(f"{pokemon.data['name']} s-def: {pokemon.data['special-defense']}")
-        print("-----")
-    world.fight()
-    print(world.get_leader_board())
-    #  bayleef vs chikorita fix
