@@ -220,8 +220,9 @@ class World:
             if turn_counter > 100:
                 pokemon1.data["hp"] = p1_full_hp
                 pokemon2.data["hp"] = p2_full_hp
-                raise PokemonFightResultsInATieException(f"{pokemon1.__repr__()} vs "
-                                                         f"{pokemon2.__repr__()} results in a tie.")
+                return pokemon1
+                #  raise PokemonFightResultsInATieException(f"{pokemon1.__repr__()} vs "
+                #                                         f"{pokemon2.__repr__()} results in a tie.")
 
             total_attack1 = pokemon1.get_pokemon_attack(turn_counter) * multiplier1 - \
                 pokemon2.get_pokemon_defense(turn_counter)
@@ -233,7 +234,7 @@ class World:
                 pokemon1.get_pokemon_defense(turn_counter)
             if total_attack2 < 0:
                 total_attack2 = 0
-            pokemon1 .data["hp"] -= total_attack2
+            pokemon1.data["hp"] -= total_attack2
 
             if pokemon2.data["hp"] <= 0:
                 pokemon1.data["hp"] = p1_full_hp
@@ -295,3 +296,9 @@ class World:
         :return: sorted List of pokemons
         """
         return sorted(self.pokemons, key=lambda x: x.data[attribute])
+
+
+if __name__ == '__main__':
+    world = World("koht", 6, 2)
+    world.fight()
+    print(world.get_leader_board())
