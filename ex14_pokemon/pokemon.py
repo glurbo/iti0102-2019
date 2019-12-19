@@ -200,6 +200,8 @@ class World:
                 winner = self.pokemon_duel(order[0], order[1])
                 if winner is None:
                     continue
+                    #  raise PokemonFightResultsInATieException(f"{self.pokemons[i].__repr__()} vs "
+                    #                                           f"{self.pokemons[j].__repr__()} results in a tie.")
                 else:
                     winner.score += 1
 
@@ -234,8 +236,6 @@ class World:
                 pokemon1.data["hp"] = p1_full_hp
                 pokemon2.data["hp"] = p2_full_hp
                 break
-                #  raise PokemonFightResultsInATieException(f"{pokemon1.__repr__()} vs "
-                #                                         f"{pokemon2.__repr__()} results in a tie.")
 
             total_attack1 = pokemon1.get_pokemon_attack(turn_counter) * multiplier1 - \
                 pokemon2.get_pokemon_defense(turn_counter)
@@ -284,7 +284,7 @@ class World:
                                     raise SamePokemonFightException(f"Can't decide if {pokemon1.__repr__()} "
                                                                     f"or {pokemon2.__repr__()} goes first.")
                                 else:
-                                    return sorted((pokemon1, pokemon2), key=lambda x: x)
+                                    return [pokemon1, pokemon2]
                             else:
                                 return sorted((pokemon1, pokemon2), key=lambda x: -x.data["base_experience"])
                         else:
