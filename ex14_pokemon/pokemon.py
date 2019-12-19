@@ -137,7 +137,7 @@ class Pokemon:
 
         :return: Pokemon's name in string format and his score, for example: "garchomp-mega 892"
         """
-        return f"{self.data['name']}  {self.score}"
+        return f"{self.data['name']} {self.score}"
 
 
 class World:
