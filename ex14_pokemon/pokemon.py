@@ -27,13 +27,13 @@ class Pokemon:
             line = line.rstrip()
             line = line.split(" ")
             data.append([x for x in line if x != ""])
-    multi_classes = data[:1]
+    multi_classes = data[:1]  # teeb listi klassidest
     multi_classes = multi_classes[0]
-    data = data[1:]
+    data = data[1:]  # teeb listi listidest, kus on kõik multiplier'ite väärtused
     for i in range(len(data)):
         data[i] = data[i][1:]
     for i in range(len(multi_classes)):
-        multi_dic[multi_classes[i]] = data[i]
+        multi_dic[multi_classes[i]] = data[i]  # annab igale klassile kõik korrutiste väärtused
 
     def __init__(self, url_or_path_name: str):
         """
@@ -158,12 +158,12 @@ class World:
         self.pokemons = []
         url = f"https://pokeapi.co/api/v2/pokemon?offset={offset}&limit={limit}"
         filename = f"{name}_{offset}_{limit}.txt"
-        if os.path.exists(filename):
+        if os.path.exists(filename):  # kui tekstifail olemas, võtab pokemonid sealt ja lisab self.pokemons'i
             f = open(filename, "r")
             for line in f:
                 p = Pokemon(line)
                 self.pokemons.append(p)
-        else:
+        else:  # kui pole tekstifaili, küsib veebilehelt
             result = requests.get(url).json()
             for pokemon_data in result["results"]:
                 url = pokemon_data["url"]
@@ -253,11 +253,11 @@ class World:
                 total_attack2 = 0
             pokemon1.data["hp"] -= total_attack2
 
-            if pokemon2.data["hp"] <= 0:
+            if pokemon2.data["hp"] <= 0:  # taastab elud p1 võidu puhul
                 pokemon1.data["hp"] = p1_full_hp
                 pokemon2.data["hp"] = p2_full_hp
                 return pokemon1
-            elif pokemon1.data["hp"] <= 0:
+            elif pokemon1.data["hp"] <= 0:  # taastab elud p2 võidu puhul
                 pokemon1.data["hp"] = p1_full_hp
                 pokemon2.data["hp"] = p2_full_hp
                 return pokemon2
