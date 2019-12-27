@@ -1,4 +1,5 @@
 """PR15 - anonymous."""
+from functools import reduce
 
 
 class Person:
@@ -36,6 +37,7 @@ def find_the_tallest_person(person_list: list) -> Person:
     :param person_list: input list
     :return: Person object
     """
+    return sorted(person_list, key=lambda x: -x.height)[0]
 
 
 def filter_list_by_gender(person_list: list, gender: str) -> list:
@@ -46,6 +48,7 @@ def filter_list_by_gender(person_list: list, gender: str) -> list:
     :param gender: gender
     :return: list of people
     """
+    return list(filter(lambda x: (x.gender == gender or x.gender == "Undefined"), person_list))
 
 
 def filter_list_by_age(person_list: list, bottom_age: int, upper_age: int) -> list:
@@ -57,6 +60,7 @@ def filter_list_by_age(person_list: list, bottom_age: int, upper_age: int) -> li
     :param upper_age:
     :return: list of people
     """
+    return list(filter(lambda x: bottom_age <= x.age <= upper_age, person_list))
 
 
 def filter_list_by_bmi(person_list: list) -> list:
@@ -66,6 +70,7 @@ def filter_list_by_bmi(person_list: list) -> list:
     :param person_list: input list
     :return: list of people
     """
+    return list(filter(lambda x: 18.5 <= (x.weight / ((x.height / 100) ** 2)) <= 25, person_list))
 
 
 def get_the_rating_product(person_list: list) -> int:
@@ -75,6 +80,7 @@ def get_the_rating_product(person_list: list) -> int:
     :param person_list: input list
     :return: product
     """
+    return reduce((lambda x, y: x * y), get_list_of_increased_ratings(person_list, 1))
 
 
 def sort_by_name_length(person_list: list) -> list:
@@ -84,6 +90,7 @@ def sort_by_name_length(person_list: list) -> list:
     :param person_list: input list
     :return: sorted list of people
     """
+    return sorted(person_list, key=lambda x: -len(x.first_name + x.surname))
 
 
 def get_list_of_increased_ratings(person_list: list, number: int) -> list:
@@ -94,6 +101,7 @@ def get_list_of_increased_ratings(person_list: list, number: int) -> list:
     :param person_list: input list
     :return: list of ratings
     """
+    return list(map(lambda x: x.rating * number, person_list))
 
 
 def get_people_with_the_lowest_rating(person_list: list) -> list:
@@ -102,6 +110,7 @@ def get_people_with_the_lowest_rating(person_list: list) -> list:
     :param person_list: input list
     :return: list of people
     """
+    return list(filter(lambda x: x.rating == sorted(person_list, key=lambda y: y.rating)[0].rating, person_list))
 
 
 if __name__ == "__main__":
