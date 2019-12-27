@@ -107,6 +107,7 @@ def get_list_of_increased_ratings(person_list: list, number: int) -> list:
 def get_people_with_the_lowest_rating(person_list: list) -> list:
     """
     Return list of people with the lowest rating.
+
     :param person_list: input list
     :return: list of people
     """
