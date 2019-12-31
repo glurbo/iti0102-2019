@@ -1,13 +1,15 @@
 """EX15 Magic."""
 
+
 class MismatchError(Exception):
     """Custom exception thrown when important parameters are missing while trying to add something."""
     pass
 
+
 class Wand:
     """Wand class."""
 
-    def __init__(self, wood_type, core, score, owner=None):
+    def __init__(self, wood_type, core, score=0, owner=None):
         """
         Class constructor.
 
@@ -55,7 +57,7 @@ class Wand:
 class Wizard:
     """Wizard class."""
 
-    def __init__(self, name, power, wand=None, school=None, fights):
+    def __init__(self, name, power, fights, wand=None, school=None):
         self.name = name
         self.power = power
         self.wand = wand
@@ -72,33 +74,51 @@ class WizardrySchool:
         self.max_wizards_number = max_wizards_number
 
     def add_wizard(self):
+        pass
 
     def del_wizard(self):
+        pass
 
     def add_house(self):
+        pass
 
     def del_house(self):
+        pass
 
     def get_wizards_in_school(self, school_name):
+        pass
 
     def get_wizards_in_house(self, house_name):
+        pass
 
     def get_wizards_in_each_house(self):
+        pass
 
     def sort_wizards_by_power(self):
+        pass
 
     def sort_wizards_by_score(self):
+        pass
 
     def sort_wizards_by_fights(self):
+        pass
 
     def punish_wizard(self):
+        pass
 
     def commend_wizard(self):
+        pass
 
     def wizard_fight(self, wizard1, wizard2):
+        pass
 
 
 class House(WizardrySchool):
 
     def __init__(self, name, max_wizards_number):
         super().__init__(name, max_wizards_number)
+
+
+if __name__ == '__main__':
+    w1 = Wand("mahogany", "süda", 0)
+    print(type(w1))
