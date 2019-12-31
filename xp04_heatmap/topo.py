@@ -70,7 +70,10 @@ def read_json_from_file(filename):
     """
     with open(filename) as json_file:
         data = json.load(json_file)
-    return data
+    if data:
+        return data
+    else:
+        return None
 
 
 def get_topo_data_from_string(data_string):
