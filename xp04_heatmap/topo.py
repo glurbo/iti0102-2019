@@ -68,12 +68,12 @@ def read_json_from_file(filename):
     :param filename: filename to be opened
     :return: json string (the contents). None if the file cannot be read.
     """
-    with open(filename) as json_file:
-        data = json.load(json_file)
-    if data:
-        return data
-    else:
+    try:
+        with open(filename) as json_file:
+            data = json.load(json_file)
+    except FileNotFoundError:
         return None
+    return data["table"]["rows"]
 
 
 def get_topo_data_from_string(data_string):
@@ -93,7 +93,7 @@ def get_topo_data_from_string(data_string):
 
 
 if __name__ == '__main__':
-    """print(read_web(" http://coastwatch.pfeg.noaa.gov/erddap/griddap/usgsCeSrtm30v6.html"))"""
+    # print(read_web(" http://coastwatch.pfeg.noaa.gov/erddap/griddap/usgsCeSrtm30v6.html"))
     # print(read_json_from_web(59.481375, 59.3784, 1, 24.618599, 24.946075, 1))
-    # print(read_json_from_file("Tallinn.json"))
-    print(get_topo_data_from_string(read_json_from_web(59.481375, 59.3784, 1, 24.618599, 24.946075, 1)))
+    print(read_json_from_file("Tallinn.json"))
+    # print(get_topo_data_from_string(read_json_from_web(59.481375, 59.3784, 1, 24.618599, 24.946075, 1)))
